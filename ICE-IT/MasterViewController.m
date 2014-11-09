@@ -62,7 +62,11 @@
 }
 
 -(void) cityChanged{
-    
+    [APDBManager getCityNums:self.cityName whenReady:^(NSArray *result) {
+        _numbers = result;
+        //        ALog("Numbers: %@",_numbers );
+        [self.tableView reloadData];
+    }];
 }
 
 #pragma mark - Table View
@@ -102,7 +106,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     APCityNumber *cn = [self.numbers objectAtIndex:indexPath.row];
     ALog("Selected number: %@",cn.number);
-    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:cn.number];
+//    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:cn.number];
+    NSString *phoneNumber = [@"tel://" stringByAppendingString:cn.number];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
     
 }

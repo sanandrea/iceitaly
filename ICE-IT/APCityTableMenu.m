@@ -12,8 +12,11 @@
 #import "APConstants.h"
 #import "SWRevealViewController.h"
 #import "MasterViewController.h"
+#import "Chameleon.h"
 
 @interface APCityTableMenu ()
+
+@property (nonatomic) NSInteger mySelectedIndexRow;
 
 @end
 
@@ -36,8 +39,8 @@
     [APDBManager getCityListWhenReady:^(NSArray *result) {
         _cities = result;
 //        ALog("result: %@",_cities);
+        self.mySelectedIndexRow = 1;
     }];
-    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -63,7 +66,7 @@
     switch (section)
     {
         case 0:
-            sectionName = NSLocalizedString(@"Mia città", @"Titolo menu laterale");
+            sectionName = NSLocalizedString(@"IO SONO A", @"Titolo menu laterale");
             break;
         case 1:
             sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
@@ -96,6 +99,10 @@
     
     // Configure the cell...
     [self configureCell:cell atIndexPath:indexPath];
+    
+    if (indexPath.row == self.mySelectedIndexRow) {
+        [cell setBackgroundColor:[UIColor flatPowderBlueColor]];
+    }
     return cell;
 }
 
@@ -109,12 +116,32 @@
     
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (self.mySelectedIndexRow >= 0)
+    {
+        NSIndexPath *old = [NSIndexPath indexPathForRow:self.mySelectedIndexRow inSection:0];
+        [[tableView cellForRowAtIndexPath:old] setBackgroundColor:[UIColor whiteColor]];
+    }
+    [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor flatPowderBlueColor]];
+    return indexPath;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 70.f;
+}
+
+- (void)setCellColor:(UIColor *)color ForCell:(UITableViewCell *)cell {
+    cell.contentView.backgroundColor = color;
+    cell.backgroundColor = color;
+}
 
 #pragma mark - Table view Delegate for Cell Selection
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
-//    self.mySelectedIndexSection = indexPath.section;
+    self.mySelectedIndexRow = indexPath.row;
     
     //Get MapViewController
     UINavigationController* nvc = (UINavigationController*) self.revealViewController.frontViewController;
