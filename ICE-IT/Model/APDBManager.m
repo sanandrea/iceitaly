@@ -1,0 +1,127 @@
+//
+//  APDBManager.m
+//  ICE-IT
+//
+//  Created by Andi Palo on 09/11/14.
+//  Copyright (c) 2014 Andi Palo. All rights reserved.
+//
+
+#import "APDBManager.h"
+#import <sqlite3.h>
+#import "APConstants.h"
+#import "APCityNumber.h"
+
+NSString *COMMON_NUMBERS = @"ALL";
+
+@implementation APDBManager
+
+- (NSArray*) getCityList{
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    
+    return result;
+}
+
++ (void)getCityListWhenReady:(void (^)(NSArray *))cityListReady{
+    //Root filepath
+    NSString *databasePath;
+    sqlite3 *numDB;
+    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+    
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:@"numbers.sqlite"]];
+//    ALog("DATA base path : %@",databasePath);
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: databasePath ] == NO){
+        ALog("Error here buddy , could not find numbers db file");
+    }else{
+        const char *dbpath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
+            ALog("Failed to open/create database");
+        }
+        //Load data
+        
+        
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        
+
+        querySQL = [NSString stringWithFormat:@"SELECT distinct(CITY) FROM nums where CITY <> '%@'",COMMON_NUMBERS];
+        
+        //        ALog("Items for car model %@",querySQL);
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSMutableArray *result = [[NSMutableArray alloc]init];
+            //            ALog("Query returns something");
+            
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSString *city = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [result addObject:city];
+            }
+            sqlite3_finalize(statement);
+            cityListReady(result);
+        }else{
+            
+        }
+        
+        sqlite3_close(numDB);
+    }
+}
+
++ (void)getCityNums:(NSString*)city whenReady:(void (^)(NSArray *))cityNumsReady{
+    //Root filepath
+    NSString *databasePath;
+    sqlite3 *numDB;
+    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+    
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:@"numbers.sqlite"]];
+    //    ALog("DATA base path : %@",databasePath);
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: databasePath ] == NO){
+        ALog("Error here buddy , could not find numbers db file");
+    }else{
+        const char *dbpath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
+            ALog("Failed to open/create database");
+        }
+        //Load data
+        
+        
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        
+        
+        querySQL = [NSString stringWithFormat:@"SELECT NUMBER, DESC FROM nums where CITY in ('%@','%@') ORDER BY PRIORITY",COMMON_NUMBERS,city];
+        
+        //        ALog("Items for car model %@",querySQL);
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSMutableArray *result = [[NSMutableArray alloc]init];
+            //            ALog("Query returns something");
+            APCityNumber *current;
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                current = [[APCityNumber alloc] init];
+                current.number = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                current.desc = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [result addObject:current];
+            }
+            sqlite3_finalize(statement);
+            cityNumsReady(result);
+        }else{
+            
+        }
+        
+        sqlite3_close(numDB);
+    }
+}
+
+@end

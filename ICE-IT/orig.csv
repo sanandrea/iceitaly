@@ -1,0 +1,27 @@
+1;ALL;112;Numero unico emergenze;1
+2;ALL;118;Ambulanza;2
+3;ALL;113;Polizia;3
+4;ALL;115;Vigili del fuoco;4
+5;ALL;117;Guardia di finanza;5
+6;Milano;020202;Comune;101
+7;Milano;0234567;Guardia medica;102
+8;Milano;800801185;Farmacia;103
+9;Milano;020208;Polizia locale;104
+10;Milano;800808181;Azienda trasporti;105
+11;Milano;028585;Taxi;106
+12;Milano;026969;Taxi;107
+13;Milano;024040;Taxi;108
+14;Milano;026767;Taxi;109
+15;Milano;0285871;Taxi;110
+16;Milano;025353;Taxi;111
+17;Roma;060606;Comune;101
+18;Roma;06570600;Guardia medica;102
+19;Roma;06228941;Farmacia;103
+20;Roma;0667691;Vigili urbani;104
+21;Roma;800431781;Azienda trasporti;105
+22;Roma;065816040;Oggetti smarriti;106
+23;Roma;063570;Taxi;107
+24;Roma;064994;Taxi;108
+25;Roma;066645;Taxi;109
+26;Roma;068822;Taxi;110
+27;Roma;065551;Taxi;111
