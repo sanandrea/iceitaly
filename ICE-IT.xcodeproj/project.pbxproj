@@ -23,6 +23,10 @@
 		A985887D1A100AD500D667C6 /* UIColor+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588761A100AD500D667C6 /* UIColor+Chameleon.m */; };
 		A985887E1A100AD500D667C6 /* UIColor+CIELAB.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588781A100AD500D667C6 /* UIColor+CIELAB.m */; };
 		A985887F1A100AD500D667C6 /* UIViewController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = A985887A1A100AD500D667C6 /* UIViewController+Chameleon.m */; };
+		A9C246841A1405EC00493F3E /* APLanguagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246831A1405EC00493F3E /* APLanguagesViewController.m */; };
+		A9C246871A140AE600493F3E /* APLangViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246861A140AE600493F3E /* APLangViewCell.m */; };
+		A9C246891A140D3400493F3E /* icedb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A9C246881A140D3400493F3E /* icedb.sqlite */; };
+		A9C2468C1A1411AB00493F3E /* APLangOptionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */; };
 		A9FFE05B19EF081200ED1E35 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05A19EF081200ED1E35 /* main.m */; };
 		A9FFE05E19EF081200ED1E35 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05D19EF081200ED1E35 /* AppDelegate.m */; };
 		A9FFE06119EF081200ED1E35 /* ICE_IT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05F19EF081200ED1E35 /* ICE_IT.xcdatamodeld */; };
@@ -76,6 +80,13 @@
 		A98588781A100AD500D667C6 /* UIColor+CIELAB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CIELAB.m"; sourceTree = "<group>"; };
 		A98588791A100AD500D667C6 /* UIViewController+Chameleon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Chameleon.h"; sourceTree = "<group>"; };
 		A985887A1A100AD500D667C6 /* UIViewController+Chameleon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Chameleon.m"; sourceTree = "<group>"; };
+		A9C246821A1405EC00493F3E /* APLanguagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLanguagesViewController.h; sourceTree = "<group>"; };
+		A9C246831A1405EC00493F3E /* APLanguagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLanguagesViewController.m; sourceTree = "<group>"; };
+		A9C246851A140AE600493F3E /* APLangViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLangViewCell.h; sourceTree = "<group>"; };
+		A9C246861A140AE600493F3E /* APLangViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLangViewCell.m; sourceTree = "<group>"; };
+		A9C246881A140D3400493F3E /* icedb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = icedb.sqlite; sourceTree = "<group>"; };
+		A9C2468A1A1411AB00493F3E /* APLangOptionTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLangOptionTVC.h; sourceTree = "<group>"; };
+		A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLangOptionTVC.m; sourceTree = "<group>"; };
 		A9FFE05519EF081200ED1E35 /* ICE-IT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ICE-IT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9FFE05919EF081200ED1E35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9FFE05A19EF081200ED1E35 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -183,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				A98588631A0FC2A600D667C6 /* numbers.sqlite */,
+				A9C246881A140D3400493F3E /* icedb.sqlite */,
 				A985885D1A0FB83400D667C6 /* images */,
 				A98588501A0FB18A00D667C6 /* Model */,
 				A9FFE08419EF08A100ED1E35 /* View */,
@@ -196,6 +208,8 @@
 				A9FFE09F19EF0B7400ED1E35 /* APCityTableMenu.m */,
 				A985886B1A10082600D667C6 /* APOptionsViewController.h */,
 				A985886C1A10082600D667C6 /* APOptionsViewController.m */,
+				A9C246821A1405EC00493F3E /* APLanguagesViewController.h */,
+				A9C246831A1405EC00493F3E /* APLanguagesViewController.m */,
 				A9FFE06819EF081200ED1E35 /* Main.storyboard */,
 				A9FFE06B19EF081200ED1E35 /* Images.xcassets */,
 				A9FFE06D19EF081200ED1E35 /* LaunchScreen.xib */,
@@ -240,6 +254,10 @@
 				A985885F1A0FB8F700D667C6 /* APSideTableViewCell.m */,
 				A98588681A0FCB3E00D667C6 /* APNumberTableViewCell.h */,
 				A98588691A0FCB3E00D667C6 /* APNumberTableViewCell.m */,
+				A9C246851A140AE600493F3E /* APLangViewCell.h */,
+				A9C246861A140AE600493F3E /* APLangViewCell.m */,
+				A9C2468A1A1411AB00493F3E /* APLangOptionTVC.h */,
+				A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -336,6 +354,7 @@
 				A98588621A0FC1CE00D667C6 /* milano_img@2x.png in Resources */,
 				A9FFE06A19EF081200ED1E35 /* Main.storyboard in Resources */,
 				A9FFE06F19EF081200ED1E35 /* LaunchScreen.xib in Resources */,
+				A9C246891A140D3400493F3E /* icedb.sqlite in Resources */,
 				A9FFE06C19EF081200ED1E35 /* Images.xcassets in Resources */,
 				A98588641A0FC2A600D667C6 /* numbers.sqlite in Resources */,
 				A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */,
@@ -358,9 +377,11 @@
 			files = (
 				A985886D1A10082600D667C6 /* APOptionsViewController.m in Sources */,
 				A98588601A0FB8F700D667C6 /* APSideTableViewCell.m in Sources */,
+				A9C2468C1A1411AB00493F3E /* APLangOptionTVC.m in Sources */,
 				A9FFE06719EF081200ED1E35 /* DetailViewController.m in Sources */,
 				A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */,
 				A985887E1A100AD500D667C6 /* UIColor+CIELAB.m in Sources */,
+				A9C246871A140AE600493F3E /* APLangViewCell.m in Sources */,
 				A9FFE06419EF081200ED1E35 /* MasterViewController.m in Sources */,
 				A985887C1A100AD500D667C6 /* NSArray+Chameleon.m in Sources */,
 				A985886A1A0FCB3E00D667C6 /* APNumberTableViewCell.m in Sources */,
@@ -371,6 +392,7 @@
 				A985887D1A100AD500D667C6 /* UIColor+Chameleon.m in Sources */,
 				A985887F1A100AD500D667C6 /* UIViewController+Chameleon.m in Sources */,
 				A98588671A0FC9F300D667C6 /* APCityNumber.m in Sources */,
+				A9C246841A1405EC00493F3E /* APLanguagesViewController.m in Sources */,
 				A985887B1A100AD500D667C6 /* ChameleonStatusBar.m in Sources */,
 				A9FFE05B19EF081200ED1E35 /* main.m in Sources */,
 				A9FFE0A019EF0B7400ED1E35 /* APCityTableMenu.m in Sources */,

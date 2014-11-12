@@ -12,6 +12,7 @@
 @interface MasterViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rightbarButton;
 
 @property (strong, nonatomic) NSString *cityName;
 

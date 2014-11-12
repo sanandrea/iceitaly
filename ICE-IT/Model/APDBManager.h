@@ -12,6 +12,6 @@
 
 + (void)getCityListWhenReady:(void (^)(NSArray *))cityListReady;
 + (void)getCityNums:(NSString*)city whenReady:(void (^)(NSArray *))cityNumsReady;
-
++ (void)getLanguageListWhenReady:(void (^)(NSArray *))langListReady;
 
 @end

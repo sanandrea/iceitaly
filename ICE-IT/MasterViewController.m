@@ -32,6 +32,9 @@
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     
+    _rightbarButton.target = self.revealViewController;
+    _rightbarButton.action = @selector(rightRevealToggle:);
+    
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
