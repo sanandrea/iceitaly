@@ -122,6 +122,60 @@ NSString *DB_NAME = @"icedb.sqlite";
     }
 }
 
++ (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady{
+    //Root filepath
+    static NSDictionary *allSupportedLangs;
+    if (allSupportedLangs != nil) {
+        nameReady(allSupportedLangs[code]);
+        return;
+    }
+    allSupportedLangs = [[NSDictionary alloc] init];
+    NSString *databasePath;
+    sqlite3 *numDB;
+    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+    
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
+    //    ALog("DATA base path : %@",databasePath);
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: databasePath ] == NO){
+        ALog("Error here buddy , could not find numbers db file");
+    }else{
+        const char *dbpath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
+            ALog("Failed to open/create database");
+        }
+        //Load data
+        
+        
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        
+        
+        querySQL = [NSString stringWithFormat:@"SELECT language, extended FROM languages"];
+        
+        //        ALog("Items for car model %@",querySQL);
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSString *k, *v;
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                k = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [allSupportedLangs setValue:v forKey:k];
+            }
+            sqlite3_finalize(statement);
+            nameReady(allSupportedLangs[code]);
+        }else{
+            
+        }
+        sqlite3_close(numDB);
+    }
+}
+
 + (void)getCityNums:(NSString*)city whenReady:(void (^)(NSArray *))cityNumsReady{
     //Root filepath
     NSString *databasePath;

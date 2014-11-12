@@ -10,6 +10,9 @@
 
 NSString *const kPreferredCity = @"preferredCity";
 NSString *const kDBDowloaded = @"dbVersion";
+NSString *const kAutomaticLang = @"isAutomatic";
+NSString *const kCurrentLangCode = @"langCode";
+NSString *const kCurrentLang = @"currentLang";
 
 @implementation APConstants
 

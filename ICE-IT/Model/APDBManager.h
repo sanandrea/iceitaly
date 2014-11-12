@@ -14,4 +14,6 @@
 + (void)getCityNums:(NSString*)city whenReady:(void (^)(NSArray *))cityNumsReady;
 + (void)getLanguageListWhenReady:(void (^)(NSArray *))langListReady;
 
++ (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady;
+
 @end

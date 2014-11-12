@@ -20,17 +20,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSString *currentLang = [[NSLocale preferredLanguages] objectAtIndex:0];
+    ALog(@"current locale: %@", currentLang);
+
     NSArray* objs = [[NSArray alloc] initWithObjects:
                      [NSNumber numberWithInt:1],//DB Version
+                     [NSNumber numberWithInt:1], //automatic language selection
+                     currentLang,
                      @"Roma",//Default City
                      nil];
     NSArray* keys = [[NSArray alloc] initWithObjects:
                      kDBDowloaded,
+                     kAutomaticLang,
+                     kCurrentLang,
                      kPreferredCity,
                      nil];
     
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+    
     
     
     
@@ -53,6 +61,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
