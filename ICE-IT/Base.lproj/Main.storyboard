@@ -138,7 +138,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Master" id="tQt-TN-PWz">
                         <barButtonItem key="leftBarButtonItem" title="Item" id="iY4-0S-W0K"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="U3W-44-9Fj"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="U3W-44-9Fj"/>
                     </navigationItem>
                     <connections>
                         <outlet property="rightbarButton" destination="U3W-44-9Fj" id="8jp-Ra-C5d"/>
@@ -178,6 +178,9 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="iCz-gn-Gcr" secondAttribute="trailing" constant="26" id="O9t-Pc-QLR"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="titleLabel" destination="KAP-Z8-Dci" id="Ept-q8-D2d"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LangCell" id="pDh-Up-49I" customClass="APLangViewCell">
                                 <autoresizingMask key="autoresizingMask"/>

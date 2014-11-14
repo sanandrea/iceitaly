@@ -29,19 +29,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
+    //get user prefs for the preferred car model id
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    self.cityName = [prefs objectForKey:kPreferredCity];
+    self.language = [prefs objectForKey:kCurrentLang];
+
+    
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     
     _rightbarButton.target = self.revealViewController;
     _rightbarButton.action = @selector(rightRevealToggle:);
-    
+    _rightbarButton.image = [[UIImage imageNamed:[NSString stringWithFormat:@"%@_flag.png",self.language]]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
     // Set the gesture
     //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
-    //get user prefs for the preferred car model id
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    self.cityName = [prefs objectForKey:kPreferredCity];
-    self.language = [prefs objectForKey:kCurrentLang];
     
     [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
         _numbers = result;
@@ -66,6 +69,7 @@
 }
 
 -(void) cityOrLanguageChanged{
+    _rightbarButton.image = [[UIImage imageNamed:[NSString stringWithFormat:@"%@_flag.png",self.language]]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
         _numbers = result;
         //        ALog("Numbers: %@",_numbers );

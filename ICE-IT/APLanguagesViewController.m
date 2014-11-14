@@ -92,6 +92,7 @@
     UITableViewCell *cell;
     if (indexPath.row == 0) {
         cell = (APLangOptionTVC*) [tableView dequeueReusableCellWithIdentifier:OptionCellIdentifier];
+        ((APLangOptionTVC*)cell).titleLabel.text = @"Automatic";
     }else{
         cell = (APLangViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         if (cell == nil) {

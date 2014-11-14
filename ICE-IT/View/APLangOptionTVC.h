@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface APLangOptionTVC : UITableViewCell
-
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @end
