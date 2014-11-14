@@ -44,7 +44,10 @@
 
     // Set the gesture
     //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
+    //Copy bundle db to Data folder
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [[APDBManager sharedInstance] copyDBInData];
+    });
     
     [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
         _numbers = result;

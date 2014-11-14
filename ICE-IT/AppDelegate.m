@@ -40,9 +40,6 @@
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
     
-    
-    
-    
     return YES;
 }
 

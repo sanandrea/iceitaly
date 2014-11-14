@@ -16,6 +16,7 @@ extern NSString *const kPreferredCity;
 extern NSString *const kDBDowloaded;
 extern NSString *const kAutomaticLang;
 extern NSString *const kCurrentLang;
+extern NSString *const kActiveDBName;
 
 @interface APConstants : NSObject
 

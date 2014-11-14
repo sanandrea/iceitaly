@@ -15,14 +15,36 @@ NSString *COMMON_NUMBERS = @"ALL";
 NSString *DB_NAME = @"icedb.sqlite";
 
 @implementation APDBManager
-
-- (NSArray*) getCityList{
-    NSMutableArray *result = [[NSMutableArray alloc] init];
+- (void) copyDBInData{
+    NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSString* dbPath = [docPath stringByAppendingPathComponent:kActiveDBName];
+    NSFileManager *fm = [NSFileManager defaultManager];
     
-    
-    return result;
+    // Check if the database is existed.
+    if(![fm fileExistsAtPath:dbPath])
+    {
+        // If database is not existed, copy from the database template in the bundle
+        NSString* dbTemplatePath = [[NSBundle mainBundle] pathForResource:@"icedb" ofType:@"sqlite"];
+        NSError* error = nil;
+        [fm copyItemAtPath:dbTemplatePath toPath:dbPath error:&error];
+        if(error){
+            NSLog(@"can't copy db template.");
+            assert(false);        
+        }
+    }else{
+        ALog("Not copied because exists");
+    }
 }
++ (APDBManager*) sharedInstance{
+    static APDBManager* _sharedInstance = nil;
 
+    static dispatch_once_t oncePredicate;
+    
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[APDBManager alloc] init];
+    });
+    return _sharedInstance;
+}
 + (void)getCityListWhenReady:(void (^)(NSArray *))cityListReady{
     //Root filepath
     NSString *databasePath;

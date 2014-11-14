@@ -20,5 +20,7 @@
 /*! Get code from extended language name */
 + (void)getCodeFromLanguage:(NSString*)language then:(void (^)(NSString*))nameReady;
 
+- (void) copyDBInData;
 
++ (APDBManager*) sharedInstance;
 @end

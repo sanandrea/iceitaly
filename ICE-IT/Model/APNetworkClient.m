@@ -36,15 +36,15 @@ static NSString * const LATEST_DB = @"serve/icedb.sqlite";
                completionHandler:^(NSData *data,
                                    NSURLResponse *response,
                                    NSError *error) {
-                   // 2
-                   ALog("Data size is %lu", (unsigned long)data.length);
+                   if (error){
+                       
+                   }
+                   // ALog("Data size is %lu", (unsigned long)data.length);
                    NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                    NSString *databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:@"icedb.sqlite"]];
                    
                    [data writeToFile:databasePath atomically:YES];
 
-                   
-                   //3
                    
                }];
     
