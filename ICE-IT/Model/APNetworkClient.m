@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "APNetworkClient.h"
 #import "APConstants.h"
+#import "APDBManager.h"
 
 static NSString * const SERVER_PREFIX = @"https://ice-ita.appspot.com/blob/";
 static NSString * const LATEST_DB = @"serve/icedb.sqlite";
@@ -41,10 +42,10 @@ static NSString * const LATEST_DB = @"serve/icedb.sqlite";
                    }
                    // ALog("Data size is %lu", (unsigned long)data.length);
                    NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                   NSString *databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:@"icedb.sqlite"]];
+                   NSString *databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:kNewDBName]];
                    
                    [data writeToFile:databasePath atomically:YES];
-
+                   [[APDBManager sharedInstance] checkNewDBInstance];
                    
                }];
     

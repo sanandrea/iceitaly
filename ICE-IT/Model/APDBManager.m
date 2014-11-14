@@ -35,6 +35,25 @@ NSString *DB_NAME = @"icedb.sqlite";
         ALog("Not copied because exists");
     }
 }
+
+- (BOOL) checkNewDBInstance{
+    NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *currentDB = [docPath stringByAppendingPathComponent:kActiveDBName];
+    NSString *newDB = [docPath stringByAppendingPathComponent:kNewDBName];
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    NSError *error;
+    
+    if ([fileMgr removeItemAtPath:currentDB error:&error] != YES)
+        NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+    
+    if ([fileMgr moveItemAtPath:newDB toPath:currentDB error:&error] != YES){
+        NSLog(@"Unable to move file: %@", [error localizedDescription]);
+        return YES;
+    }else{
+        return  NO;
+    }
+}
 + (APDBManager*) sharedInstance{
     static APDBManager* _sharedInstance = nil;
 

@@ -14,6 +14,7 @@ NSString *const kAutomaticLang = @"isAutomatic";
 NSString *const kCurrentLangCode = @"langCode";
 NSString *const kCurrentLang = @"currentLang";
 NSString *const kActiveDBName = @"icedb_current.sqlite";
+NSString *const kNewDBName = @"icedb_new.sqlite";
 
 @implementation APConstants
 

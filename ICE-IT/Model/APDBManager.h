@@ -21,6 +21,6 @@
 + (void)getCodeFromLanguage:(NSString*)language then:(void (^)(NSString*))nameReady;
 
 - (void) copyDBInData;
-
+- (BOOL) checkNewDBInstance;
 + (APDBManager*) sharedInstance;
 @end
