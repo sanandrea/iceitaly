@@ -15,7 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightbarButton;
 
 @property (strong, nonatomic) NSString *cityName;
+@property (strong, nonatomic) NSString *language;
 
--(void) cityChanged;
+-(void) cityOrLanguageChanged;
 @end
 

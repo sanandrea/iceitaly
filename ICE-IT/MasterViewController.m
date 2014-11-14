@@ -36,13 +36,14 @@
     _rightbarButton.action = @selector(rightRevealToggle:);
     
     // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     //get user prefs for the preferred car model id
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     self.cityName = [prefs objectForKey:kPreferredCity];
+    self.language = [prefs objectForKey:kCurrentLang];
     
-    [APDBManager getCityNums:self.cityName whenReady:^(NSArray *result) {
+    [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
         _numbers = result;
 //        ALog("Numbers: %@",_numbers );
         [self.tableView reloadData];
@@ -64,8 +65,8 @@
     }
 }
 
--(void) cityChanged{
-    [APDBManager getCityNums:self.cityName whenReady:^(NSArray *result) {
+-(void) cityOrLanguageChanged{
+    [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
         _numbers = result;
         //        ALog("Numbers: %@",_numbers );
         [self.tableView reloadData];

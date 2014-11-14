@@ -157,7 +157,7 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:city forKey:kPreferredCity];
     
-    [mvc cityChanged];
+    [mvc cityOrLanguageChanged];
     //close side menu
     [self.revealViewController revealToggleAnimated:YES];
 }

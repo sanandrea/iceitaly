@@ -12,6 +12,8 @@
 #import "APLangViewCell.h"
 #import "APLangOptionTVC.h"
 #import "Chameleon.h"
+#import "MasterViewController.h"
+#import "SWRevealViewController.h"
 
 @interface APLanguagesViewController ()
 @property NSInteger mySelectedIndexRow;
@@ -115,6 +117,36 @@
     //cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",name]];
     
 }
+
+#pragma mark - Table view Delegate for Cell Selection
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    self.mySelectedIndexRow = indexPath.row;
+    
+    //Get MapViewController
+    UINavigationController* nvc = (UINavigationController*) self.revealViewController.frontViewController;
+    MasterViewController* mvc = (MasterViewController*) nvc.topViewController;
+    
+    //Get selected car for this index
+    NSString *lang = [_languages objectAtIndex:(indexPath.row - 1)];
+    
+    
+    //save in the preferences the model ID of the selected CAR
+    [APDBManager getCodeFromLanguage:lang then:^(NSString* result){
+//        ALog("result is %@",result);
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setObject:result forKey:kCurrentLang];
+
+        //set this car to the Map ViewController
+        mvc.language = result;
+        [mvc cityOrLanguageChanged];
+    }];
+    //close side menu
+    [self.revealViewController rightRevealToggleAnimated:YES];
+
+}
+
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

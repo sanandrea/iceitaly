@@ -124,12 +124,12 @@ NSString *DB_NAME = @"icedb.sqlite";
 
 + (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady{
     //Root filepath
-    static NSDictionary *allSupportedLangs;
+    static NSMutableDictionary *allSupportedLangs;
     if (allSupportedLangs != nil) {
         nameReady(allSupportedLangs[code]);
         return;
     }
-    allSupportedLangs = [[NSDictionary alloc] init];
+    allSupportedLangs = [[NSMutableDictionary alloc] init];
     NSString *databasePath;
     sqlite3 *numDB;
     NSString *appDir = [[NSBundle mainBundle] resourcePath];
@@ -176,7 +176,62 @@ NSString *DB_NAME = @"icedb.sqlite";
     }
 }
 
-+ (void)getCityNums:(NSString*)city whenReady:(void (^)(NSArray *))cityNumsReady{
++ (void)getCodeFromLanguage:(NSString*)language then:(void (^)(NSString*))nameReady{
+    //Root filepath
+    static NSMutableDictionary *allSupportedCodes;
+    if (allSupportedCodes != nil) {
+        nameReady(allSupportedCodes[language]);
+        return;
+    }
+    allSupportedCodes = [[NSMutableDictionary alloc] init];
+    NSString *databasePath;
+    sqlite3 *numDB;
+    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+    
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
+    //    ALog("DATA base path : %@",databasePath);
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: databasePath ] == NO){
+        ALog("Error here buddy , could not find numbers db file");
+    }else{
+        const char *dbpath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
+            ALog("Failed to open/create database");
+        }
+        //Load data
+        
+        
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        
+        
+        querySQL = [NSString stringWithFormat:@"SELECT language, extended FROM languages"];
+        
+        //        ALog("Items for car model %@",querySQL);
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSString *k, *v;
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                k = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [allSupportedCodes setValue:v forKey:k];
+            }
+            sqlite3_finalize(statement);
+//            ALog("Dict: %@ \n language is %@ \n code is %@",allSupportedCodes,language, allSupportedCodes[language]);
+            nameReady(allSupportedCodes[language]);
+        }else{
+            
+        }
+        sqlite3_close(numDB);
+    }
+}
+
++ (void)getCityNums:(NSString*)city forLang:(NSString*)language whenReady:(void (^)(NSArray *))cityNumsReady{
     //Root filepath
     NSString *databasePath;
     sqlite3 *numDB;
@@ -201,9 +256,9 @@ NSString *DB_NAME = @"icedb.sqlite";
         sqlite3_stmt    *statement;
         
         
-        querySQL = [NSString stringWithFormat:@"SELECT NUMBER, DESC FROM (SELECT * from numbers where CITY in ('%@','%@') ORDER BY PRIORITY) as N JOIN (SELECT * FROM names) as M ON N.",COMMON_NUMBERS,city];
+        querySQL = [NSString stringWithFormat:@"SELECT NUMBER, name_%@ FROM (SELECT NUMBER,DESC from numbers where CITY in ('%@','%@') ORDER BY PRIORITY) as N JOIN (SELECT id, name_%@ FROM names) as M ON N.DESC = M.id",language, COMMON_NUMBERS,city,language];
         
-        //        ALog("Items for car model %@",querySQL);
+//        ALog("Items for car model %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
         
