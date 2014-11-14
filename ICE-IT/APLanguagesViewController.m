@@ -14,9 +14,15 @@
 #import "Chameleon.h"
 #import "MasterViewController.h"
 #import "SWRevealViewController.h"
+#import "APUpdateDBCell.h"
+#import "APNetworkClient.h"
+
+static NSUInteger kStaticCells = 2;
+static NSUInteger kBeginIndex = 1;
 
 @interface APLanguagesViewController ()
 @property NSInteger mySelectedIndexRow;
+@property NSInteger numCells;
 @end
 @implementation APLanguagesViewController{
     NSArray *_languages;
@@ -69,7 +75,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return ([_languages count] + 1);
+    self.numCells = [_languages count] + kStaticCells;
+    return self.numCells;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -88,12 +95,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LangCell";
+    static NSString *UpdateCellIdentifier = @"UpdateCell";
     static NSString *OptionCellIdentifier = @"LangOption";
+
     UITableViewCell *cell;
     if (indexPath.row == 0) {
         cell = (APLangOptionTVC*) [tableView dequeueReusableCellWithIdentifier:OptionCellIdentifier];
         ((APLangOptionTVC*)cell).titleLabel.text = @"Automatic";
-    }else{
+    }else if(indexPath.row < self.numCells - 1){
         cell = (APLangViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[APLangViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -104,6 +113,10 @@
         if (indexPath.row == self.mySelectedIndexRow) {
             [cell setBackgroundColor:[UIColor flatPowderBlueColor]];
         }
+    }else{
+        cell = (APUpdateDBCell*) [tableView dequeueReusableCellWithIdentifier:UpdateCellIdentifier];
+        ((APUpdateDBCell *)cell).lastUpdated.text = @"14/11/2014 - 23:23:32";
+        [((APUpdateDBCell *)cell).update  addTarget:self action:@selector(getLatestDB) forControlEvents:UIControlEventTouchUpInside];
     }
     return cell;
     
@@ -112,7 +125,7 @@
 - (void)configureCell:(APLangViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     
     // Configure the cell to show the book's title
-    NSString *name = [_languages objectAtIndex:(indexPath.row - 1)];
+    NSString *name = [_languages objectAtIndex:(indexPath.row - kBeginIndex)];
     
     cell.langName.text = name;
     //cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",name]];
@@ -130,7 +143,7 @@
     MasterViewController* mvc = (MasterViewController*) nvc.topViewController;
     
     //Get selected car for this index
-    NSString *lang = [_languages objectAtIndex:(indexPath.row - 1)];
+    NSString *lang = [_languages objectAtIndex:(indexPath.row - kBeginIndex)];
     
     
     //save in the preferences the model ID of the selected CAR
@@ -159,6 +172,13 @@
     }
     [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor flatPowderBlueColor]];
     return indexPath;
+}
+- (void) getLatestDB{
+    ALog("Update DB!!!");
+    APNetworkClient *client = [[APNetworkClient alloc] init];
+    [client dowloadLatestDB:^(void){
+        ALog("Finished");
+    }];
 }
 
 
