@@ -24,17 +24,18 @@
     NSString *languageID = [[NSBundle mainBundle] preferredLocalizations].firstObject;
     ALog("Language is %@",languageID);
     */
+    
     NSArray* objs = [[NSArray alloc] initWithObjects:
-                     [NSNumber numberWithInt:1],//DB Version
                      [NSNumber numberWithInt:1], //automatic language selection
                      @"it",
                      @"Roma",//Default City
+                     [NSNumber numberWithUnsignedLong:kShippingDBVersion], //DB Version
                      nil];
     NSArray* keys = [[NSArray alloc] initWithObjects:
-                     kDBDowloaded,
                      kAutomaticLang,
                      kCurrentLang,
                      kPreferredCity,
+                     kCurrentDBVersion,
                      nil];
     
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];

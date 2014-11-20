@@ -15,6 +15,11 @@ NSString *const kCurrentLangCode = @"langCode";
 NSString *const kCurrentLang = @"currentLang";
 NSString *const kActiveDBName = @"icedb_current.sqlite";
 NSString *const kNewDBName = @"icedb_new.sqlite";
+NSString *const kCurrentDBVersion = @"lastDBVers";
+
+
+NSUInteger const kShippingDBVersion = 1;
+
 
 @implementation APConstants
 

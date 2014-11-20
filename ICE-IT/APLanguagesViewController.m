@@ -176,10 +176,8 @@ static NSUInteger kBeginIndex = 1;
 - (void) getLatestDB{
     ALog("Update DB!!!");
     APNetworkClient *client = [[APNetworkClient alloc] init];
-    [client dowloadLatestDB:^(void){
-        ALog("Finished");
-    }];
-}
+    [client dowloadLatestDBIfNewerThan:1 reportTo:self];
 
+}
 
 @end

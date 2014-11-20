@@ -8,10 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol UpdateReleased
+
+- (void) reloadNewData;
+
+@end
+
 @interface APNetworkClient : NSObject <NSURLSessionDelegate>
 
+- (void) dowloadLatestDBIfNewerThan:(NSUInteger)currentVersion reportTo:(id<UpdateReleased>)delegate;
 
-+ (void) getLastDBVersion:(void (^)(NSInteger))lastVersion;
-- (void) dowloadLatestDB:(void (^)())ready;
 
 @end

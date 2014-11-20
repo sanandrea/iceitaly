@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "APNetworkClient.h"
 
-@interface APLanguagesViewController : UITableViewController
+@interface APLanguagesViewController : UITableViewController <UpdateReleased>
 
 @end

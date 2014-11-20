@@ -18,6 +18,10 @@ extern NSString *const kAutomaticLang;
 extern NSString *const kCurrentLang;
 extern NSString *const kActiveDBName;
 extern NSString *const kNewDBName;
+extern NSString *const kCurrentDBVersion;
+
+extern NSUInteger const kShippingDBVersion;
+
 @interface APConstants : NSObject
 
 @end
