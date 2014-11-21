@@ -21,7 +21,6 @@
 		A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A985885B1A0FB82900D667C6 /* roma_img@2x.png */; };
 		A98588601A0FB8F700D667C6 /* APSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A985885F1A0FB8F700D667C6 /* APSideTableViewCell.m */; };
 		A98588621A0FC1CE00D667C6 /* milano_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A98588611A0FC1CE00D667C6 /* milano_img@2x.png */; };
-		A98588641A0FC2A600D667C6 /* numbers.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A98588631A0FC2A600D667C6 /* numbers.sqlite */; };
 		A98588671A0FC9F300D667C6 /* APCityNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588661A0FC9F300D667C6 /* APCityNumber.m */; };
 		A985886A1A0FCB3E00D667C6 /* APNumberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588691A0FCB3E00D667C6 /* APNumberTableViewCell.m */; };
 		A985886D1A10082600D667C6 /* APOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A985886C1A10082600D667C6 /* APOptionsViewController.m */; };
@@ -78,7 +77,6 @@
 		A985885E1A0FB8F700D667C6 /* APSideTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APSideTableViewCell.h; sourceTree = "<group>"; };
 		A985885F1A0FB8F700D667C6 /* APSideTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APSideTableViewCell.m; sourceTree = "<group>"; };
 		A98588611A0FC1CE00D667C6 /* milano_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "milano_img@2x.png"; path = "images/milano_img@2x.png"; sourceTree = "<group>"; };
-		A98588631A0FC2A600D667C6 /* numbers.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = numbers.sqlite; sourceTree = "<group>"; };
 		A98588651A0FC9F300D667C6 /* APCityNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APCityNumber.h; path = Model/APCityNumber.h; sourceTree = "<group>"; };
 		A98588661A0FC9F300D667C6 /* APCityNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APCityNumber.m; path = Model/APCityNumber.m; sourceTree = "<group>"; };
 		A98588681A0FCB3E00D667C6 /* APNumberTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNumberTableViewCell.h; sourceTree = "<group>"; };
@@ -218,7 +216,6 @@
 		A9FFE05719EF081200ED1E35 /* ICE-IT */ = {
 			isa = PBXGroup;
 			children = (
-				A98588631A0FC2A600D667C6 /* numbers.sqlite */,
 				A9C246881A140D3400493F3E /* icedb.sqlite */,
 				A985885D1A0FB83400D667C6 /* images */,
 				A98588501A0FB18A00D667C6 /* Model */,
@@ -386,7 +383,6 @@
 				A900DD181A1694A90062F95C /* de_flag@2x.png in Resources */,
 				A900DD1B1A1694A90062F95C /* it_flag@2x.png in Resources */,
 				A900DD191A1694A90062F95C /* en_flag@2x.png in Resources */,
-				A98588641A0FC2A600D667C6 /* numbers.sqlite in Resources */,
 				A900DD1A1A1694A90062F95C /* fr_flag@2x.png in Resources */,
 				A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */,
 			);

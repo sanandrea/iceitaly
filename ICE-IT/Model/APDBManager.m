@@ -45,10 +45,10 @@ NSString *DB_NAME = @"icedb.sqlite";
     NSError *error;
     
     if ([fileMgr removeItemAtPath:currentDB error:&error] != YES)
-        NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+        ALog(@"Unable to delete file: %@", [error localizedDescription]);
     
     if ([fileMgr moveItemAtPath:newDB toPath:currentDB error:&error] != YES){
-        NSLog(@"Unable to move file: %@", [error localizedDescription]);
+        ALog(@"Unable to move file: %@", [error localizedDescription]);
         return YES;
     }else{
         return  NO;

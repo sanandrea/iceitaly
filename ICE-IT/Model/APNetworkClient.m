@@ -52,7 +52,9 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                        NSUInteger currentVersion = [[prefs objectForKey:kCurrentDBVersion] integerValue];
                        if ([responseJSON[@"latest_ver"] integerValue] > currentVersion) {
                            _newDB = YES;
-                           [self downloadNewDB:session];
+                           [self downloadFile:session
+                                     fileName:LATEST_DB
+                                         isDB:YES];
                            [self checkForNewImages:session];
                        }
                    }
@@ -77,8 +79,13 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
     [self getLastDBVersion:session];
 }
 
-- (void) downloadNewDB:(NSURLSession*)session{
-    NSString *callString = [NSString stringWithFormat:@"%@%@",SERVER_PREFIX,LATEST_DB];
+- (void) downloadFile:(NSURLSession*)session fileName:(NSString*)name isDB:(BOOL)isDB{
+    NSString *callString;
+    if (isDB) {
+        callString = [NSString stringWithFormat:@"%@%@",SERVER_PREFIX,name];
+    }else{
+        callString = [NSString stringWithFormat:@"%@image/%@",SERVER_PREFIX,name];
+    }
     
     NSURLSessionDataTask *getDBTask =
     [session dataTaskWithURL:[NSURL URLWithString:callString]
@@ -89,12 +96,18 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                if (error){
                    
                }
-               ALog("Data size is %lu", (unsigned long)data.length);
+               NSString *filePath;
                NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-               NSString *databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:kNewDBName]];
+               if (isDB) {
+                   filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:kNewDBName]];
+                   [data writeToFile:filePath atomically:YES];
+                   [[APDBManager sharedInstance] checkNewDBInstance];
+               }else{
+                   filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:name]];
+                   [data writeToFile:filePath atomically:YES];
+               }
                
-               [data writeToFile:databasePath atomically:YES];
-               [[APDBManager sharedInstance] checkNewDBInstance];
+               ALog("Data size is %lu and filename %@", (unsigned long)data.length, name);
                
            }];
     
@@ -125,20 +138,16 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                                                    options:NSJSONReadingAllowFragments
                                                      error:&jsonError];
                    
-                   //ALog("JSON IS: %@",responseJSON);
+                   ALog("JSON IS: %@",responseJSON);
                    
                    if (!jsonError) {
                        NSArray *localImages = [APImageStore getCurrentStoredImages];
-                       for (NSString *im in responseJSON[@"items"]) {
-                           if ([localImages indexOfObject:im] == NSNotFound){
-                               
+                       for (NSDictionary *item in responseJSON[@"items"]) {
+                           if ([localImages indexOfObject:item[@"image"]] == NSNotFound){
+                               [self downloadFile:session
+                                         fileName:item[@"image"]
+                                             isDB:NO];
                            }
-                       }
-                       NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-                       NSUInteger currentVersion = [[prefs objectForKey:kCurrentDBVersion] integerValue];
-                       if ([responseJSON[@"latest_ver"] integerValue] > currentVersion) {
-                           _newDB = YES;
-                           [self downloadNewDB:session];
                        }
                    }
                }
