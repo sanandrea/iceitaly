@@ -15,4 +15,6 @@
 @property (strong, nonatomic) id<CityOrLanguageChanges> delegate;
 @property (strong, nonatomic) NSString *currentLangCode;
 
+-(IBAction)switchLangMode:(id)sender;
+
 @end

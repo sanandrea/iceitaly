@@ -10,4 +10,5 @@
 
 @interface APLangOptionTVC : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UISwitch *toggleSwitch;
 @end

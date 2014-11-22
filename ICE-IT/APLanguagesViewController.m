@@ -19,6 +19,8 @@
 @interface APLanguagesViewController ()
 @property NSInteger mySelectedIndexRow;
 @property NSInteger numCells;
+@property BOOL isAutomatic;
+@property (weak,nonatomic) UISwitch *mySwitch;
 @end
 @implementation APLanguagesViewController{
     NSArray *_languages;
@@ -41,11 +43,29 @@
         }];
         
     }];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    self.isAutomatic = ([[prefs objectForKey:kAutomaticLang] integerValue] == 1) ? YES : NO;
+    [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(IBAction)switchLangMode:(id)sender{
+    UISwitch *sw = sender;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    if ([sw isOn]) {
+        self.isAutomatic = YES;
+        [prefs setObject:[NSNumber numberWithInt:1] forKey:kAutomaticLang];
+        NSString *languageID = [[NSBundle mainBundle] preferredLocalizations].firstObject;
+        [self.delegate languageChanged:languageID];
+    }else{
+        self.isAutomatic = NO;
+        [prefs setObject:[NSNumber numberWithInt:0] forKey:kAutomaticLang];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,7 +77,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    if (self.isAutomatic) {
+        return 2;
+    }else{
+        return 3;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -69,10 +93,18 @@
             sectionName = NSLocalizedString(@"Modalità", @"Titolo menu lingua");
             break;
         case 1:
-            sectionName = NSLocalizedString(@"Lingua", @"Titolo last update");
+            if (self.isAutomatic) {
+                sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
+            }else{
+                sectionName = NSLocalizedString(@"Lingua", @"Titolo last update");
+            }
             break;
         case 2:
-            sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
+            if (self.isAutomatic) {
+                return nil;
+            }else{
+                sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
+            }
             break;
         default:
             sectionName = @"";
@@ -89,8 +121,12 @@
             return 1;
             break;
         case 1:
-            self.numCells = [_languages count];
-            return self.numCells;
+            if (self.isAutomatic) {
+                return 1;
+            }else{
+                self.numCells = [_languages count];
+                return self.numCells;
+            }
             break;
         case 2:
             return 1;
@@ -123,8 +159,16 @@
     UITableViewCell *cell;
     if (indexPath.section == 0) {
         cell = (APLangOptionTVC*) [tableView dequeueReusableCellWithIdentifier:OptionCellIdentifier];
-        ((APLangOptionTVC*)cell).titleLabel.text = @"Automatic";
-    }else if(indexPath.section == 1){
+        ((APLangOptionTVC*)cell).titleLabel.text = NSLocalizedString(@"Automatic",@"Language Toggle");
+        self.mySwitch = ((APLangOptionTVC*)cell).toggleSwitch;
+        if (self.isAutomatic) {
+            [self.mySwitch setOn:YES];
+        }else{
+            [self.mySwitch setOn:NO];
+        }
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+    }else if((indexPath.section == 1) && !self.isAutomatic){
         cell = (APLangViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[APLangViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -135,10 +179,11 @@
         if (indexPath.row == self.mySelectedIndexRow) {
             [cell setBackgroundColor:[UIColor flatPowderBlueColor]];
         }
-    }else{
+    }else if(((indexPath.section == 1) && self.isAutomatic) || (indexPath.section == 2)){
         cell = (APUpdateDBCell*) [tableView dequeueReusableCellWithIdentifier:UpdateCellIdentifier];
         ((APUpdateDBCell *)cell).lastUpdated.text = @"14/11/2014 - 23:23:32";
         [((APUpdateDBCell *)cell).update  addTarget:self action:@selector(getLatestDB) forControlEvents:UIControlEventTouchUpInside];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     return cell;
     
@@ -156,6 +201,13 @@
 
 #pragma mark - Table view Delegate for Cell Selection
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.isAutomatic) {
+        return;
+    }else{
+        if (indexPath.section != 1) {
+            return;
+        }
+    }
     
     
     self.mySelectedIndexRow = indexPath.row;
@@ -192,6 +244,13 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.isAutomatic) {
+        return indexPath;
+    }else{
+        if (indexPath.section != 1) {
+            return indexPath;
+        }
+    }
     
     if (self.mySelectedIndexRow >= 0)
     {
