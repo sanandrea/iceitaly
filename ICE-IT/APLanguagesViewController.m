@@ -30,7 +30,16 @@
     [APDBManager getLanguageListWhenReady:^(NSArray *result) {
         _languages = result;
         //        ALog("result: %@",_cities);
-        self.mySelectedIndexRow = 1;
+        [APDBManager getLanguageFromCode:self.currentLangCode then:^(NSString *extLang) {
+            NSUInteger counter = 0;
+            for (NSString *str in result) {
+                if ([str isEqualToString:extLang]) {
+                    self.mySelectedIndexRow = counter;
+                }
+                counter++;
+            }
+        }];
+        
     }];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

@@ -43,8 +43,8 @@
     
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
-    self.leftImageSize = CGSizeMake(50, 35);
-    self.rightImageSize = CGSizeMake(50, 35);
+    self.leftImageSize = CGSizeMake(64, 44);
+    self.rightImageSize = CGSizeMake(40, 24);
     
     UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img.png",self.cityName]
                                        scaledToSize:self.leftImageSize];
@@ -83,7 +83,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showOptions"]) {
         APLanguagesViewController *lvc = [segue destinationViewController];
+        lvc.currentLangCode = self.language;
         lvc.delegate = self;
+    }else{
+        
     }
 }
 

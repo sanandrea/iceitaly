@@ -39,7 +39,15 @@
     [APDBManager getCityListWhenReady:^(NSArray *result) {
         _cities = result;
 //        ALog("result: %@",_cities);
-        self.mySelectedIndexRow = 1;
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        NSString *cityName = [prefs objectForKey:kPreferredCity];
+        NSUInteger counter = 0;
+        for (NSString *str in result) {
+            if ([str isEqualToString:cityName]) {
+                self.mySelectedIndexRow = counter;
+            }
+            counter++;
+        }
     }];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

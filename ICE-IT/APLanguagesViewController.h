@@ -13,5 +13,6 @@
 @interface APLanguagesViewController : UITableViewController <UpdateReleased>
 
 @property (strong, nonatomic) id<CityOrLanguageChanges> delegate;
+@property (strong, nonatomic) NSString *currentLangCode;
 
 @end
