@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface APImageStore : NSObject
 
 + (NSArray*) getCurrentStoredImages;
++ (UIImage *)imageWithImageName:(NSString *)image scaledToSize:(CGSize)newSize;
+
 
 @end

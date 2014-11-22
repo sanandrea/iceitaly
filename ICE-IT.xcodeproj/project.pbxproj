@@ -13,6 +13,7 @@
 		A900DD1B1A1694A90062F95C /* it_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A900DD171A1694A90062F95C /* it_flag@2x.png */; };
 		A900DD1E1A16A2ED0062F95C /* APNetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A900DD1D1A16A2ED0062F95C /* APNetworkClient.m */; };
 		A900DD211A16AB130062F95C /* APUpdateDBCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A900DD201A16AB130062F95C /* APUpdateDBCell.m */; };
+		A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9556EB81A20FEF800809939 /* opzioni@2x.png */; };
 		A9820A481A1D466400BC2B08 /* APImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A9820A471A1D466400BC2B08 /* APImageStore.m */; };
 		A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588521A0FB22A00D667C6 /* APDBManager.m */; };
 		A98588551A0FB2D100D667C6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A98588541A0FB2D100D667C6 /* libz.dylib */; };
@@ -65,6 +66,7 @@
 		A900DD1D1A16A2ED0062F95C /* APNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APNetworkClient.m; path = Model/APNetworkClient.m; sourceTree = "<group>"; };
 		A900DD1F1A16AB130062F95C /* APUpdateDBCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APUpdateDBCell.h; sourceTree = "<group>"; };
 		A900DD201A16AB130062F95C /* APUpdateDBCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APUpdateDBCell.m; sourceTree = "<group>"; };
+		A9556EB81A20FEF800809939 /* opzioni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "opzioni@2x.png"; path = "images/opzioni@2x.png"; sourceTree = "<group>"; };
 		A9820A461A1D466400BC2B08 /* APImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APImageStore.h; path = Model/APImageStore.h; sourceTree = "<group>"; };
 		A9820A471A1D466400BC2B08 /* APImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APImageStore.m; path = Model/APImageStore.m; sourceTree = "<group>"; };
 		A98588511A0FB22A00D667C6 /* APDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APDBManager.h; path = Model/APDBManager.h; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 		A985885D1A0FB83400D667C6 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A9556EB81A20FEF800809939 /* opzioni@2x.png */,
 				A900DD141A1694A90062F95C /* de_flag@2x.png */,
 				A900DD151A1694A90062F95C /* en_flag@2x.png */,
 				A900DD161A1694A90062F95C /* fr_flag@2x.png */,
@@ -382,6 +385,7 @@
 				A9FFE06C19EF081200ED1E35 /* Images.xcassets in Resources */,
 				A900DD181A1694A90062F95C /* de_flag@2x.png in Resources */,
 				A900DD1B1A1694A90062F95C /* it_flag@2x.png in Resources */,
+				A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */,
 				A900DD191A1694A90062F95C /* en_flag@2x.png in Resources */,
 				A900DD1A1A1694A90062F95C /* fr_flag@2x.png in Resources */,
 				A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */,

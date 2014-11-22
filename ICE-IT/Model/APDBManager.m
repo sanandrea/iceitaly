@@ -217,11 +217,11 @@ NSString *DB_NAME = @"icedb.sqlite";
     }
 }
 
-+ (void)getCodeFromLanguage:(NSString*)language then:(void (^)(NSString*))nameReady{
++ (void)getCodeFromLanguage:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate{
     //Root filepath
     static NSMutableDictionary *allSupportedCodes;
     if (allSupportedCodes != nil) {
-        nameReady(allSupportedCodes[language]);
+        [delegate languageChanged:allSupportedCodes[language]];
         return;
     }
     allSupportedCodes = [[NSMutableDictionary alloc] init];
@@ -264,7 +264,7 @@ NSString *DB_NAME = @"icedb.sqlite";
             }
             sqlite3_finalize(statement);
 //            ALog("Dict: %@ \n language is %@ \n code is %@",allSupportedCodes,language, allSupportedCodes[language]);
-            nameReady(allSupportedCodes[language]);
+            [delegate languageChanged:allSupportedCodes[language]];
         }else{
             
         }
@@ -272,7 +272,7 @@ NSString *DB_NAME = @"icedb.sqlite";
     }
 }
 
-+ (void)getCityNums:(NSString*)city forLang:(NSString*)language whenReady:(void (^)(NSArray *))cityNumsReady{
++ (void)getCityNums:(NSString*)city forLang:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate{
     //Root filepath
     NSString *databasePath;
     sqlite3 *numDB;
@@ -315,7 +315,7 @@ NSString *DB_NAME = @"icedb.sqlite";
                 [result addObject:current];
             }
             sqlite3_finalize(statement);
-            cityNumsReady(result);
+            [delegate newDataIsReady:result];
         }else{
             
         }

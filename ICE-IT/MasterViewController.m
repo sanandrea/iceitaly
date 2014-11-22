@@ -14,9 +14,15 @@
 #import "APConstants.h"
 #import "APNumberTableViewCell.h"
 #import "APCityNumber.h"
+#import "APImageStore.h"
+#import "APLanguagesViewController.h"
 
 @interface MasterViewController ()
-@property (strong,nonatomic) NSArray *numbers;
+@property (strong,nonatomic)  NSArray   *numbers;
+@property (strong, nonatomic) NSString  *cityName;
+@property (strong, nonatomic) NSString  *language;
+@property (nonatomic) CGSize leftImageSize;
+@property (nonatomic) CGSize rightImageSize;
 @end
 
 @implementation MasterViewController
@@ -37,11 +43,24 @@
     
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
+    self.leftImageSize = CGSizeMake(50, 35);
+    self.rightImageSize = CGSizeMake(50, 35);
     
+    UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img.png",self.cityName]
+                                       scaledToSize:self.leftImageSize];
+    _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    /*
     _rightbarButton.target = self.revealViewController;
     _rightbarButton.action = @selector(rightRevealToggle:);
-    _rightbarButton.image = [[UIImage imageNamed:[NSString stringWithFormat:@"%@_flag.png",self.language]]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+     _rightbarButton.image = [[UIImage imageNamed:@"opzioni.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    */
 
+    img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag.png",self.language]
+                              scaledToSize:self.rightImageSize];
+    _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    self.navigationController.navigationBar.topItem.title = [self.cityName uppercaseString];
     // Set the gesture
     //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     //Copy bundle db to Data folder
@@ -49,11 +68,7 @@
         [[APDBManager sharedInstance] copyDBInData];
     });
     
-    [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
-        _numbers = result;
-//        ALog("Numbers: %@",_numbers );
-        [self.tableView reloadData];
-    }];
+    [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,18 +81,49 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        
+    if ([[segue identifier] isEqualToString:@"showOptions"]) {
+        APLanguagesViewController *lvc = [segue destinationViewController];
+        lvc.delegate = self;
     }
 }
 
+
 -(void) cityOrLanguageChanged{
-    _rightbarButton.image = [[UIImage imageNamed:[NSString stringWithFormat:@"%@_flag.png",self.language]]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [APDBManager getCityNums:self.cityName forLang:self.language whenReady:^(NSArray *result) {
-        _numbers = result;
-        //        ALog("Numbers: %@",_numbers );
+    [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
+}
+
+/*! Called from background queues */
+- (void) cityChanged:(NSString*) newName{
+    self.cityName = newName;
+    [self cityOrLanguageChanged];
+    
+    //save in the preferences the city name
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:newName forKey:kPreferredCity];
+}
+/*! Called from background queues */
+- (void) languageChanged:(NSString*) newLang{
+    self.language = newLang;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:newLang forKey:kCurrentLang];
+
+    [self cityOrLanguageChanged];
+}
+
+/*! Here we return to main queue to update UI */
+- (void) newDataIsReady:(NSArray*) newData{
+    _numbers = newData;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img.png",self.cityName]
+                                           scaledToSize:self.leftImageSize];
+        _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag.png",self.language]
+                                  scaledToSize:self.rightImageSize];
+        _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.navigationController.navigationBar.topItem.title = [self.cityName uppercaseString];
         [self.tableView reloadData];
-    }];
+    });
 }
 
 #pragma mark - Table View
@@ -122,6 +168,4 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
     
 }
-
-
 @end

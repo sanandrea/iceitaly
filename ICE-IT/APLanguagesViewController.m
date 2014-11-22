@@ -7,7 +7,6 @@
 //
 
 #import "APLanguagesViewController.h"
-#import "APDBManager.h"
 #import "APConstants.h"
 #import "APLangViewCell.h"
 #import "APLangOptionTVC.h"
@@ -16,9 +15,6 @@
 #import "SWRevealViewController.h"
 #import "APUpdateDBCell.h"
 #import "APNetworkClient.h"
-
-static NSUInteger kStaticCells = 2;
-static NSUInteger kBeginIndex = 1;
 
 @interface APLanguagesViewController ()
 @property NSInteger mySelectedIndexRow;
@@ -52,7 +48,7 @@ static NSUInteger kBeginIndex = 1;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -61,9 +57,12 @@ static NSUInteger kBeginIndex = 1;
     switch (section)
     {
         case 0:
-            sectionName = NSLocalizedString(@"LINGUA", @"Titolo menu lingua");
+            sectionName = NSLocalizedString(@"Modalità", @"Titolo menu lingua");
             break;
         case 1:
+            sectionName = NSLocalizedString(@"Lingua", @"Titolo last update");
+            break;
+        case 2:
             sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
             break;
         default:
@@ -75,14 +74,28 @@ static NSUInteger kBeginIndex = 1;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    self.numCells = [_languages count] + kStaticCells;
-    return self.numCells;
+    switch (section)
+    {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            self.numCells = [_languages count];
+            return self.numCells;
+            break;
+        case 2:
+            return 1;
+            break;
+        default:
+            return 0;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 45.f;
 }
 
+/*
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UILabel *label = [[UILabel alloc] init];
@@ -91,7 +104,7 @@ static NSUInteger kBeginIndex = 1;
     label.textAlignment = NSTextAlignmentCenter;
     return label;
 }
-
+*/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LangCell";
@@ -99,10 +112,10 @@ static NSUInteger kBeginIndex = 1;
     static NSString *OptionCellIdentifier = @"LangOption";
 
     UITableViewCell *cell;
-    if (indexPath.row == 0) {
+    if (indexPath.section == 0) {
         cell = (APLangOptionTVC*) [tableView dequeueReusableCellWithIdentifier:OptionCellIdentifier];
         ((APLangOptionTVC*)cell).titleLabel.text = @"Automatic";
-    }else if(indexPath.row < self.numCells - 1){
+    }else if(indexPath.section == 1){
         cell = (APLangViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[APLangViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -125,7 +138,7 @@ static NSUInteger kBeginIndex = 1;
 - (void)configureCell:(APLangViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     
     // Configure the cell to show the book's title
-    NSString *name = [_languages objectAtIndex:(indexPath.row - kBeginIndex)];
+    NSString *name = [_languages objectAtIndex:indexPath.row];
     
     cell.langName.text = name;
     //cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",name]];
@@ -138,27 +151,33 @@ static NSUInteger kBeginIndex = 1;
     
     self.mySelectedIndexRow = indexPath.row;
     
-    //Get MapViewController
+    //Get MasterViewController
+    /*
     UINavigationController* nvc = (UINavigationController*) self.revealViewController.frontViewController;
     MasterViewController* mvc = (MasterViewController*) nvc.topViewController;
+     //Get selected car for this index
+     NSString *lang = [_languages objectAtIndex:indexPath.row];
+    */
     
-    //Get selected car for this index
-    NSString *lang = [_languages objectAtIndex:(indexPath.row - kBeginIndex)];
+    self.mySelectedIndexRow = indexPath.row;
     
-    
-    //save in the preferences the model ID of the selected CAR
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [APDBManager getCodeFromLanguage:[_languages objectAtIndex:indexPath.row]
+                                reportTo:self.delegate];
+    });
+    [self.navigationController popViewControllerAnimated:YES];
+    /*
     [APDBManager getCodeFromLanguage:lang then:^(NSString* result){
-//        ALog("result is %@",result);
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
         [prefs setObject:result forKey:kCurrentLang];
 
-        //set this car to the Map ViewController
         mvc.language = result;
         [mvc cityOrLanguageChanged];
     }];
     //close side menu
     [self.revealViewController rightRevealToggleAnimated:YES];
-
+     */
+    
 }
 
 

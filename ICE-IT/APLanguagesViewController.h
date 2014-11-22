@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "APNetworkClient.h"
+#import "APDBManager.h"
 
 @interface APLanguagesViewController : UITableViewController <UpdateReleased>
+
+@property (strong, nonatomic) id<CityOrLanguageChanges> delegate;
 
 @end

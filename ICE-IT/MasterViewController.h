@@ -8,15 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "APDBManager.h"
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController<CityOrLanguageChanges>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightbarButton;
 
-@property (strong, nonatomic) NSString *cityName;
-@property (strong, nonatomic) NSString *language;
-
--(void) cityOrLanguageChanged;
 @end
 

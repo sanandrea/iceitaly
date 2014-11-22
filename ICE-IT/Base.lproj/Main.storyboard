@@ -23,7 +23,6 @@
                     <connections>
                         <segue destination="rS3-R9-Ivy" kind="custom" identifier="sw_front" customClass="SWRevealViewControllerSegueSetController" id="vr5-xB-Hv4"/>
                         <segue destination="wJr-NY-W9i" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegueSetController" id="Kky-kQ-VPy"/>
-                        <segue destination="7eR-OQ-O1f" kind="custom" identifier="sw_right" customClass="SWRevealViewControllerSegueSetController" id="MGO-YN-fYO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tcn-wS-6MR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -151,7 +150,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Master" id="tQt-TN-PWz">
                         <barButtonItem key="leftBarButtonItem" title="Item" id="iY4-0S-W0K"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="U3W-44-9Fj"/>
+                        <barButtonItem key="rightBarButtonItem" id="U3W-44-9Fj">
+                            <connections>
+                                <segue destination="7eR-OQ-O1f" kind="show" identifier="showOptions" id="qYT-EO-daz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="rightbarButton" destination="U3W-44-9Fj" id="8jp-Ra-C5d"/>
@@ -272,7 +275,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYM-OH-zuc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="129" y="535"/>
+            <point key="canvasLocation" x="1750" y="-164"/>
         </scene>
         <!--Detail-->
         <scene sceneID="Cn3-H9-jdl">

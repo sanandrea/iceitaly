@@ -150,14 +150,9 @@
     //Get selected car for this index
     NSString *city = [_cities objectAtIndex:indexPath.row];
     
-    //set this car to the Map ViewController
-    mvc.cityName = city;
-    
-    //save in the preferences the model ID of the selected CAR
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:city forKey:kPreferredCity];
-    
-    [mvc cityOrLanguageChanged];
+    //set this city to the Map ViewController
+    [mvc cityChanged:city];
+
     //close side menu
     [self.revealViewController revealToggleAnimated:YES];
 }
