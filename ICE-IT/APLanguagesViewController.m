@@ -22,6 +22,7 @@
 @property BOOL isAutomatic;
 @property (weak,nonatomic) UISwitch *mySwitch;
 @end
+
 @implementation APLanguagesViewController{
     NSArray *_languages;
 }
@@ -43,6 +44,7 @@
         }];
         
     }];
+
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     self.isAutomatic = ([[prefs objectForKey:kAutomaticLang] integerValue] == 1) ? YES : NO;
     [self.tableView reloadData];
@@ -50,7 +52,9 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationController.navigationBar.backItem.title = @"AAA";
+    self.navigationController.navigationItem.backBarButtonItem.title = @"AAA";
+    self.navigationItem.backBarButtonItem.title = @"AAA";
 }
 
 -(IBAction)switchLangMode:(id)sender{
