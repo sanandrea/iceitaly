@@ -23,7 +23,7 @@ NSString *DB_NAME = @"icedb.sqlite";
     // Check if the database is existed.
     if(![fm fileExistsAtPath:dbPath])
     {
-        // If database is not existed, copy from the database template in the bundle
+        // If database is not already in data folder, copy from the database template in the bundle
         NSString* dbTemplatePath = [[NSBundle mainBundle] pathForResource:@"icedb" ofType:@"sqlite"];
         NSError* error = nil;
         [fm copyItemAtPath:dbTemplatePath toPath:dbPath error:&error];
@@ -68,9 +68,10 @@ NSString *DB_NAME = @"icedb.sqlite";
     //Root filepath
     NSString *databasePath;
     sqlite3 *numDB;
-    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+//  NSString *appDir = [[NSBundle mainBundle] resourcePath];
+    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
 //    ALog("DATA base path : %@",databasePath);
     NSFileManager *filemgr = [NSFileManager defaultManager];
     
@@ -118,9 +119,10 @@ NSString *DB_NAME = @"icedb.sqlite";
     //Root filepath
     NSString *databasePath;
     sqlite3 *numDB;
-    NSString *appDir = [[NSBundle mainBundle] resourcePath];
     
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
+    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
     //    ALog("DATA base path : %@",databasePath);
     NSFileManager *filemgr = [NSFileManager defaultManager];
     
@@ -173,9 +175,10 @@ NSString *DB_NAME = @"icedb.sqlite";
     allSupportedLangs = [[NSMutableDictionary alloc] init];
     NSString *databasePath;
     sqlite3 *numDB;
-    NSString *appDir = [[NSBundle mainBundle] resourcePath];
     
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
+    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
+    
     //    ALog("DATA base path : %@",databasePath);
     NSFileManager *filemgr = [NSFileManager defaultManager];
     
@@ -227,9 +230,10 @@ NSString *DB_NAME = @"icedb.sqlite";
     allSupportedCodes = [[NSMutableDictionary alloc] init];
     NSString *databasePath;
     sqlite3 *numDB;
-    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+
+    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
     
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
     //    ALog("DATA base path : %@",databasePath);
     NSFileManager *filemgr = [NSFileManager defaultManager];
     
@@ -276,9 +280,10 @@ NSString *DB_NAME = @"icedb.sqlite";
     //Root filepath
     NSString *databasePath;
     sqlite3 *numDB;
-    NSString *appDir = [[NSBundle mainBundle] resourcePath];
+
+    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
     
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:DB_NAME]];
     //    ALog("DATA base path : %@",databasePath);
     NSFileManager *filemgr = [NSFileManager defaultManager];
     

@@ -267,8 +267,8 @@
 - (void) getLatestDB{
     ALog("Update DB!!!");
     APNetworkClient *client = [[APNetworkClient alloc] init];
-    [client dowloadLatestDBIfNewerThan:1 reportTo:self];
-
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [client dowloadLatestDBIfNewerThan:[[prefs objectForKey:kCurrentDBVersion] integerValue] reportTo:self];
 }
 
 @end

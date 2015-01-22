@@ -20,6 +20,7 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
 @implementation APNetworkClient{
     id<UpdateReleased> _myDelegate;
     BOOL _newDB;
+    int _newDBVersion;
 }
 
 - (void) getLastDBVersion:(NSURLSession*)session{
@@ -52,6 +53,7 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                        NSUInteger currentVersion = [[prefs objectForKey:kCurrentDBVersion] integerValue];
                        if ([responseJSON[@"latest_ver"] integerValue] > currentVersion) {
                            _newDB = YES;
+                           _newDBVersion = [responseJSON[@"latest_ver"] intValue];
                            [self downloadFile:session
                                      fileName:LATEST_DB
                                          isDB:YES];
@@ -101,6 +103,12 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                if (isDB) {
                    filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:kNewDBName]];
                    [data writeToFile:filePath atomically:YES];
+                   
+                   //Now that DB is downloaded save new DB version
+#warning Uncomment
+                   //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+                   //[prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
+
                    [[APDBManager sharedInstance] checkNewDBInstance];
                }else{
                    filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:name]];
@@ -131,7 +139,6 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                if (httpResp.statusCode == 200) {
                    
                    NSError *jsonError;
-                   
                    // 2
                    NSDictionary *responseJSON =
                    [NSJSONSerialization JSONObjectWithData:data
@@ -155,8 +162,5 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
     
     // 4
     [getDBTask resume];
-    
 }
-
-
 @end

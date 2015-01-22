@@ -48,7 +48,7 @@
     self.leftImageSize = CGSizeMake(50, 50);
     self.rightImageSize = CGSizeMake(40, 24);
     
-    UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img.png",self.cityName]
+    UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",self.cityName]
                                        scaledToSize:self.leftImageSize];
     _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -58,7 +58,7 @@
      _rightbarButton.image = [[UIImage imageNamed:@"opzioni.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     */
 
-    img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag.png",self.language]
+    img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag",self.language]
                               scaledToSize:self.rightImageSize];
     _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -161,11 +161,11 @@
 - (void) newDataIsReady:(NSArray*) newData{
     _numbers = newData;
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img.png",self.cityName]
+        UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",self.cityName]
                                            scaledToSize:self.leftImageSize];
         _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         
-        img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag.png",self.language]
+        img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag",self.language]
                                   scaledToSize:self.rightImageSize];
         _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         self.cityTitle.text = [self.cityName uppercaseString];
