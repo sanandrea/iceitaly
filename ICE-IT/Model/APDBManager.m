@@ -15,6 +15,26 @@ NSString *COMMON_NUMBERS = @"ALL";
 NSString *DB_NAME = @"icedb.sqlite";
 
 @implementation APDBManager
+
++ (int) openDB:(sqlite3 **)numDB withName:(NSString*)atDBPath{
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    if ([fileMgr fileExistsAtPath: atDBPath] == NO){
+        ALog("Error here buddy , could not find new Database file");
+        return SQLITE_ERROR;
+    }else{
+        const char *dbpath = [atDBPath UTF8String];
+        
+        if (sqlite3_open(dbpath, numDB) != SQLITE_OK){
+            ALog("Failed to open/create database");
+            return SQLITE_CANTOPEN;
+        }else{
+            return SQLITE_OK;
+        }
+    }
+    
+}
+
+
 - (void) copyDBInData{
     NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString* dbPath = [docPath stringByAppendingPathComponent:kActiveDBName];
@@ -43,7 +63,43 @@ NSString *DB_NAME = @"icedb.sqlite";
     
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSError *error;
+
+    NSMutableSet *oldLanguageCodes = [APDBManager getLanguagesCodesSync:currentDB inCaseOfError:&error];
+    if (error) {
+        ALog("Check not passed, error occured: %@", [error localizedDescription]);
+        return NO;
+    }
+    NSMutableSet *newLanguageCodes = [APDBManager getLanguagesCodesSync:newDB inCaseOfError:&error];
+    if (error) {
+        ALog("Check not passed, error occured: %@", [error localizedDescription]);
+        return NO;
+    }
     
+    [newLanguageCodes minusSet:oldLanguageCodes];
+    
+    //in table names of new db there should be a column for each new language
+    
+    NSMutableSet *columnNames = [APDBManager getColumnNames:@"names" ofDB:newDB inCaseOfError:&error];
+    if (error) {
+        ALog("Check not passed, error occured: %@", [error localizedDescription]);
+        return NO;
+    }
+
+    for (NSString* newCode in newLanguageCodes) {
+        NSString* extendedName = [NSString stringWithFormat:@"name_%@",newCode];
+        BOOL found = NO;
+        for (NSString* cName in columnNames) {
+            if ([extendedName isEqualToString:cName]) {
+                found = YES;
+                break;
+            }
+        }
+        if (!found) {
+            ALog("Check not passed, error occured: No column with such language name");
+            return NO;
+        }
+    }
+    //finally replace old db with new DB and delete old one
     if ([fileMgr removeItemAtPath:currentDB error:&error] != YES)
         ALog(@"Unable to delete file: %@", [error localizedDescription]);
     
@@ -52,6 +108,88 @@ NSString *DB_NAME = @"icedb.sqlite";
         return YES;
     }else{
         return  NO;
+    }
+
+}
+
++ (NSMutableSet*) getColumnNames:(NSString*)columnName ofDB:(NSString*)ofDB inCaseOfError:(NSError**)error{
+    NSMutableSet *result;
+    sqlite3 *numDB;
+    NSMutableDictionary* details = [NSMutableDictionary dictionary];
+    
+    if ([APDBManager openDB:&numDB withName:ofDB] != SQLITE_OK){
+        [details setValue:@"Generic database error" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Database" code:200 userInfo:details];
+        return nil;
+    }else{
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        querySQL = [NSString stringWithFormat:@"PRAGMA table_info(%@)",columnName];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            NSString *v;
+            result = [[NSMutableSet alloc] init];
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [result addObject:v];
+            }
+            sqlite3_finalize(statement);
+            sqlite3_close(numDB);
+            return result;
+        }else{
+            [details setValue:@"Error in fetching query" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Database" code:202 userInfo:details];
+            sqlite3_close(numDB);
+            return nil;
+        }
+    }
+}
++ (NSMutableSet*) getLanguagesCodesSync:(NSString*)atDBPath inCaseOfError:(NSError**)error{
+    NSMutableSet *result;
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    sqlite3 *numDB;
+    NSMutableDictionary* details = [NSMutableDictionary dictionary];
+    
+    if ([fileMgr fileExistsAtPath: atDBPath] == NO){
+        
+        [details setValue:@"Error in reading DB file" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Database" code:200 userInfo:details];
+        
+        ALog("Error here buddy , could not find new Database file");
+        return nil;
+    }else{
+        const char *dbpath = [atDBPath UTF8String];
+        
+        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
+            [details setValue:@"Failed to open/create database" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Database" code:201 userInfo:details];
+
+            ALog("Failed to open/create database");
+            return nil;
+        }
+
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        querySQL = [NSString stringWithFormat:@"SELECT distinct(language) FROM languages"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            NSString *v;
+            result = [[NSMutableSet alloc] init];
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [result addObject:v];
+            }
+            sqlite3_finalize(statement);
+            sqlite3_close(numDB);
+            return result;
+        }else{
+            [details setValue:@"Error in fetching query" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Database" code:202 userInfo:details];
+            sqlite3_close(numDB);
+            return nil;
+        }
     }
 }
 + (APDBManager*) sharedInstance{
