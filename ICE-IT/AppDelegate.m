@@ -41,6 +41,9 @@
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
     
+    //copy DB in Data folder synchronously. Normally, only the first time app is launched.
+    [[APDBManager sharedInstance] copyDBInData];
+    
     return YES;
 }
 

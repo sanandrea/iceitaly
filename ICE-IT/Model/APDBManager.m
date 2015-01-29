@@ -99,6 +99,11 @@ NSString *DB_NAME = @"icedb.sqlite";
             return NO;
         }
     }
+    
+    //At this point remains the last verification for empty values on new columns.
+    
+    
+    
     //finally replace old db with new DB and delete old one
     if ([fileMgr removeItemAtPath:currentDB error:&error] != YES)
         ALog(@"Unable to delete file: %@", [error localizedDescription]);
