@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2C64B10026C613BC52D44C4 /* libPods-ICE-IT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA2596FBEA8BD3DD55C9328E /* libPods-ICE-IT.a */; };
 		A900DD181A1694A90062F95C /* de_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A900DD141A1694A90062F95C /* de_flag@2x.png */; };
 		A900DD191A1694A90062F95C /* en_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A900DD151A1694A90062F95C /* en_flag@2x.png */; };
 		A900DD1A1A1694A90062F95C /* fr_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A900DD161A1694A90062F95C /* fr_flag@2x.png */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04F27D1548B82291678F5C49 /* Pods-ICE-IT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ICE-IT.release.xcconfig"; path = "Pods/Target Support Files/Pods-ICE-IT/Pods-ICE-IT.release.xcconfig"; sourceTree = "<group>"; };
 		A900DD141A1694A90062F95C /* de_flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "de_flag@2x.png"; path = "images/de_flag@2x.png"; sourceTree = "<group>"; };
 		A900DD151A1694A90062F95C /* en_flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "en_flag@2x.png"; path = "images/en_flag@2x.png"; sourceTree = "<group>"; };
 		A900DD161A1694A90062F95C /* fr_flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fr_flag@2x.png"; path = "images/fr_flag@2x.png"; sourceTree = "<group>"; };
@@ -124,6 +126,8 @@
 		A9FFE09C19EF0A8900ED1E35 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		A9FFE09E19EF0B7400ED1E35 /* APCityTableMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APCityTableMenu.h; sourceTree = "<group>"; };
 		A9FFE09F19EF0B7400ED1E35 /* APCityTableMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APCityTableMenu.m; sourceTree = "<group>"; };
+		BA2596FBEA8BD3DD55C9328E /* libPods-ICE-IT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ICE-IT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAF3DD0DE92AF047FEDB541F /* Pods-ICE-IT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ICE-IT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ICE-IT/Pods-ICE-IT.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,7 @@
 			files = (
 				A98588571A0FB2DD00D667C6 /* libsqlite3.0.dylib in Frameworks */,
 				A98588551A0FB2D100D667C6 /* libz.dylib in Frameworks */,
+				A2C64B10026C613BC52D44C4 /* libPods-ICE-IT.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +151,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03388F4F60916ACE2ED3F256 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EAF3DD0DE92AF047FEDB541F /* Pods-ICE-IT.debug.xcconfig */,
+				04F27D1548B82291678F5C49 /* Pods-ICE-IT.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		A98588501A0FB18A00D667C6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +218,8 @@
 				A9FFE05719EF081200ED1E35 /* ICE-IT */,
 				A9FFE07719EF081200ED1E35 /* ICE-ITTests */,
 				A9FFE05619EF081200ED1E35 /* Products */,
+				03388F4F60916ACE2ED3F256 /* Pods */,
+				EBC6E8BBEA5DF542A81D7326 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -298,6 +314,14 @@
 			path = SideViewC;
 			sourceTree = "<group>";
 		};
+		EBC6E8BBEA5DF542A81D7326 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA2596FBEA8BD3DD55C9328E /* libPods-ICE-IT.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -305,9 +329,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9FFE07E19EF081200ED1E35 /* Build configuration list for PBXNativeTarget "ICE-IT" */;
 			buildPhases = (
+				1A239358EC4D1477252773C3 /* Check Pods Manifest.lock */,
 				A9FFE05119EF081200ED1E35 /* Sources */,
 				A9FFE05219EF081200ED1E35 /* Frameworks */,
 				A9FFE05319EF081200ED1E35 /* Resources */,
+				CCDD15AB201F95DB4BF41DDF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -400,6 +426,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A239358EC4D1477252773C3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CCDD15AB201F95DB4BF41DDF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ICE-IT/Pods-ICE-IT-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A9FFE05119EF081200ED1E35 /* Sources */ = {
@@ -549,22 +608,24 @@
 		};
 		A9FFE07F19EF081200ED1E35 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAF3DD0DE92AF047FEDB541F /* Pods-ICE-IT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "ICE-IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		A9FFE08019EF081200ED1E35 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04F27D1548B82291678F5C49 /* Pods-ICE-IT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "ICE-IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

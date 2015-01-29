@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Andi Palo. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "APLanguagesViewController.h"
 #import "APConstants.h"
 #import "APLangViewCell.h"
@@ -15,6 +16,9 @@
 #import "SWRevealViewController.h"
 #import "APUpdateDBCell.h"
 #import "APNetworkClient.h"
+
+#import "M13ProgressHUD.h"
+#import "M13ProgressViewRing.h"
 
 @interface APLanguagesViewController ()
 @property NSInteger mySelectedIndexRow;
@@ -26,6 +30,7 @@
 
 @implementation APLanguagesViewController{
     NSArray *_languages;
+    M13ProgressHUD *HUD;
 }
 
 
@@ -52,6 +57,13 @@
     [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Init Progress View
+    HUD = [[M13ProgressHUD alloc] initWithProgressView:[[M13ProgressViewRing alloc] init]];
+    HUD.progressViewSize = CGSizeMake(60.0, 60.0);
+    HUD.animationPoint = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, [UIScreen mainScreen].bounds.size.height / 2);
+    UIWindow *window = ((AppDelegate *)[UIApplication sharedApplication].delegate).window;
+    [window addSubview:HUD];
 }
 
 - (void) reloadNewData{
@@ -292,10 +304,13 @@
     return indexPath;
 }
 - (void) getLatestDB{
-    ALog("Update DB!!!");
+    HUD.status = @"Loading";
+    [HUD show:YES];
+    /*
     APNetworkClient *client = [[APNetworkClient alloc] init];
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [client dowloadLatestDBIfNewerThan:[[prefs objectForKey:kCurrentDBVersion] integerValue] reportTo:self];
+    */
 }
 
 @end
