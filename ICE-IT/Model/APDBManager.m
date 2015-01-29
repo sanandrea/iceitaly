@@ -14,6 +14,9 @@
 NSString *COMMON_NUMBERS = @"ALL";
 NSString *DB_NAME = @"icedb.sqlite";
 
+static NSMutableDictionary *allSupportedLangs;
+static NSMutableDictionary *allSupportedCodes;
+
 @implementation APDBManager
 
 + (int) openDB:(sqlite3 **)numDB withName:(NSString*)atDBPath{
@@ -110,9 +113,13 @@ NSString *DB_NAME = @"icedb.sqlite";
     
     if ([fileMgr moveItemAtPath:newDB toPath:currentDB error:&error] != YES){
         ALog(@"Unable to move file: %@", [error localizedDescription]);
-        return YES;
+        return NO;
     }else{
-        return  NO;
+        [allSupportedCodes removeAllObjects];
+        [allSupportedLangs removeAllObjects];
+        allSupportedLangs = nil;
+        allSupportedCodes = nil;
+        return  YES;
     }
 
 }
@@ -310,7 +317,7 @@ NSString *DB_NAME = @"icedb.sqlite";
 
 + (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady{
     //Root filepath
-    static NSMutableDictionary *allSupportedLangs;
+    
     if (allSupportedLangs != nil) {
         nameReady(allSupportedLangs[code]);
         return;
@@ -365,7 +372,7 @@ NSString *DB_NAME = @"icedb.sqlite";
 
 + (void)getCodeFromLanguage:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate{
     //Root filepath
-    static NSMutableDictionary *allSupportedCodes;
+
     if (allSupportedCodes != nil) {
         [delegate languageChanged:allSupportedCodes[language]];
         return;

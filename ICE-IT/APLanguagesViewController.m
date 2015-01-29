@@ -21,6 +21,7 @@
 @property NSInteger numCells;
 @property BOOL isAutomatic;
 @property (weak,nonatomic) UISwitch *mySwitch;
+@property (strong, nonatomic) UILabel *lastUpdatedLabel;
 @end
 
 @implementation APLanguagesViewController{
@@ -38,6 +39,7 @@
             for (NSString *str in result) {
                 if ([str isEqualToString:extLang]) {
                     self.mySelectedIndexRow = counter;
+                    break;
                 }
                 counter++;
             }
@@ -50,11 +52,37 @@
     [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
+}
+
+- (void) reloadNewData{
+    [APDBManager getLanguageListWhenReady:^(NSArray *result) {
+        _languages = result;
+        
+        // To update UI go to main thread!!!
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+
+        [APDBManager getLanguageFromCode:self.currentLangCode then:^(NSString *extLang) {
+            NSUInteger counter = 0;
+            for (NSString *str in result) {
+                if ([str isEqualToString:extLang]) {
+                    self.mySelectedIndexRow = counter;
+                    break;
+                }
+                counter++;
+            }
+        }];
+        
+    }];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationController.navigationBar.backItem.title = @"AAA";
-    self.navigationController.navigationItem.backBarButtonItem.title = @"AAA";
-    self.navigationItem.backBarButtonItem.title = @"AAA";
+    //Update 'Last updated Field'
+    NSDate *now = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd/MM/yyyy - HH:mm:ss"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.lastUpdatedLabel.text = [dateFormatter stringFromDate:now];
+    });
 }
 
 -(IBAction)switchLangMode:(id)sender{
@@ -186,6 +214,7 @@
     }else if(((indexPath.section == 1) && self.isAutomatic) || (indexPath.section == 2)){
         cell = (APUpdateDBCell*) [tableView dequeueReusableCellWithIdentifier:UpdateCellIdentifier];
         ((APUpdateDBCell *)cell).lastUpdated.text = @"14/11/2014 - 23:23:32";
+        self.lastUpdatedLabel = ((APUpdateDBCell *)cell).lastUpdated;
         [((APUpdateDBCell *)cell).update  addTarget:self action:@selector(getLatestDB) forControlEvents:UIControlEventTouchUpInside];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
@@ -223,8 +252,6 @@
      //Get selected car for this index
      NSString *lang = [_languages objectAtIndex:indexPath.row];
     */
-    
-    self.mySelectedIndexRow = indexPath.row;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [APDBManager getCodeFromLanguage:[_languages objectAtIndex:indexPath.row]

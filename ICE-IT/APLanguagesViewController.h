@@ -16,5 +16,5 @@
 @property (strong, nonatomic) NSString *currentLangCode;
 
 -(IBAction)switchLangMode:(id)sender;
-
+- (void) reloadNewData;
 @end

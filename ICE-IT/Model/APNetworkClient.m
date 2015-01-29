@@ -109,7 +109,9 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                    //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
                    //[prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
 
-                   [[APDBManager sharedInstance] checkNewDBInstance];
+                   if ([[APDBManager sharedInstance] checkNewDBInstance]) {
+                       [_myDelegate reloadNewData];
+                   }
                }else{
                    filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:name]];
                    [data writeToFile:filePath atomically:YES];
