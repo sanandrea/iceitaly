@@ -21,6 +21,7 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
 @property NSUInteger totalImageTasks;
 @property NSUInteger remainingImageTasks;
 @property double dbDownloadProgress;
+@property BOOL dbIsReady;
 @end
 
 @implementation APNetworkClient{
@@ -35,6 +36,7 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
     if (self) {
         self.totalImageTasks = 0;
         self.remainingImageTasks = 0;
+        self.dbIsReady = NO;
     }
     return self;
 }
@@ -174,7 +176,8 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
     //Distribute equally all tasks
     if (downloadTask == self.dbDownloadTask) {
         self.dbDownloadProgress = (double)totalBytesWritten/(double)totalBytesExpectedToWrite;
-        double imageProgress = (self.totalImageTasks == 0) ? 0 : (1 - (double)self.remainingImageTasks) / (1 + (double)self.totalImageTasks);
+        double imageProgress = (self.totalImageTasks == 0) ? 0 :
+            ((double)self.totalImageTasks - (double)self.remainingImageTasks) / (1 + (double)self.totalImageTasks);
         [_myDelegate updateProgress:((self.dbDownloadProgress / (1 + self.totalImageTasks)) + imageProgress)];
     }
 }
@@ -213,12 +216,17 @@ didFinishDownloadingToURL:(NSURL *)location{
         //[prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
         
         if ([[APDBManager sharedInstance] checkNewDBInstance]) {
-            [_myDelegate reloadNewData];
+            self.dbIsReady = YES;
+            if (self.remainingImageTasks == 0) {
+                [_myDelegate reloadNewData];
+            }
         }
     }else{
         self.remainingImageTasks --;
-        [_myDelegate updateProgress:((self.dbDownloadProgress / (1 + self.totalImageTasks)) + ((1 - (double)self.remainingImageTasks) / ((double)self.totalImageTasks + 1)))];
-
+        [_myDelegate updateProgress:((self.dbDownloadProgress / (1 + self.totalImageTasks)) + (((double)self.totalImageTasks - (double)self.remainingImageTasks) / ((double)self.totalImageTasks + 1)))];
+        if(self.dbIsReady && self.remainingImageTasks == 0){
+            [_myDelegate reloadNewData];
+        }
     }
     
 }
