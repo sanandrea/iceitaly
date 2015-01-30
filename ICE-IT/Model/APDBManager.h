@@ -30,11 +30,13 @@
 + (void)getCityNums:(NSString*)city forLang:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate;
 
 /*! Get code from extended language name */
+/*
 + (void)getCodeFromLanguage:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate;
-
+*/
 /*! Get extended language name from code */
+/*
 + (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady;
-
+*/
 - (void) copyDBInData;
 - (BOOL) checkNewDBInstance;
 + (APDBManager*) sharedInstance;

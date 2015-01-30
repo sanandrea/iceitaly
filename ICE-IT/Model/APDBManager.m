@@ -10,12 +10,11 @@
 #import <sqlite3.h>
 #import "APConstants.h"
 #import "APCityNumber.h"
+#import "APLanguageBond.h"
 
 NSString *COMMON_NUMBERS = @"ALL";
 NSString *DB_NAME = @"icedb.sqlite";
 
-static NSMutableDictionary *allSupportedLangs;
-static NSMutableDictionary *allSupportedCodes;
 static NSMutableDictionary *allUIStrings;
 
 @implementation APDBManager
@@ -116,10 +115,6 @@ static NSMutableDictionary *allUIStrings;
         ALog(@"Unable to move file: %@", [error localizedDescription]);
         return NO;
     }else{
-        [allSupportedCodes removeAllObjects];
-        [allSupportedLangs removeAllObjects];
-        allSupportedLangs = nil;
-        allSupportedCodes = nil;
         return  YES;
     }
 
@@ -292,7 +287,7 @@ static NSMutableDictionary *allUIStrings;
         sqlite3_stmt    *statement;
         
         
-        querySQL = [NSString stringWithFormat:@"SELECT distinct(extended) FROM languages"];
+        querySQL = [NSString stringWithFormat:@"SELECT distinct(extended),language FROM languages"];
         
         //        ALog("Items for car model %@",querySQL);
         
@@ -302,124 +297,15 @@ static NSMutableDictionary *allUIStrings;
         {
             NSMutableArray *result = [[NSMutableArray alloc]init];
             //            ALog("Query returns something");
-            
+            APLanguageBond *lb;
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 NSString *lang = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                [result addObject:lang];
+                NSString *code = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                lb = [[APLanguageBond alloc] initWithLang:lang andCode:code];
+                [result addObject:lb];
             }
             sqlite3_finalize(statement);
             langListReady(result);
-        }else{
-            
-        }
-        sqlite3_close(numDB);
-    }
-}
-
-+ (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady{
-    //Root filepath
-    
-    if (allSupportedLangs != nil) {
-        nameReady(allSupportedLangs[code]);
-        return;
-    }
-    allSupportedLangs = [[NSMutableDictionary alloc] init];
-    NSString *databasePath;
-    sqlite3 *numDB;
-    
-    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
-    
-    //    ALog("DATA base path : %@",databasePath);
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    
-    if ([filemgr fileExistsAtPath: databasePath ] == NO){
-        ALog("Error here buddy , could not find numbers db file");
-    }else{
-        const char *dbpath = [databasePath UTF8String];
-        
-        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
-            ALog("Failed to open/create database");
-        }
-        //Load data
-        
-        
-        NSString *querySQL;
-        sqlite3_stmt    *statement;
-        
-        
-        querySQL = [NSString stringWithFormat:@"SELECT language, extended FROM languages"];
-        
-        //        ALog("Items for car model %@",querySQL);
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            NSString *k, *v;
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                k = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                [allSupportedLangs setValue:v forKey:k];
-            }
-            sqlite3_finalize(statement);
-            nameReady(allSupportedLangs[code]);
-        }else{
-            
-        }
-        sqlite3_close(numDB);
-    }
-}
-
-+ (void)getCodeFromLanguage:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate{
-    //Root filepath
-
-    if (allSupportedCodes != nil) {
-        [delegate languageChanged:allSupportedCodes[language]];
-        return;
-    }
-    allSupportedCodes = [[NSMutableDictionary alloc] init];
-    NSString *databasePath;
-    sqlite3 *numDB;
-
-    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
-    
-    //    ALog("DATA base path : %@",databasePath);
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    
-    if ([filemgr fileExistsAtPath: databasePath ] == NO){
-        ALog("Error here buddy , could not find numbers db file");
-    }else{
-        const char *dbpath = [databasePath UTF8String];
-        
-        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
-            ALog("Failed to open/create database");
-        }
-        //Load data
-        
-        
-        NSString *querySQL;
-        sqlite3_stmt    *statement;
-        
-        
-        querySQL = [NSString stringWithFormat:@"SELECT language, extended FROM languages"];
-        
-        //        ALog("Items for car model %@",querySQL);
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            NSString *k, *v;
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                k = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                [allSupportedCodes setValue:v forKey:k];
-            }
-            sqlite3_finalize(statement);
-//            ALog("Dict: %@ \n language is %@ \n code is %@",allSupportedCodes,language, allSupportedCodes[language]);
-            [delegate languageChanged:allSupportedCodes[language]];
         }else{
             
         }

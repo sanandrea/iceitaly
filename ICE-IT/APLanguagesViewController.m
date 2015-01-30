@@ -16,6 +16,7 @@
 #import "SWRevealViewController.h"
 #import "APUpdateDBCell.h"
 #import "APNetworkClient.h"
+#import "APLanguageBond.h"
 
 #import "M13ProgressHUD.h"
 #import "M13ProgressViewRing.h"
@@ -39,17 +40,14 @@
     [APDBManager getLanguageListWhenReady:^(NSArray *result) {
         _languages = result;
         //        ALog("result: %@",_cities);
-        [APDBManager getLanguageFromCode:self.currentLangCode then:^(NSString *extLang) {
-            NSUInteger counter = 0;
-            for (NSString *str in result) {
-                if ([str isEqualToString:extLang]) {
-                    self.mySelectedIndexRow = counter;
-                    break;
-                }
-                counter++;
-            }
-        }];
         
+        NSUInteger counter = 0;
+        for (APLanguageBond *lb in _languages) {
+            if ([self.currentLangCode isEqualToString:lb.codeOfLang]) {
+                self.mySelectedIndexRow = counter;
+            }
+            counter++;
+        }
     }];
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -73,6 +71,12 @@
         self.isAutomatic = YES;
         [prefs setObject:[NSNumber numberWithInt:1] forKey:kAutomaticLang];
         NSString *languageID = [[NSBundle mainBundle] preferredLocalizations].firstObject;
+        
+        //In this case we have to reload the UI Strings of this View Controller
+        //Do it in background!
+        
+        [[APDBManager sharedInstance] loadUIStringsForLang:languageID reportTo:self];
+        
         [self.delegate languageChanged:languageID];
     }else{
         self.isAutomatic = NO;
@@ -194,13 +198,9 @@
 }
 
 - (void)configureCell:(APLangViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    
-    // Configure the cell to show the book's title
-    NSString *name = [_languages objectAtIndex:indexPath.row];
-    
-    cell.langName.text = name;
-    //cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",name]];
-    
+    APLanguageBond *lb = [_languages objectAtIndex:indexPath.row];
+    cell.langName.text = lb.extendedLang;
+    cell.code = lb.codeOfLang;
 }
 
 #pragma mark - Table view Delegate for Cell Selection
@@ -215,9 +215,12 @@
 
     if (self.mySelectedIndexRow != indexPath.row) {
         self.mySelectedIndexRow = indexPath.row;
+        
+        NSString *newLangCode = ( (APLanguageBond*)[_languages objectAtIndex:indexPath.row]).codeOfLang;
+        [self.delegate languageChanged:newLangCode];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            [APDBManager getCodeFromLanguage:[_languages objectAtIndex:indexPath.row]
-                                    reportTo:self.delegate];
+            //don't need to make it in background as it is already
+            [[APDBManager sharedInstance] loadUIStringsForLang:newLangCode reportTo:self.delegate];
         });
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -264,16 +267,13 @@
             [self.tableView reloadData];
         });
         
-        [APDBManager getLanguageFromCode:self.currentLangCode then:^(NSString *extLang) {
-            NSUInteger counter = 0;
-            for (NSString *str in result) {
-                if ([str isEqualToString:extLang]) {
-                    self.mySelectedIndexRow = counter;
-                    break;
-                }
-                counter++;
+        NSUInteger counter = 0;
+        for (APLanguageBond *lb in _languages) {
+            if ([self.currentLangCode isEqualToString:lb.codeOfLang]) {
+                self.mySelectedIndexRow = counter;
             }
-        }];
+            counter++;
+        }
         
     }];
     
@@ -312,6 +312,9 @@
     [HUD hide:YES];
     [HUD performAction:M13ProgressViewActionNone animated:NO];
     [HUD setProgress:0.0 animated:YES];
+}
+-(void) uiStringsReady{
+    [self.tableView reloadData];
 }
 
 @end

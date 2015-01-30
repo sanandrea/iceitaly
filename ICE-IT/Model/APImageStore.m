@@ -41,11 +41,11 @@
     UIImage *image = [UIImage imageNamed:imNameWithSuffix];
     
     if (image == nil) {
-        ALog("No image found");
+//        ALog("No image found");
         NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
         imNameWithSuffix = [NSString stringWithFormat:@"%@@2x.png",imageName];
         NSString *filePath = [[NSString alloc] initWithString: [docPath stringByAppendingPathComponent:imNameWithSuffix]];
-        ALog("File path is : %@",filePath);
+//        ALog("File path is : %@",filePath);
         image = [UIImage imageWithData: [NSData dataWithContentsOfFile:filePath]];
     }
     

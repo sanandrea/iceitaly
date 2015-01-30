@@ -10,9 +10,9 @@
 #import "APNetworkClient.h"
 #import "APDBManager.h"
 
-@interface APLanguagesViewController : UITableViewController <UpdateReleased>
+@interface APLanguagesViewController : UITableViewController <UpdateReleased, UIStringsUpdate>
 
-@property (strong, nonatomic) id<CityOrLanguageChanges> delegate;
+@property (strong, nonatomic) id<CityOrLanguageChanges,UIStringsUpdate> delegate;
 @property (strong, nonatomic) NSString *currentLangCode;
 
 -(IBAction)switchLangMode:(id)sender;

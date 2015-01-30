@@ -79,6 +79,13 @@
     [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self drawTitleView];
+    self.title = [[APDBManager sharedInstance] getUIStringForCode:@"go_back"];
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -141,9 +148,6 @@
     self.language = newLang;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:newLang forKey:kCurrentLang];
-    
-    //don't need to make it in background as it is already
-    [[APDBManager sharedInstance] loadUIStringsForLang:newLang reportTo:self];
 
     [self cityOrLanguageChanged];
 }

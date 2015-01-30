@@ -34,6 +34,7 @@
 		A9C246871A140AE600493F3E /* APLangViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246861A140AE600493F3E /* APLangViewCell.m */; };
 		A9C246891A140D3400493F3E /* icedb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A9C246881A140D3400493F3E /* icedb.sqlite */; };
 		A9C2468C1A1411AB00493F3E /* APLangOptionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */; };
+		A9E2463F1A7BF77A0063E2FB /* APLanguageBond.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E2463E1A7BF77A0063E2FB /* APLanguageBond.m */; };
 		A9FFE05B19EF081200ED1E35 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05A19EF081200ED1E35 /* main.m */; };
 		A9FFE05E19EF081200ED1E35 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05D19EF081200ED1E35 /* AppDelegate.m */; };
 		A9FFE06119EF081200ED1E35 /* ICE_IT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05F19EF081200ED1E35 /* ICE_IT.xcdatamodeld */; };
@@ -104,6 +105,8 @@
 		A9C246881A140D3400493F3E /* icedb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = icedb.sqlite; sourceTree = "<group>"; };
 		A9C2468A1A1411AB00493F3E /* APLangOptionTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLangOptionTVC.h; sourceTree = "<group>"; };
 		A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLangOptionTVC.m; sourceTree = "<group>"; };
+		A9E2463D1A7BF77A0063E2FB /* APLanguageBond.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APLanguageBond.h; path = Model/APLanguageBond.h; sourceTree = "<group>"; };
+		A9E2463E1A7BF77A0063E2FB /* APLanguageBond.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APLanguageBond.m; path = Model/APLanguageBond.m; sourceTree = "<group>"; };
 		A9FFE05519EF081200ED1E35 /* ICE-IT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ICE-IT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9FFE05919EF081200ED1E35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9FFE05A19EF081200ED1E35 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 				A900DD1D1A16A2ED0062F95C /* APNetworkClient.m */,
 				A9820A461A1D466400BC2B08 /* APImageStore.h */,
 				A9820A471A1D466400BC2B08 /* APImageStore.m */,
+				A9E2463D1A7BF77A0063E2FB /* APLanguageBond.h */,
+				A9E2463E1A7BF77A0063E2FB /* APLanguageBond.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -469,6 +474,7 @@
 				A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */,
 				A985887E1A100AD500D667C6 /* UIColor+CIELAB.m in Sources */,
 				A9C246871A140AE600493F3E /* APLangViewCell.m in Sources */,
+				A9E2463F1A7BF77A0063E2FB /* APLanguageBond.m in Sources */,
 				A9FFE06419EF081200ED1E35 /* MasterViewController.m in Sources */,
 				A985887C1A100AD500D667C6 /* NSArray+Chameleon.m in Sources */,
 				A9820A481A1D466400BC2B08 /* APImageStore.m in Sources */,
