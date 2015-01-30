@@ -19,6 +19,7 @@ NSString *const kCurrentDBVersion = @"lastDBVers";
 NSString *const kLastUpdateDate = @"lastUpdatedDB";
 
 
+NSUInteger const kCommonNumbersMaxPrio = 10;
 NSUInteger const kShippingDBVersion = 1;
 
 

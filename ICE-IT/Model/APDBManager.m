@@ -359,7 +359,7 @@ static NSMutableDictionary *allUIStrings;
         sqlite3_stmt    *statement;
         
         
-        querySQL = [NSString stringWithFormat:@"SELECT NUMBER, name_%@ FROM (SELECT NUMBER,DESC from numbers where CITY in ('%@','%@') ORDER BY PRIORITY) as N JOIN (SELECT id, name_%@ FROM names) as M ON N.DESC = M.id",language, COMMON_NUMBERS,city,language];
+        querySQL = [NSString stringWithFormat:@"SELECT NUMBER, name_%@, PRIORITY FROM (SELECT NUMBER,DESC,PRIORITY from numbers where CITY in ('%@','%@') ORDER BY PRIORITY) as N JOIN (SELECT id, name_%@ FROM names) as M ON N.DESC = M.id",language, COMMON_NUMBERS,city,language];
         
 //        ALog("Items for car model %@",querySQL);
         
@@ -374,6 +374,7 @@ static NSMutableDictionary *allUIStrings;
                 current = [[APCityNumber alloc] init];
                 current.number = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 current.desc = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                current.priority = sqlite3_column_int(statement, 2);
                 [result addObject:current];
             }
             sqlite3_finalize(statement);

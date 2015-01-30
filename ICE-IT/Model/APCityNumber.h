@@ -12,5 +12,7 @@
 
 @property (strong, nonatomic) NSString *number;
 @property (strong, nonatomic) NSString *desc;
+@property (nonatomic) NSUInteger priority;
 
+- (id) initWithNumber:(NSString*)aNumber description:(NSString*)aDesc priority:(NSUInteger)aPrio;
 @end

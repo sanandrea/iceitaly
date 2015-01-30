@@ -21,6 +21,7 @@ extern NSString *const kNewDBName;
 extern NSString *const kCurrentDBVersion;
 extern NSString *const kLastUpdateDate;
 
+extern NSUInteger const kCommonNumbersMaxPrio;
 extern NSUInteger const kShippingDBVersion;
 
 @interface APConstants : NSObject

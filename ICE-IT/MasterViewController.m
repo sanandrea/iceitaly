@@ -52,12 +52,6 @@
                                        scaledToSize:self.leftImageSize];
     _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    /*
-    _rightbarButton.target = self.revealViewController;
-    _rightbarButton.action = @selector(rightRevealToggle:);
-     _rightbarButton.image = [[UIImage imageNamed:@"opzioni.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    */
-
     img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag",self.language]
                               scaledToSize:self.rightImageSize];
     _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -68,14 +62,7 @@
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor flatCoffeeColor]];
     [self.navigationController.navigationBar setTranslucent:NO];
-    
-    // Set the gesture
-    //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    /*
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [[APDBManager sharedInstance] copyDBInData];
-    });
-    */
+
     [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
 }
 
@@ -186,8 +173,8 @@
     }
     
     // Configure the cell...
-    [self configureCell:cell atIndexPath:indexPath];
     [cell setBackgroundColor:[UIColor flatWhiteColor]];
+    [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
 
@@ -201,6 +188,13 @@
     APCityNumber *cn = [self.numbers objectAtIndex:indexPath.row];
     cell.numberLabel.text = cn.number;
     cell.descLabel.text = cn.desc;
+    if (cn.priority < kCommonNumbersMaxPrio) {
+        [cell setBackgroundColor:[UIColor colorWithRed:96/255.0 green:186/255.0 blue:70/255.0 alpha:.5]];
+//        [cell setBackgroundColor:[UIColor flatForestGreenColor]];
+    }else{
+        [cell setBackgroundColor:[UIColor colorWithRed:175/255.0 green:238/255.0 blue:238/255.0 alpha:.5]];
+    }
+    cell.layoutMargins = UIEdgeInsetsZero;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
