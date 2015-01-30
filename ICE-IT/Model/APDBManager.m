@@ -81,7 +81,6 @@ static NSMutableDictionary *allUIStrings;
     [newLanguageCodes minusSet:oldLanguageCodes];
     
     //in table names of new db there should be a column for each new language
-    
     NSMutableSet *columnNames = [APDBManager getColumnNames:@"names" ofDB:newDB inCaseOfError:&error];
     if (error) {
         ALog("Check not passed, error occured: %@", [error localizedDescription]);
@@ -103,10 +102,30 @@ static NSMutableDictionary *allUIStrings;
         }
     }
     
+    //in table uistrings of new db there should be a column for each new language
+    columnNames = [APDBManager getColumnNames:@"uistrings" ofDB:newDB inCaseOfError:&error];
+    if (error) {
+        ALog("Check not passed, error occured: %@", [error localizedDescription]);
+        return NO;
+    }
+    
+    for (NSString* newCode in newLanguageCodes) {
+        NSString* extendedName = [NSString stringWithFormat:@"desc_%@",newCode];
+        BOOL found = NO;
+        for (NSString* cName in columnNames) {
+            if ([extendedName isEqualToString:cName]) {
+                found = YES;
+                break;
+            }
+        }
+        if (!found) {
+            ALog("Check not passed, error occured: No column with such language name");
+            return NO;
+        }
+    }
+    
     //At this point remains the last verification for empty values on new columns.
-    
-    
-    
+
     //finally replace old db with new DB and delete old one
     if ([fileMgr removeItemAtPath:currentDB error:&error] != YES)
         ALog(@"Unable to delete file: %@", [error localizedDescription]);
@@ -115,6 +134,7 @@ static NSMutableDictionary *allUIStrings;
         ALog(@"Unable to move file: %@", [error localizedDescription]);
         return NO;
     }else{
+        ALog("All check passed new DB adopted!!");
         return  YES;
     }
 

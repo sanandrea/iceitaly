@@ -19,6 +19,7 @@ extern NSString *const kCurrentLang;
 extern NSString *const kActiveDBName;
 extern NSString *const kNewDBName;
 extern NSString *const kCurrentDBVersion;
+extern NSString *const kLastUpdateDate;
 
 extern NSUInteger const kShippingDBVersion;
 

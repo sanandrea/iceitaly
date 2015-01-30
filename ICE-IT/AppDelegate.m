@@ -30,12 +30,14 @@
                      @"it",
                      @"Roma",//Default City
                      [NSNumber numberWithUnsignedLong:kShippingDBVersion], //DB Version
+                     @"14/01/2015 - 20:00:00",
                      nil];
     NSArray* keys = [[NSArray alloc] initWithObjects:
                      kAutomaticLang,
                      kCurrentLang,
                      kPreferredCity,
                      kCurrentDBVersion,
+                     kLastUpdateDate,
                      nil];
     
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];

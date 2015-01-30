@@ -188,9 +188,13 @@
         }
     }else if(((indexPath.section == 1) && self.isAutomatic) || (indexPath.section == 2)){
         cell = (APUpdateDBCell*) [tableView dequeueReusableCellWithIdentifier:UpdateCellIdentifier];
-        ((APUpdateDBCell *)cell).lastUpdated.text = @"14/11/2014 - 23:23:32";
+        
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        
+        ((APUpdateDBCell *)cell).lastUpdated.text = [prefs valueForKey:kLastUpdateDate];
         self.lastUpdatedLabel = ((APUpdateDBCell *)cell).lastUpdated;
         [((APUpdateDBCell *)cell).update  addTarget:self action:@selector(getLatestDB) forControlEvents:UIControlEventTouchUpInside];
+        [((APUpdateDBCell *)cell).update setTitle:[[APDBManager sharedInstance] getUIStringForCode:@"update_button"] forState:UIControlStateNormal];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     return cell;
@@ -281,8 +285,11 @@
     NSDate *now = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd/MM/yyyy - HH:mm:ss"];
+    NSString *nowDate = [dateFormatter stringFromDate:now];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:nowDate forKey:kLastUpdateDate];
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.lastUpdatedLabel.text = [dateFormatter stringFromDate:now];
+        self.lastUpdatedLabel.text = nowDate;
     });
     
     //Dismiss HUD

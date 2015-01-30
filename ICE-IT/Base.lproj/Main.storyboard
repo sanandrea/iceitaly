@@ -236,8 +236,17 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ixf-us-8KU" id="jOI-dj-JF1">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCb-Iz-rfj">
+                                            <rect key="frame" x="421" y="7" width="130" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="130" id="xqg-kx-IA9"/>
+                                            </constraints>
+                                            <state key="normal" title="Update">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o90-Ad-TUa">
-                                            <rect key="frame" x="51" y="11" width="241" height="21"/>
+                                            <rect key="frame" x="51" y="12" width="241" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="241" id="tBb-xs-Hsu"/>
                                             </constraints>
@@ -245,20 +254,11 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCb-Iz-rfj">
-                                            <rect key="frame" x="490" y="8" width="61" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="61" id="xqg-kx-IA9"/>
-                                            </constraints>
-                                            <state key="normal" title="Update">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="bCb-Iz-rfj" firstAttribute="top" secondItem="jOI-dj-JF1" secondAttribute="topMargin" id="AS0-BT-fX7"/>
+                                        <constraint firstItem="bCb-Iz-rfj" firstAttribute="top" secondItem="jOI-dj-JF1" secondAttribute="topMargin" constant="-1" id="AS0-BT-fX7"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="bCb-Iz-rfj" secondAttribute="trailing" constant="41" id="Yc9-H0-gFa"/>
-                                        <constraint firstItem="o90-Ad-TUa" firstAttribute="top" secondItem="jOI-dj-JF1" secondAttribute="topMargin" constant="3" id="e5Y-jq-q20"/>
+                                        <constraint firstItem="o90-Ad-TUa" firstAttribute="top" secondItem="jOI-dj-JF1" secondAttribute="topMargin" constant="4" id="e5Y-jq-q20"/>
                                         <constraint firstItem="o90-Ad-TUa" firstAttribute="centerY" secondItem="jOI-dj-JF1" secondAttribute="centerY" id="jJV-hP-GlB"/>
                                         <constraint firstItem="o90-Ad-TUa" firstAttribute="leading" secondItem="jOI-dj-JF1" secondAttribute="leadingMargin" constant="43" id="tT3-sh-7PQ"/>
                                     </constraints>
@@ -279,7 +279,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYM-OH-zuc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1750" y="-166.5"/>
+            <point key="canvasLocation" x="1750" y="-167"/>
         </scene>
     </scenes>
     <resources>
