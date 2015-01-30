@@ -185,9 +185,9 @@
                                             </connections>
                                         </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAP-Z8-Dci">
-                                            <rect key="frame" x="52" y="11" width="84" height="21"/>
+                                            <rect key="frame" x="52" y="12" width="166" height="20.5"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="84" id="7ox-d0-9JV"/>
+                                                <constraint firstAttribute="width" constant="166" id="7ox-d0-9JV"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -279,7 +279,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYM-OH-zuc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1750" y="-166"/>
+            <point key="canvasLocation" x="1750" y="-166.5"/>
         </scene>
     </scenes>
     <resources>

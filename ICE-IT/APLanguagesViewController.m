@@ -103,20 +103,20 @@
     switch (section)
     {
         case 0:
-            sectionName = NSLocalizedString(@"Modalità", @"Titolo menu lingua");
+            sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"lang_mode"];
             break;
         case 1:
             if (self.isAutomatic) {
-                sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
+                sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"last_update"];
             }else{
-                sectionName = NSLocalizedString(@"Lingua", @"Titolo last update");
+                sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"lang_list"];
             }
             break;
         case 2:
             if (self.isAutomatic) {
                 return nil;
             }else{
-                sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");
+                sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"last_update"];
             }
             break;
         default:
@@ -153,16 +153,6 @@
     return 45.f;
 }
 
-/*
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UILabel *label = [[UILabel alloc] init];
-    label.text = NSLocalizedString(@"LINGUA  ", @"Titolo menu lingua");
-    label.backgroundColor = [UIColor clearColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    return label;
-}
-*/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LangCell";
@@ -172,7 +162,7 @@
     UITableViewCell *cell;
     if (indexPath.section == 0) {
         cell = (APLangOptionTVC*) [tableView dequeueReusableCellWithIdentifier:OptionCellIdentifier];
-        ((APLangOptionTVC*)cell).titleLabel.text = NSLocalizedString(@"Automatic",@"Language Toggle");
+        ((APLangOptionTVC*)cell).titleLabel.text = [[APDBManager sharedInstance] getUIStringForCode:@"lang_mode_auto"];
         self.mySwitch = ((APLangOptionTVC*)cell).toggleSwitch;
         if (self.isAutomatic) {
             [self.mySwitch setOn:YES];
@@ -254,7 +244,7 @@
 }
 - (void) getLatestDB{
     
-    HUD.status = NSLocalizedString(@"Loading", @"Update progress");
+    HUD.status = [[APDBManager sharedInstance] getUIStringForCode:@"progress_loading"];
     [HUD show:YES];
 
     APNetworkClient *client = [[APNetworkClient alloc] init];
@@ -304,7 +294,7 @@
 - (void) updateProgress:(double)progress{
     ALog("Progress is %f",progress);
     dispatch_async(dispatch_get_main_queue(), ^{
-        HUD.status = NSLocalizedString(@"Updating", @"Update progress");
+        HUD.status = [[APDBManager sharedInstance] getUIStringForCode:@"progress_updating"];
         [HUD setProgress:progress animated:YES];
     });
 }
@@ -312,7 +302,7 @@
 #pragma mark - HUD methods
 - (void)setComplete
 {
-    HUD.status = NSLocalizedString(@"Finished", @"Update progress");
+    HUD.status = [[APDBManager sharedInstance] getUIStringForCode:@"progress_finished"];
     [HUD performAction:M13ProgressViewActionSuccess animated:YES];
     [self performSelector:@selector(reset) withObject:nil afterDelay:1.5];
 }
