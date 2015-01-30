@@ -11,10 +11,11 @@
 @protocol UpdateReleased
 
 - (void) reloadNewData;
+- (void) updateProgress:(double)progress;
 
 @end
 
-@interface APNetworkClient : NSObject <NSURLSessionDelegate>
+@interface APNetworkClient : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate>
 
 - (void) dowloadLatestDBIfNewerThan:(NSUInteger)currentVersion reportTo:(id<UpdateReleased>)delegate;
 

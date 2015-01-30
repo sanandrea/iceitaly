@@ -66,37 +66,6 @@
     [window addSubview:HUD];
 }
 
-- (void) reloadNewData{
-    [APDBManager getLanguageListWhenReady:^(NSArray *result) {
-        _languages = result;
-        
-        // To update UI go to main thread!!!
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-
-        [APDBManager getLanguageFromCode:self.currentLangCode then:^(NSString *extLang) {
-            NSUInteger counter = 0;
-            for (NSString *str in result) {
-                if ([str isEqualToString:extLang]) {
-                    self.mySelectedIndexRow = counter;
-                    break;
-                }
-                counter++;
-            }
-        }];
-        
-    }];
-    
-    //Update 'Last updated Field'
-    NSDate *now = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd/MM/yyyy - HH:mm:ss"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.lastUpdatedLabel.text = [dateFormatter stringFromDate:now];
-    });
-}
-
 -(IBAction)switchLangMode:(id)sender{
     UISwitch *sw = sender;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -304,13 +273,75 @@
     return indexPath;
 }
 - (void) getLatestDB{
-    HUD.status = @"Loading";
+    
+    HUD.status = NSLocalizedString(@"Loading", @"Update progress");
     [HUD show:YES];
-    /*
+
     APNetworkClient *client = [[APNetworkClient alloc] init];
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [client dowloadLatestDBIfNewerThan:[[prefs objectForKey:kCurrentDBVersion] integerValue] reportTo:self];
-    */
+}
+
+
+#pragma mark - UpdateReleased Delegate Methods
+
+- (void) reloadNewData{
+    [APDBManager getLanguageListWhenReady:^(NSArray *result) {
+        _languages = result;
+        
+        // To update UI go to main thread!!!
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+        
+        [APDBManager getLanguageFromCode:self.currentLangCode then:^(NSString *extLang) {
+            NSUInteger counter = 0;
+            for (NSString *str in result) {
+                if ([str isEqualToString:extLang]) {
+                    self.mySelectedIndexRow = counter;
+                    break;
+                }
+                counter++;
+            }
+        }];
+        
+    }];
+    
+    //Update 'Last updated Field'
+    NSDate *now = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd/MM/yyyy - HH:mm:ss"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.lastUpdatedLabel.text = [dateFormatter stringFromDate:now];
+    });
+    
+    //Dismiss HUD
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setComplete];
+    });
+}
+
+- (void) updateProgress:(double)progress{
+    ALog("Progress is %f",progress);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        HUD.status = NSLocalizedString(@"Updating", @"Update progress");
+        [HUD setProgress:progress animated:YES];
+    });
+}
+
+#pragma mark - HUD methods
+- (void)setComplete
+{
+    HUD.status = NSLocalizedString(@"Finished", @"Update progress");
+    [HUD performAction:M13ProgressViewActionSuccess animated:YES];
+    [self performSelector:@selector(reset) withObject:nil afterDelay:1.5];
+}
+
+- (void)reset
+{
+    [HUD hide:YES];
+    [HUD performAction:M13ProgressViewActionNone animated:NO];
+    [HUD setProgress:0.0 animated:YES];
 }
 
 @end

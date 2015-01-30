@@ -16,6 +16,12 @@ static NSString * const LATEST_DB = @"serve/icedb.sqlite";
 static NSString * const DB_VERSION = @"https://ice-ita.appspot.com/_ah/api/iceserver/v1/db_version";
 static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/iceserver/v1/image_list";
 
+@interface  APNetworkClient()
+@property (strong, nonatomic) NSURLSessionDownloadTask* dbDownloadTask;
+@property NSUInteger totalImageTasks;
+@property NSUInteger remainingImageTasks;
+@property double dbDownloadProgress;
+@end
 
 @implementation APNetworkClient{
     id<UpdateReleased> _myDelegate;
@@ -23,6 +29,15 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
     int _newDBVersion;
 }
 
+- (id) init{
+    self = [super init];
+    
+    if (self) {
+        self.totalImageTasks = 0;
+        self.remainingImageTasks = 0;
+    }
+    return self;
+}
 - (void) getLastDBVersion:(NSURLSession*)session{
     NSString *callString = DB_VERSION;
     NSURLSessionDataTask *getDBTask =
@@ -88,41 +103,18 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
     }else{
         callString = [NSString stringWithFormat:@"%@image/%@",SERVER_PREFIX,name];
     }
-    
-    NSURLSessionDataTask *getDBTask =
-    [session dataTaskWithURL:[NSURL URLWithString:callString]
-     
-           completionHandler:^(NSData *data,
-                               NSURLResponse *response,
-                               NSError *error) {
-               if (error){
-                   
-               }
-               NSString *filePath;
-               NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-               if (isDB) {
-                   filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:kNewDBName]];
-                   [data writeToFile:filePath atomically:YES];
-                   
-                   //Now that DB is downloaded save new DB version
-#warning Uncomment
-                   //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-                   //[prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
 
-                   if ([[APDBManager sharedInstance] checkNewDBInstance]) {
-                       [_myDelegate reloadNewData];
-                   }
-               }else{
-                   filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:name]];
-                   [data writeToFile:filePath atomically:YES];
-               }
-               
-               ALog("Data size is %lu and filename %@", (unsigned long)data.length, name);
-               
-           }];
-    
+    NSURLSessionDownloadTask *getFileTask = [session downloadTaskWithURL:[NSURL URLWithString:callString]];
+
+    if (isDB) {
+        self.dbDownloadTask = getFileTask;
+    }else{
+        self.totalImageTasks ++;
+        self.remainingImageTasks ++;
+    }
+
     // 4
-    [getDBTask resume];
+    [getFileTask resume];
 }
 
 - (void) checkForNewImages:(NSURLSession*)session{
@@ -147,7 +139,7 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                                                    options:NSJSONReadingAllowFragments
                                                      error:&jsonError];
                    
-                   ALog("JSON IS: %@",responseJSON);
+//                   ALog("JSON IS: %@",responseJSON);
                    
                    if (!jsonError) {
                        NSArray *localImages = [APImageStore getCurrentStoredImages];
@@ -165,4 +157,75 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
     // 4
     [getDBTask resume];
 }
+
+#pragma mark - NSURLSessionDownloadDelegate
+
+-(void)URLSession:(NSURLSession *)session
+     downloadTask:(NSURLSessionDownloadTask *)downloadTask
+     didWriteData:(int64_t)bytesWritten
+totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    NSLog(@"%f / %f", (double)totalBytesWritten,(double)totalBytesExpectedToWrite);
+    
+//    ALog("Total tasks %lu",(unsigned long)self.totalImageTasks);
+//    ALog("Remaining image tasks %lu", (unsigned long)self.remainingImageTasks);
+    
+    //Distribute equally all tasks
+    if (downloadTask == self.dbDownloadTask) {
+        self.dbDownloadProgress = (double)totalBytesWritten/(double)totalBytesExpectedToWrite;
+        double imageProgress = (self.totalImageTasks == 0) ? 0 : (1 - (double)self.remainingImageTasks) / (1 + (double)self.totalImageTasks);
+        [_myDelegate updateProgress:((self.dbDownloadProgress / (1 + self.totalImageTasks)) + imageProgress)];
+    }
+}
+
+
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+didFinishDownloadingToURL:(NSURL *)location{
+
+    NSString *filePath;
+    NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    BOOL isDB = (downloadTask == self.dbDownloadTask) ? YES : NO;
+    if (isDB) {
+        filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:kNewDBName]];
+    }else{
+        filePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:[[downloadTask response] suggestedFilename]]];
+    }
+    //File already exists, it is not normal, replace file silently!
+    if ([fileManager fileExistsAtPath:filePath]){
+        [fileManager replaceItemAtURL:[NSURL URLWithString:filePath]
+                        withItemAtURL:location
+                       backupItemName:nil
+                              options:NSFileManagerItemReplacementUsingNewMetadataOnly
+                     resultingItemURL:nil
+                                error:&error];
+    }else{
+        [fileManager moveItemAtPath:[location path] toPath:filePath error:&error];
+    }
+    
+    //Now that DB is downloaded write new version and begin checks
+    if (isDB) {
+#warning Uncomment
+        //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        //[prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
+        
+        if ([[APDBManager sharedInstance] checkNewDBInstance]) {
+            [_myDelegate reloadNewData];
+        }
+    }else{
+        self.remainingImageTasks --;
+        [_myDelegate updateProgress:((self.dbDownloadProgress / (1 + self.totalImageTasks)) + ((1 - (double)self.remainingImageTasks) / ((double)self.totalImageTasks + 1)))];
+
+    }
+    
+}
+
+
+
+
+
+
 @end
