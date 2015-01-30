@@ -74,7 +74,7 @@
     switch (section)
     {
         case 0:
-            sectionName = NSLocalizedString(@"IO SONO A", @"Titolo menu laterale");
+            sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"where_am_i"];
             break;
         case 1:
             sectionName = NSLocalizedString(@"LAST UPDATE", @"Titolo last update");

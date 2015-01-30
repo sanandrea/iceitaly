@@ -44,6 +44,12 @@
     //copy DB in Data folder synchronously. Normally, only the first time app is launched.
     [[APDBManager sharedInstance] copyDBInData];
     
+    //Get current language
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    //Load synchronously all ui strings for current language
+    [[APDBManager sharedInstance] loadUIStringsForLang:[prefs objectForKey:kCurrentLang] reportTo:nil];
+    
     return YES;
 }
 

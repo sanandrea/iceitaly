@@ -16,6 +16,12 @@
 
 @end
 
+@protocol UIStringsUpdate
+
+- (void) uiStringsReady;
+
+@end
+
 @interface APDBManager : NSObject
 
 + (void)getCityListWhenReady:(void (^)(NSArray *))cityListReady;
@@ -32,4 +38,6 @@
 - (void) copyDBInData;
 - (BOOL) checkNewDBInstance;
 + (APDBManager*) sharedInstance;
+- (NSString*) getUIStringForCode:(NSString*)code;
+- (void) loadUIStringsForLang:(NSString*)langCode reportTo:(id<UIStringsUpdate>)delegate;
 @end

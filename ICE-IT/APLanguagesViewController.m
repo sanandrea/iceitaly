@@ -222,35 +222,15 @@
             return;
         }
     }
-    
-    
-    self.mySelectedIndexRow = indexPath.row;
-    
-    //Get MasterViewController
-    /*
-    UINavigationController* nvc = (UINavigationController*) self.revealViewController.frontViewController;
-    MasterViewController* mvc = (MasterViewController*) nvc.topViewController;
-     //Get selected car for this index
-     NSString *lang = [_languages objectAtIndex:indexPath.row];
-    */
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [APDBManager getCodeFromLanguage:[_languages objectAtIndex:indexPath.row]
-                                reportTo:self.delegate];
-    });
-    [self.navigationController popViewControllerAnimated:YES];
-    /*
-    [APDBManager getCodeFromLanguage:lang then:^(NSString* result){
-        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        [prefs setObject:result forKey:kCurrentLang];
 
-        mvc.language = result;
-        [mvc cityOrLanguageChanged];
-    }];
-    //close side menu
-    [self.revealViewController rightRevealToggleAnimated:YES];
-     */
-    
+    if (self.mySelectedIndexRow != indexPath.row) {
+        self.mySelectedIndexRow = indexPath.row;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [APDBManager getCodeFromLanguage:[_languages objectAtIndex:indexPath.row]
+                                    reportTo:self.delegate];
+        });
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

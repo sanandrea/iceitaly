@@ -16,6 +16,7 @@ NSString *DB_NAME = @"icedb.sqlite";
 
 static NSMutableDictionary *allSupportedLangs;
 static NSMutableDictionary *allSupportedCodes;
+static NSMutableDictionary *allUIStrings;
 
 @implementation APDBManager
 
@@ -477,6 +478,68 @@ static NSMutableDictionary *allSupportedCodes;
         
         sqlite3_close(numDB);
     }
+}
+
+#pragma mark - UI Strings
+
+- (void) loadUIStringsForLang:(NSString*)langCode reportTo:(id<UIStringsUpdate>)delegate{
+    //Root filepath
+    
+    if (allUIStrings != nil) {
+        [allUIStrings removeAllObjects];
+    }else{
+        allUIStrings = [[NSMutableDictionary alloc] init];
+    }
+    NSString *databasePath;
+    sqlite3 *numDB;
+    
+    NSString* appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    databasePath = [[NSString alloc] initWithString: [appDir stringByAppendingPathComponent:kActiveDBName]];
+    
+    //    ALog("DATA base path : %@",databasePath);
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: databasePath ] == NO){
+        ALog("Error here buddy , could not find numbers db file");
+    }else{
+        const char *dbpath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &numDB) != SQLITE_OK){
+            ALog("Failed to open/create database");
+        }
+        //Load data
+        
+        
+        NSString *querySQL;
+        sqlite3_stmt    *statement;
+        
+        
+        querySQL = [NSString stringWithFormat:@"SELECT id, desc_%@ from uistrings",langCode];
+        
+        //        ALog("Items for car model %@",querySQL);
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(numDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSString *k, *v;
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                k = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                v = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [allUIStrings setValue:v forKey:k];
+            }
+            sqlite3_finalize(statement);
+            //            ALog("Dict: %@ \n language is %@ \n code is %@",allSupportedCodes,language, allSupportedCodes[language]);
+            [delegate uiStringsReady];
+        }else{
+            
+        }
+        sqlite3_close(numDB);
+    }
+}
+
+- (NSString*) getUIStringForCode:(NSString*)code{
+    return allUIStrings[code];
 }
 
 @end

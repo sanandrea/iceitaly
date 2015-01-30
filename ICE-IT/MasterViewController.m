@@ -62,20 +62,9 @@
                               scaledToSize:self.rightImageSize];
     _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    int temp;
-    int sum = 0;
-    UILabel *first = [self createFirstTitleLabel:&temp];
-    sum += temp;
-    UILabel *second = [self createSecondTitleLabel:&temp fromHeight:sum];
-    sum += temp;
-    self.cityTitle = second;
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, sum + 20)];
+    [self drawTitleView];
     
-    [titleView addSubview:first];
-    [titleView addSubview:second];
-    
-    self.navigationController.navigationBar.topItem.titleView = titleView;
-    self.title = NSLocalizedString(@"Back", @"Main");
+    self.title = [[APDBManager sharedInstance] getUIStringForCode:@"go_back"];
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor flatCoffeeColor]];
     [self.navigationController.navigationBar setTranslucent:NO];
@@ -95,8 +84,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (UILabel*) createFirstTitleLabel:(int*)height{
-    NSString *content = NSLocalizedString(@"Numeri telefonici", @"Numeri telefonici");
+- (UILabel*) createFirstTitleLabel:(int*)height andLabel:(NSString*) content{
     UIFont *customFont = [UIFont systemFontOfSize:14.0f];
     CGSize size = [content sizeWithAttributes:@{NSFontAttributeName:customFont}];
     
@@ -153,6 +141,9 @@
     self.language = newLang;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:newLang forKey:kCurrentLang];
+    
+    //don't need to make it in background as it is already
+    [[APDBManager sharedInstance] loadUIStringsForLang:newLang reportTo:self];
 
     [self cityOrLanguageChanged];
 }
@@ -216,4 +207,34 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
     
 }
+
+#pragma mark - UI Strings when language is changed
+
+- (void)drawTitleView {
+    int temp;
+    int sum = 0;
+    UILabel *first = [self createFirstTitleLabel:&temp andLabel:[[APDBManager sharedInstance] getUIStringForCode:@"phone_numbers"]];
+    sum += temp;
+    UILabel *second = [self createSecondTitleLabel:&temp fromHeight:sum];
+    sum += temp;
+    self.cityTitle = second;
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, sum + 20)];
+    
+    [titleView addSubview:first];
+    [titleView addSubview:second];
+    
+    self.navigationController.navigationBar.topItem.titleView = titleView;
+}
+
+- (void) uiStringsReady{
+    
+    
+    //Go to UI queue
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.title = [[APDBManager sharedInstance] getUIStringForCode:@"go_back"];
+        
+        [self drawTitleView];
+    });
+}
+
 @end
