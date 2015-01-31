@@ -115,12 +115,12 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lN2-Ba-VPx">
-                                            <rect key="frame" x="412" y="8" width="180" height="34"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lN2-Ba-VPx">
+                                            <rect key="frame" x="462" y="8" width="130" height="34"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="180" id="NM1-9u-wkP"/>
+                                                <constraint firstAttribute="width" constant="130" id="NM1-9u-wkP"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -128,13 +128,14 @@
                                     <constraints>
                                         <constraint firstItem="jXS-fT-CYT" firstAttribute="leading" secondItem="d3P-M7-ByW" secondAttribute="leadingMargin" id="6B2-VG-ytR"/>
                                         <constraint firstItem="jXS-fT-CYT" firstAttribute="firstBaseline" secondItem="lN2-Ba-VPx" secondAttribute="firstBaseline" id="88x-e0-0es"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="lN2-Ba-VPx" secondAttribute="bottom" constant="-1" id="Qm0-n9-VIW"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="lN2-Ba-VPx" secondAttribute="bottom" id="Qm0-n9-VIW"/>
                                         <constraint firstItem="lN2-Ba-VPx" firstAttribute="trailing" secondItem="d3P-M7-ByW" secondAttribute="trailingMargin" id="VAx-FR-gkj"/>
                                         <constraint firstItem="jXS-fT-CYT" firstAttribute="baseline" secondItem="lN2-Ba-VPx" secondAttribute="baseline" id="kPr-EJ-Jqo"/>
                                         <constraint firstItem="lN2-Ba-VPx" firstAttribute="top" secondItem="d3P-M7-ByW" secondAttribute="topMargin" id="ncU-bp-exa"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="descLabel" destination="jXS-fT-CYT" id="P41-ro-DnY"/>
                                     <outlet property="numberLabel" destination="lN2-Ba-VPx" id="eAF-Ai-gTK"/>

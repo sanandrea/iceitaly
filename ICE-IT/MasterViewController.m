@@ -18,6 +18,8 @@
 #import "APLanguagesViewController.h"
 #import "Chameleon.h"
 
+static int kTitleWidth = 180;
+
 @interface MasterViewController ()
 @property (strong,nonatomic)  NSArray   *numbers;
 @property (strong, nonatomic) NSString  *cityName;
@@ -25,6 +27,7 @@
 @property (nonatomic) CGSize leftImageSize;
 @property (nonatomic) CGSize rightImageSize;
 @property (strong, nonatomic) UILabel *cityTitle;
+@property (strong, nonatomic) UILabel *subTitleLabel;
 @end
 
 @implementation MasterViewController
@@ -60,31 +63,46 @@
     
     self.title = [[APDBManager sharedInstance] getUIStringForCode:@"go_back"];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor flatCoffeeColor]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor flatTealColor]];
     [self.navigationController.navigationBar setTranslucent:NO];
 
     [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self drawTitleView];
-    self.title = [[APDBManager sharedInstance] getUIStringForCode:@"go_back"];
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)drawTitleView {
+    int temp;
+    int sum = 0;
+    self.subTitleLabel = [self createFirstTitleLabel:&temp andLabel:[[APDBManager sharedInstance] getUIStringForCode:@"phone_numbers"]];
+    sum += temp;
+    UILabel *second = [self createSecondTitleLabel:&temp fromHeight:sum];
+    sum += temp;
+    self.cityTitle = second;
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kTitleWidth, sum + 20)];
+    
+    [titleView addSubview:self.subTitleLabel];
+    [titleView addSubview:second];
+    
+    self.navigationController.navigationBar.topItem.titleView = titleView;
+}
+
 - (UILabel*) createFirstTitleLabel:(int*)height andLabel:(NSString*) content{
-    UIFont *customFont = [UIFont systemFontOfSize:14.0f];
+    UIFont *customFont = [UIFont systemFontOfSize:16.0f];
     CGSize size = [content sizeWithAttributes:@{NSFontAttributeName:customFont}];
     
     *height = size.height;
-    UILabel *fromLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 6, 150, size.height)];
+    UILabel *fromLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 6, kTitleWidth, size.height)];
     fromLabel.text = content;
+    fromLabel.textColor = [UIColor flatWhiteColor];
     fromLabel.textAlignment = NSTextAlignmentCenter;
     fromLabel.font = customFont;
     fromLabel.clipsToBounds = YES;
@@ -93,11 +111,12 @@
 
 - (UILabel*) createSecondTitleLabel:(int*)height fromHeight:(int)from{
     NSString * content = [self.cityName uppercaseString];
-    UIFont *customFont = [UIFont systemFontOfSize:16.0f];
+    UIFont *customFont = [UIFont fontWithName:@"Helvetica-Bold" size:20.0];
     CGSize size = [content sizeWithAttributes:@{NSFontAttributeName:customFont}];
     *height = size.height;
-    UILabel *fromLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, from + 8, 150, size.height)];
+    UILabel *fromLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, from + 8, kTitleWidth, size.height)];
     fromLabel.text = content;
+    fromLabel.textColor = [UIColor flatWhiteColor];
     fromLabel.font = customFont;
     fromLabel.textAlignment = NSTextAlignmentCenter;
     fromLabel.clipsToBounds = YES;
@@ -189,10 +208,20 @@
     cell.numberLabel.text = cn.number;
     cell.descLabel.text = cn.desc;
     if (cn.priority < kCommonNumbersMaxPrio) {
-        [cell setBackgroundColor:[UIColor colorWithRed:96/255.0 green:186/255.0 blue:70/255.0 alpha:.5]];
-//        [cell setBackgroundColor:[UIColor flatForestGreenColor]];
+        if (indexPath.row % 2 == 0) {
+//            [cell setBackgroundColor:[UIColor colorWithRed:96/255.0 green:186/255.0 blue:70/255.0 alpha:.5]];
+            [cell setBackgroundColor:[UIColor flatWhiteColor]];
+        }else{
+            [cell setBackgroundColor:[UIColor flatRedColor]];
+        }
     }else{
-        [cell setBackgroundColor:[UIColor colorWithRed:175/255.0 green:238/255.0 blue:238/255.0 alpha:.5]];
+        if (indexPath.row % 2 == 0) {
+//            [cell setBackgroundColor:[UIColor colorWithRed:175/255.0 green:238/255.0 blue:238/255.0 alpha:.5]];
+            [cell setBackgroundColor:[UIColor flatWhiteColor]];
+        }else{
+            [cell setBackgroundColor:[UIColor flatGreenColor]];
+        }
+        
     }
     cell.layoutMargins = UIEdgeInsetsZero;
 }
@@ -208,22 +237,6 @@
 
 #pragma mark - UI Strings when language is changed
 
-- (void)drawTitleView {
-    int temp;
-    int sum = 0;
-    UILabel *first = [self createFirstTitleLabel:&temp andLabel:[[APDBManager sharedInstance] getUIStringForCode:@"phone_numbers"]];
-    sum += temp;
-    UILabel *second = [self createSecondTitleLabel:&temp fromHeight:sum];
-    sum += temp;
-    self.cityTitle = second;
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, sum + 20)];
-    
-    [titleView addSubview:first];
-    [titleView addSubview:second];
-    
-    self.navigationController.navigationBar.topItem.titleView = titleView;
-}
-
 - (void) uiStringsReady{
     
     
@@ -231,7 +244,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         self.title = [[APDBManager sharedInstance] getUIStringForCode:@"go_back"];
         
-        [self drawTitleView];
+        self.subTitleLabel.text = [[APDBManager sharedInstance] getUIStringForCode:@"phone_numbers"];
     });
 }
 
