@@ -51,7 +51,7 @@ static int kTitleWidth = 180;
     self.leftImageSize = CGSizeMake(50, 50);
     self.rightImageSize = CGSizeMake(40, 24);
     
-    UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",self.cityName]
+    UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",[self.cityName lowercaseString]]
                                        scaledToSize:self.leftImageSize];
     _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -68,6 +68,7 @@ static int kTitleWidth = 180;
 
     [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    self.tableView.allowsSelection = NO;
 }
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -143,8 +144,14 @@ static int kTitleWidth = 180;
 /*! Called from background queues */
 - (void) cityChanged:(NSString*) newName{
     self.cityName = newName;
-    [self cityOrLanguageChanged];
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+    UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",[self.cityName lowercaseString]]
+                                       scaledToSize:self.leftImageSize];
+        _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.cityTitle.text = [self.cityName uppercaseString];
+    });
+
     //save in the preferences the city name
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:newName forKey:kPreferredCity];
@@ -152,6 +159,13 @@ static int kTitleWidth = 180;
 /*! Called from background queues */
 - (void) languageChanged:(NSString*) newLang{
     self.language = newLang;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag",self.language]
+                                           scaledToSize:self.rightImageSize];
+        _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    });
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:newLang forKey:kCurrentLang];
 
@@ -162,14 +176,6 @@ static int kTitleWidth = 180;
 - (void) newDataIsReady:(NSArray*) newData{
     _numbers = newData;
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIImage *img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",self.cityName]
-                                           scaledToSize:self.leftImageSize];
-        _sidebarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        
-        img = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_flag",self.language]
-                                  scaledToSize:self.rightImageSize];
-        _rightbarButton.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        self.cityTitle.text = [self.cityName uppercaseString];
         [self.tableView reloadData];
     });
 }
@@ -207,6 +213,7 @@ static int kTitleWidth = 180;
     APCityNumber *cn = [self.numbers objectAtIndex:indexPath.row];
     cell.numberLabel.text = cn.number;
     cell.descLabel.text = cn.desc;
+
     if (cn.priority < kCommonNumbersMaxPrio) {
         if (indexPath.row % 2 == 0) {
 //            [cell setBackgroundColor:[UIColor colorWithRed:96/255.0 green:186/255.0 blue:70/255.0 alpha:.5]];
@@ -227,11 +234,7 @@ static int kTitleWidth = 180;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    APCityNumber *cn = [self.numbers objectAtIndex:indexPath.row];
-    ALog("Selected number: %@",cn.number);
-//    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:cn.number];
-    NSString *phoneNumber = [@"tel://" stringByAppendingString:cn.number];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    
     
 }
 
@@ -248,4 +251,17 @@ static int kTitleWidth = 180;
     });
 }
 
+- (IBAction)callAction:(id)sender {
+    //call button was pressed on a row, find the point of the screen of this info button
+    CGPoint buttonOriginInTableView = [sender convertPoint:CGPointZero toView:self.tableView];
+    
+    //Find the row that corresponds to this point
+    NSIndexPath *ipath = [self.tableView indexPathForRowAtPoint:buttonOriginInTableView];
+    
+    APCityNumber *cn = [self.numbers objectAtIndex:ipath.row];
+    ALog("Selected number: %@",cn.number);
+    //    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:cn.number];
+    NSString *phoneNumber = [@"tel://" stringByAppendingString:cn.number];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+}
 @end

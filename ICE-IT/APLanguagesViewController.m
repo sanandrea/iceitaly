@@ -17,7 +17,6 @@
 #import "APUpdateDBCell.h"
 #import "APNetworkClient.h"
 #import "APLanguageBond.h"
-
 #import "M13ProgressHUD.h"
 #import "M13ProgressViewRing.h"
 
@@ -72,7 +71,8 @@
     if ([sw isOn]) {
         self.isAutomatic = YES;
         [prefs setObject:[NSNumber numberWithInt:1] forKey:kAutomaticLang];
-        NSString *languageID = [[NSBundle mainBundle] preferredLocalizations].firstObject;
+        NSArray * langs = [NSLocale preferredLanguages];
+        NSString *languageID = langs.firstObject;
         
         //In this case we have to reload the UI Strings of this View Controller
         //Do it in background!

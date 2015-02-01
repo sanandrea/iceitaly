@@ -12,5 +12,5 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *numberLabel;
 @property (nonatomic, weak) IBOutlet UILabel *descLabel;
-
+@property (nonatomic, weak) IBOutlet UIButton *callButton;
 @end

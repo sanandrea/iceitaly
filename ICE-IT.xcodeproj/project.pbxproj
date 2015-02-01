@@ -13,6 +13,8 @@
 		A900DD1B1A1694A90062F95C /* it_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A900DD171A1694A90062F95C /* it_flag@2x.png */; };
 		A900DD1E1A16A2ED0062F95C /* APNetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A900DD1D1A16A2ED0062F95C /* APNetworkClient.m */; };
 		A900DD211A16AB130062F95C /* APUpdateDBCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A900DD201A16AB130062F95C /* APUpdateDBCell.m */; };
+		A90424601A7E398500D8F873 /* venezia_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A904245F1A7E398500D8F873 /* venezia_img@2x.png */; };
+		A90424621A7E533400D8F873 /* cornetta@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A90424611A7E533400D8F873 /* cornetta@2x.png */; };
 		A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9556EB81A20FEF800809939 /* opzioni@2x.png */; };
 		A9820A481A1D466400BC2B08 /* APImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A9820A471A1D466400BC2B08 /* APImageStore.m */; };
 		A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588521A0FB22A00D667C6 /* APDBManager.m */; };
@@ -67,6 +69,8 @@
 		A900DD1D1A16A2ED0062F95C /* APNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APNetworkClient.m; path = Model/APNetworkClient.m; sourceTree = "<group>"; };
 		A900DD1F1A16AB130062F95C /* APUpdateDBCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APUpdateDBCell.h; sourceTree = "<group>"; };
 		A900DD201A16AB130062F95C /* APUpdateDBCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APUpdateDBCell.m; sourceTree = "<group>"; };
+		A904245F1A7E398500D8F873 /* venezia_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "venezia_img@2x.png"; path = "images/venezia_img@2x.png"; sourceTree = "<group>"; };
+		A90424611A7E533400D8F873 /* cornetta@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cornetta@2x.png"; sourceTree = "<group>"; };
 		A9556EB81A20FEF800809939 /* opzioni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "opzioni@2x.png"; path = "images/opzioni@2x.png"; sourceTree = "<group>"; };
 		A9820A461A1D466400BC2B08 /* APImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APImageStore.h; path = Model/APImageStore.h; sourceTree = "<group>"; };
 		A9820A471A1D466400BC2B08 /* APImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APImageStore.m; path = Model/APImageStore.m; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 		A985885D1A0FB83400D667C6 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A90424611A7E533400D8F873 /* cornetta@2x.png */,
+				A904245F1A7E398500D8F873 /* venezia_img@2x.png */,
 				A9556EB81A20FEF800809939 /* opzioni@2x.png */,
 				A900DD151A1694A90062F95C /* en_flag@2x.png */,
 				A900DD161A1694A90062F95C /* fr_flag@2x.png */,
@@ -375,6 +381,7 @@
 				TargetAttributes = {
 					A9FFE05419EF081200ED1E35 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 78U7Q7Y878;
 					};
 					A9FFE07319EF081200ED1E35 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -406,9 +413,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A90424601A7E398500D8F873 /* venezia_img@2x.png in Resources */,
 				A98588621A0FC1CE00D667C6 /* milano_img@2x.png in Resources */,
 				A9FFE06A19EF081200ED1E35 /* Main.storyboard in Resources */,
 				A9FFE06F19EF081200ED1E35 /* LaunchScreen.xib in Resources */,
+				A90424621A7E533400D8F873 /* cornetta@2x.png in Resources */,
 				A9C246891A140D3400493F3E /* icedb.sqlite in Resources */,
 				A9FFE06C19EF081200ED1E35 /* Images.xcassets in Resources */,
 				A900DD1B1A1694A90062F95C /* it_flag@2x.png in Resources */,
@@ -613,10 +622,13 @@
 			baseConfigurationReference = EAF3DD0DE92AF047FEDB541F /* Pods-ICE-IT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "ICE-IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -625,10 +637,13 @@
 			baseConfigurationReference = 04F27D1548B82291678F5C49 /* Pods-ICE-IT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "ICE-IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

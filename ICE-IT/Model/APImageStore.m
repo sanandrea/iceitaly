@@ -37,7 +37,7 @@
     // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
     // Pass 1.0 to force exact pixel size.
     NSString *imNameWithSuffix = [NSString stringWithFormat:@"%@.png",imageName];
-//    ALog("Image name is %@",imNameWithSuffix);
+    ALog("Image name is %@",imNameWithSuffix);
     UIImage *image = [UIImage imageNamed:imNameWithSuffix];
     
     if (image == nil) {

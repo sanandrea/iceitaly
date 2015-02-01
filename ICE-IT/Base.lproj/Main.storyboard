@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MaG-NF-tnM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MaG-NF-tnM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -116,7 +116,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lN2-Ba-VPx">
-                                            <rect key="frame" x="462" y="8" width="130" height="34"/>
+                                            <rect key="frame" x="414" y="8" width="130" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="130" id="NM1-9u-wkP"/>
                                             </constraints>
@@ -124,19 +124,33 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bA-GZ-wqv">
+                                            <rect key="frame" x="552" y="5" width="40" height="40"/>
+                                            <state key="normal" title="Button" image="cornetta.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="callAction:" destination="pGg-6v-bdr" eventType="touchUpInside" id="gh3-tj-q2q"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="9bA-GZ-wqv" firstAttribute="centerY" secondItem="lN2-Ba-VPx" secondAttribute="centerY" id="00o-PV-sL5"/>
                                         <constraint firstItem="jXS-fT-CYT" firstAttribute="leading" secondItem="d3P-M7-ByW" secondAttribute="leadingMargin" id="6B2-VG-ytR"/>
                                         <constraint firstItem="jXS-fT-CYT" firstAttribute="firstBaseline" secondItem="lN2-Ba-VPx" secondAttribute="firstBaseline" id="88x-e0-0es"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="lN2-Ba-VPx" secondAttribute="bottom" id="Qm0-n9-VIW"/>
-                                        <constraint firstItem="lN2-Ba-VPx" firstAttribute="trailing" secondItem="d3P-M7-ByW" secondAttribute="trailingMargin" id="VAx-FR-gkj"/>
+                                        <constraint firstItem="9bA-GZ-wqv" firstAttribute="trailing" secondItem="d3P-M7-ByW" secondAttribute="trailingMargin" id="UMk-Si-pR7"/>
+                                        <constraint firstItem="lN2-Ba-VPx" firstAttribute="trailing" secondItem="d3P-M7-ByW" secondAttribute="trailingMargin" constant="-48" id="VAx-FR-gkj"/>
+                                        <constraint firstItem="9bA-GZ-wqv" firstAttribute="leading" secondItem="lN2-Ba-VPx" secondAttribute="trailing" constant="8" id="gf8-SJ-OfQ"/>
                                         <constraint firstItem="jXS-fT-CYT" firstAttribute="baseline" secondItem="lN2-Ba-VPx" secondAttribute="baseline" id="kPr-EJ-Jqo"/>
                                         <constraint firstItem="lN2-Ba-VPx" firstAttribute="top" secondItem="d3P-M7-ByW" secondAttribute="topMargin" id="ncU-bp-exa"/>
+                                        <constraint firstItem="9bA-GZ-wqv" firstAttribute="top" secondItem="d3P-M7-ByW" secondAttribute="topMargin" constant="-3" id="yuJ-BB-bKz"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
+                                    <outlet property="callButton" destination="9bA-GZ-wqv" id="Mtx-5Z-Zm6"/>
                                     <outlet property="descLabel" destination="jXS-fT-CYT" id="P41-ro-DnY"/>
                                     <outlet property="numberLabel" destination="lN2-Ba-VPx" id="eAF-Ai-gTK"/>
                                 </connections>
@@ -163,7 +177,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Cn-md-YlS" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="893" y="-164"/>
+            <point key="canvasLocation" x="893" y="-165"/>
         </scene>
         <!--Languages View Controller-->
         <scene sceneID="Z4N-V2-62V">
@@ -247,7 +261,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o90-Ad-TUa">
-                                            <rect key="frame" x="51" y="12" width="241" height="21"/>
+                                            <rect key="frame" x="16" y="12" width="241" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="241" id="tBb-xs-Hsu"/>
                                             </constraints>
@@ -261,7 +275,7 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="bCb-Iz-rfj" secondAttribute="trailing" constant="41" id="Yc9-H0-gFa"/>
                                         <constraint firstItem="o90-Ad-TUa" firstAttribute="top" secondItem="jOI-dj-JF1" secondAttribute="topMargin" constant="4" id="e5Y-jq-q20"/>
                                         <constraint firstItem="o90-Ad-TUa" firstAttribute="centerY" secondItem="jOI-dj-JF1" secondAttribute="centerY" id="jJV-hP-GlB"/>
-                                        <constraint firstItem="o90-Ad-TUa" firstAttribute="leading" secondItem="jOI-dj-JF1" secondAttribute="leadingMargin" constant="43" id="tT3-sh-7PQ"/>
+                                        <constraint firstItem="o90-Ad-TUa" firstAttribute="leading" secondItem="jOI-dj-JF1" secondAttribute="leadingMargin" constant="8" id="tT3-sh-7PQ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -284,6 +298,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cornetta.png" width="60" height="60"/>
         <image name="roma_img.png" width="80" height="55"/>
     </resources>
 </document>

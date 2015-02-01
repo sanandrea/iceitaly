@@ -125,7 +125,7 @@
     NSString *name = [_cities objectAtIndex:indexPath.row];
     
     cell.cityName.text = name;
-    cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",name]];
+    cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",[name lowercaseString]]];
     
 }
 
