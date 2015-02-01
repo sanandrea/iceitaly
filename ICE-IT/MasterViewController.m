@@ -213,6 +213,8 @@ static int kTitleWidth = 180;
     APCityNumber *cn = [self.numbers objectAtIndex:indexPath.row];
     cell.numberLabel.text = cn.number;
     cell.descLabel.text = cn.desc;
+    
+    cell.descLabel.numberOfLines = 0;
 
     if (cn.priority < kCommonNumbersMaxPrio) {
         if (indexPath.row % 2 == 0) {
