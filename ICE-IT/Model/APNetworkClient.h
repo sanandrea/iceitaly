@@ -17,7 +17,7 @@
 
 @end
 
-@interface APNetworkClient : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate>
+@interface APNetworkClient : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate>
 
 - (void) dowloadLatestDBIfNewerThan:(NSUInteger)currentVersion reportTo:(id<UpdateReleased>)delegate;
 

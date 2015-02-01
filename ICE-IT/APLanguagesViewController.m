@@ -307,7 +307,7 @@
 }
 
 - (void) updateProgress:(double)progress{
-    ALog("Progress is %f",progress);
+//    ALog("Progress is %f",progress);
     dispatch_async(dispatch_get_main_queue(), ^{
         HUD.status = [[APDBManager sharedInstance] getUIStringForCode:@"progress_updating"];
         [HUD setProgress:progress animated:YES];

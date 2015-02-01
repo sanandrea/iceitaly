@@ -222,6 +222,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 - (void)URLSession:(NSURLSession *)session
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location{
+    ALog("Dowload");
 
     NSString *filePath;
     NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -266,11 +267,17 @@ didFinishDownloadingToURL:(NSURL *)location{
             [_myDelegate reloadNewData];
         }
     }
-    
 }
 
 
-
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(NSError *)error{
+    //Handle only error here, normally 'URLSession:downloadTask:didFinishDownloadingToURL:' fires before
+    if (error) {
+        [_myDelegate errorOccurred:error];
+    }
+}
 
 
 
