@@ -74,12 +74,18 @@
         NSArray * langs = [NSLocale preferredLanguages];
         NSString *languageID = langs.firstObject;
         
-        //In this case we have to reload the UI Strings of this View Controller
-        //Do it in background!
         
-        [[APDBManager sharedInstance] loadUIStringsForLang:languageID reportTo:self];
+        //Check if lang changed to update UI Strings
+        if (![self.currentLangCode isEqualToString:languageID]) {
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                //don't need to make it in background as it is already
+                [[APDBManager sharedInstance] loadUIStringsForLang:languageID reportTo:self];
+            });
+            
+            [self.delegate languageChanged:languageID];
+        }
         
-        [self.delegate languageChanged:languageID];
     }else{
         self.isAutomatic = NO;
         [prefs setObject:[NSNumber numberWithInt:0] forKey:kAutomaticLang];
@@ -323,7 +329,10 @@
     [HUD setProgress:0.0 animated:YES];
 }
 -(void) uiStringsReady{
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        [self.delegate uiStringsReady];
+    });
 }
 
 @end
