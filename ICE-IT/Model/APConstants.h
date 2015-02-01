@@ -24,6 +24,10 @@ extern NSString *const kLastUpdateDate;
 extern NSUInteger const kCommonNumbersMaxPrio;
 extern NSUInteger const kShippingDBVersion;
 
+extern NSUInteger const kErrorInternalServer;
+extern NSUInteger const kErrorBadResponse;
+extern NSUInteger const kErrorNetworkGeneric;
+
 @interface APConstants : NSObject
 
 @end

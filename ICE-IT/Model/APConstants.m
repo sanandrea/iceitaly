@@ -23,6 +23,10 @@ NSUInteger const kCommonNumbersMaxPrio = 10;
 NSUInteger const kShippingDBVersion = 1;
 
 
+NSUInteger const kErrorInternalServer = 1000;
+NSUInteger const kErrorBadResponse = 1001;
+NSUInteger const kErrorNetworkGeneric = 1002;
+
 @implementation APConstants
 
 @end

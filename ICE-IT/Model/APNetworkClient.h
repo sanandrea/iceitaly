@@ -12,6 +12,8 @@
 
 - (void) reloadNewData;
 - (void) updateProgress:(double)progress;
+- (void) noUpdate;
+- (void) errorOccurred:(NSError*)error;
 
 @end
 

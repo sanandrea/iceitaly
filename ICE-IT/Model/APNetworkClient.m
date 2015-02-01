@@ -42,14 +42,19 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
 }
 - (void) getLastDBVersion:(NSURLSession*)session{
     NSString *callString = DB_VERSION;
+    NSMutableDictionary* details = [NSMutableDictionary dictionary];
     NSURLSessionDataTask *getDBTask =
     [session dataTaskWithURL:[NSURL URLWithString:callString]
      
            completionHandler:^(NSData *data,
                                NSURLResponse *response,
                                NSError *error) {
+               NSError *errorOther = nil;
+               
                if (error){
                    ALog("Error is %@", [error description]);
+                   [_myDelegate errorOccurred:error];
+                   return;
                }
 
                NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
@@ -75,8 +80,22 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                                      fileName:LATEST_DB
                                          isDB:YES];
                            [self checkForNewImages:session];
+                       }else{
+                           [_myDelegate noUpdate];
                        }
+                   }else{
+                       [details setValue:@"Malformed response" forKey:NSLocalizedDescriptionKey];
+                       errorOther = [NSError errorWithDomain:@"Network" code:kErrorBadResponse userInfo:details];
+                       [_myDelegate errorOccurred:error];
                    }
+               }else if (httpResp.statusCode >= 500){
+                   [details setValue:@"Server Error" forKey:NSLocalizedDescriptionKey];
+                   errorOther = [NSError errorWithDomain:@"Network" code:kErrorInternalServer userInfo:details];
+                   [_myDelegate errorOccurred:error];
+               }else{
+                   [details setValue:@"Generic Error" forKey:NSLocalizedDescriptionKey];
+                   errorOther = [NSError errorWithDomain:@"Network" code:kErrorNetworkGeneric userInfo:details];
+                   [_myDelegate errorOccurred:error];
                }
            }];
     
@@ -121,6 +140,7 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
 
 - (void) checkForNewImages:(NSURLSession*)session{
     NSString *callString = IMAGE_LIST;
+    NSMutableDictionary* details = [NSMutableDictionary dictionary];
     NSURLSessionDataTask *getDBTask =
     [session dataTaskWithURL:[NSURL URLWithString:callString]
      
@@ -129,7 +149,10 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                                NSError *error) {
                if (error){
                    ALog("Error is %@", [error description]);
+                   [_myDelegate errorOccurred:error];
+                   return;
                }
+               NSError *errorOther = nil;
                
                NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
                if (httpResp.statusCode == 200) {
@@ -152,8 +175,21 @@ static NSString * const IMAGE_LIST = @"https://ice-ita.appspot.com/_ah/api/icese
                                              isDB:NO];
                            }
                        }
+                   }else{
+                       [details setValue:@"Malformed response" forKey:NSLocalizedDescriptionKey];
+                       errorOther = [NSError errorWithDomain:@"Network" code:kErrorBadResponse userInfo:details];
+                       [_myDelegate errorOccurred:error];
                    }
+               }else if (httpResp.statusCode >= 500){
+                   [details setValue:@"Server Error" forKey:NSLocalizedDescriptionKey];
+                   errorOther = [NSError errorWithDomain:@"Network" code:kErrorInternalServer userInfo:details];
+                   [_myDelegate errorOccurred:error];
+               }else{
+                   [details setValue:@"Generic Error" forKey:NSLocalizedDescriptionKey];
+                   errorOther = [NSError errorWithDomain:@"Network" code:kErrorNetworkGeneric userInfo:details];
+                   [_myDelegate errorOccurred:error];
                }
+
            }];
     
     // 4
@@ -211,15 +247,17 @@ didFinishDownloadingToURL:(NSURL *)location{
     
     //Now that DB is downloaded write new version and begin checks
     if (isDB) {
-#warning Uncomment
-        //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        //[prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setObject:[NSNumber numberWithInt:_newDBVersion] forKey:kCurrentDBVersion];
         
         if ([[APDBManager sharedInstance] checkNewDBInstance]) {
             self.dbIsReady = YES;
             if (self.remainingImageTasks == 0) {
                 [_myDelegate reloadNewData];
             }
+        }else{
+            //Check was not passed !!
+            [_myDelegate noUpdate];
         }
     }else{
         self.remainingImageTasks --;

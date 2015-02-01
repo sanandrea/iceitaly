@@ -314,6 +314,35 @@
     });
 }
 
+- (void) noUpdate{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setComplete];
+        UIAlertView *aw = [[UIAlertView alloc] initWithTitle: [[APDBManager sharedInstance] getUIStringForCode:@"no_update_title"]
+                                                     message: [[APDBManager sharedInstance] getUIStringForCode:@"no_update_msg"]
+                                                    delegate:self
+                                           cancelButtonTitle: [[APDBManager sharedInstance] getUIStringForCode:@"ok_button"]
+                                           otherButtonTitles:nil];
+        [aw show];
+    });
+}
+
+- (void) errorOccurred:(NSError*)error{
+    
+    if (error.code == kCFURLErrorNotConnectedToInternet) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setComplete];
+            UIAlertView *aw = [[UIAlertView alloc] initWithTitle: [[APDBManager sharedInstance] getUIStringForCode:@"no_internet_title"]
+                                                         message: [[APDBManager sharedInstance] getUIStringForCode:@"no_internet_msg"]
+                                                        delegate:self
+                                               cancelButtonTitle: [[APDBManager sharedInstance] getUIStringForCode:@"ok_button"]
+                                               otherButtonTitles:nil];
+            [aw show];
+        });
+    }else{
+        [self noUpdate];
+    }
+}
+
 #pragma mark - HUD methods
 - (void)setComplete
 {
