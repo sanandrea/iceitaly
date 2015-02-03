@@ -15,4 +15,6 @@
 @property (nonatomic) NSUInteger priority;
 
 - (id) initWithNumber:(NSString*)aNumber description:(NSString*)aDesc priority:(NSUInteger)aPrio;
+
+- (NSString *) callString;
 @end

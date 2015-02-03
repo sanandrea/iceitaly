@@ -197,8 +197,8 @@ static int kTitleWidth = 180;
         cell = [[APNumberTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    //[cell setBackgroundColor:[UIColor flatWhiteColor]];
     // Configure the cell...
-    [cell setBackgroundColor:[UIColor flatWhiteColor]];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -216,6 +216,9 @@ static int kTitleWidth = 180;
     
     cell.descLabel.numberOfLines = 0;
 
+    
+    // No formatting
+    /*
     if (cn.priority < kCommonNumbersMaxPrio) {
         if (indexPath.row % 2 == 0) {
 //            [cell setBackgroundColor:[UIColor colorWithRed:96/255.0 green:186/255.0 blue:70/255.0 alpha:.5]];
@@ -232,6 +235,7 @@ static int kTitleWidth = 180;
         }
         
     }
+    */
     cell.layoutMargins = UIEdgeInsetsZero;
 }
 
@@ -261,9 +265,10 @@ static int kTitleWidth = 180;
     NSIndexPath *ipath = [self.tableView indexPathForRowAtPoint:buttonOriginInTableView];
     
     APCityNumber *cn = [self.numbers objectAtIndex:ipath.row];
-    ALog("Selected number: %@",cn.number);
+//    ALog("Selected number: %@",cn.number);
     //    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:cn.number];
-    NSString *phoneNumber = [@"tel://" stringByAppendingString:cn.number];
+    NSString *phoneNumber = [@"tel://" stringByAppendingString:[cn callString]];
+//    ALog("CAll string is: %@", [cn callString]);
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
 @end

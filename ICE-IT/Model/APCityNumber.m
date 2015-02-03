@@ -21,4 +21,30 @@
     }
     return self;
 }
+
+- (NSString *) callString{
+    if ([self.number length] <= 4){
+        return self.number;
+    }
+    
+    
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^800"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    NSTextCheckingResult *match = [regex firstMatchInString:self.number options:0 range:NSMakeRange(0, self.number.length)];
+    if (match != nil) {
+        
+        return self.number;
+    }
+
+    return [NSString stringWithFormat:@"+39%@",self.number];
+}
 @end
+
+
+
+
+
+
+
