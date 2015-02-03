@@ -155,6 +155,7 @@ static int kTitleWidth = 180;
     //save in the preferences the city name
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:newName forKey:kPreferredCity];
+    [self cityOrLanguageChanged];
 }
 /*! Called from background queues */
 - (void) languageChanged:(NSString*) newLang{

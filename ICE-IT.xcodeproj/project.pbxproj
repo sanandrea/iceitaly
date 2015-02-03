@@ -18,6 +18,7 @@
 		A92706ED1A8155C300004644 /* torino_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706E81A8155C300004644 /* torino_img@2x.png */; };
 		A92706EE1A8155C300004644 /* firenze_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706E91A8155C300004644 /* firenze_img@2x.png */; };
 		A92706EF1A8155C300004644 /* cornetta@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706EA1A8155C300004644 /* cornetta@2x.png */; };
+		A92706F11A8177B600004644 /* es_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706F01A8177B600004644 /* es_flag@2x.png */; };
 		A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9556EB81A20FEF800809939 /* opzioni@2x.png */; };
 		A9820A481A1D466400BC2B08 /* APImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A9820A471A1D466400BC2B08 /* APImageStore.m */; };
 		A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588521A0FB22A00D667C6 /* APDBManager.m */; };
@@ -77,6 +78,7 @@
 		A92706E81A8155C300004644 /* torino_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "torino_img@2x.png"; path = "images/torino_img@2x.png"; sourceTree = "<group>"; };
 		A92706E91A8155C300004644 /* firenze_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "firenze_img@2x.png"; path = "images/firenze_img@2x.png"; sourceTree = "<group>"; };
 		A92706EA1A8155C300004644 /* cornetta@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cornetta@2x.png"; path = "images/cornetta@2x.png"; sourceTree = "<group>"; };
+		A92706F01A8177B600004644 /* es_flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "es_flag@2x.png"; sourceTree = "<group>"; };
 		A9556EB81A20FEF800809939 /* opzioni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "opzioni@2x.png"; path = "images/opzioni@2x.png"; sourceTree = "<group>"; };
 		A9820A461A1D466400BC2B08 /* APImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APImageStore.h; path = Model/APImageStore.h; sourceTree = "<group>"; };
 		A9820A471A1D466400BC2B08 /* APImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APImageStore.m; path = Model/APImageStore.m; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 		A985885D1A0FB83400D667C6 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A92706F01A8177B600004644 /* es_flag@2x.png */,
 				A92706E61A8155C300004644 /* cornetta_v2@2x.png */,
 				A92706E71A8155C300004644 /* venezia_img@2x.png */,
 				A92706E81A8155C300004644 /* torino_img@2x.png */,
@@ -434,6 +437,7 @@
 				A92706EE1A8155C300004644 /* firenze_img@2x.png in Resources */,
 				A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */,
 				A900DD191A1694A90062F95C /* en_flag@2x.png in Resources */,
+				A92706F11A8177B600004644 /* es_flag@2x.png in Resources */,
 				A900DD1A1A1694A90062F95C /* fr_flag@2x.png in Resources */,
 				A92706EB1A8155C300004644 /* cornetta_v2@2x.png in Resources */,
 				A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */,
