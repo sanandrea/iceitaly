@@ -215,9 +215,15 @@ static int kLeftUpperAdjustement = 50;
         lvc.currentLangCode = self.language;
         lvc.delegate = self;
         
-        if (self.langTip) {
-            [self.langTip hide];
+        if (!self.cityTIP) {
+            [self.cityTip hide];
+            self.cityTIP = YES;
         }
+        if (!self.langTIP) {
+            [self.langTip hide];
+            self.langTIP = YES;
+        }
+
     }else{
         
     }
@@ -375,6 +381,7 @@ static int kLeftUpperAdjustement = 50;
             [self.cityTip hide];
             NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
             [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
+            self.cityTIP = YES;
         }
     }else if (position == FrontViewPositionLeft && !self.langTIP){
         [self showHint:kTipLanguage];
