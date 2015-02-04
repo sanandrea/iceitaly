@@ -11,13 +11,15 @@
 @implementation APCityNumber
 
 
-- (id) initWithNumber:(NSString*)aNumber description:(NSString*)aDesc priority:(NSUInteger)aPrio{
+- (id) initWithNumber:(NSString*)aNumber description:(NSString*)aDesc priority:(NSUInteger)aPrio
+             isCommon:(BOOL)common{
     self = [super init];
     
     if (self) {
         self.desc = aDesc;
         self.number = aNumber;
         self.priority = aPrio;
+        self.isCommon = common;
     }
     return self;
 }

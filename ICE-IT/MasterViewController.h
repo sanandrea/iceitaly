@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "APDBManager.h"
+#import "SWRevealViewController.h"
 
-@interface MasterViewController : UITableViewController<CityOrLanguageChanges, UIStringsUpdate>
+@interface MasterViewController : UITableViewController<CityOrLanguageChanges, UIStringsUpdate, SWRevealViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightbarButton;

@@ -20,17 +20,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    /*
-    NSString *languageID = [[NSBundle mainBundle] preferredLocalizations].firstObject;
-    ALog("Language is %@",languageID);
-    */
+    NSArray * langs = [NSLocale preferredLanguages];
+    NSString *languageID = langs.firstObject;
     
     NSArray* objs = [[NSArray alloc] initWithObjects:
                      [NSNumber numberWithInt:1], //automatic language selection
-                     @"it",
+                     languageID,
                      @"Roma",//Default City
                      [NSNumber numberWithUnsignedLong:kShippingDBVersion], //DB Version
                      @"14/01/2015 - 20:00:00",
+                     [NSNumber numberWithInt:0], //city tip shown
+                     [NSNumber numberWithInt:0], //language tip shown
                      nil];
     NSArray* keys = [[NSArray alloc] initWithObjects:
                      kAutomaticLang,
@@ -38,6 +38,8 @@
                      kPreferredCity,
                      kCurrentDBVersion,
                      kLastUpdateDate,
+                     kUITipCityWasShown,
+                     kUITipLangWasShown,
                      nil];
     
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];

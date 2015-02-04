@@ -20,6 +20,9 @@ extern NSString *const kActiveDBName;
 extern NSString *const kNewDBName;
 extern NSString *const kCurrentDBVersion;
 extern NSString *const kLastUpdateDate;
+extern NSString *const kUITipCityWasShown;
+extern NSString *const kUITipLangWasShown;
+
 
 extern NSUInteger const kCommonNumbersMaxPrio;
 extern NSUInteger const kShippingDBVersion;
@@ -27,6 +30,11 @@ extern NSUInteger const kShippingDBVersion;
 extern NSUInteger const kErrorInternalServer;
 extern NSUInteger const kErrorBadResponse;
 extern NSUInteger const kErrorNetworkGeneric;
+
+typedef enum{
+    kTipCity,
+    kTipLanguage
+}TIP_TYPE;
 
 @interface APConstants : NSObject
 

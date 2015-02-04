@@ -8,7 +8,6 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-#import "SWRevealViewController.h"
 #import "AppDelegate.h"
 #import "APDBManager.h"
 #import "APConstants.h"
@@ -17,8 +16,10 @@
 #import "APImageStore.h"
 #import "APLanguagesViewController.h"
 #import "Chameleon.h"
+#import "AMPopTip.h"
 
 static int kTitleWidth = 180;
+static int kLeftUpperAdjustement = 50;
 
 @interface MasterViewController ()
 @property (strong,nonatomic)  NSArray   *numbers;
@@ -28,6 +29,13 @@ static int kTitleWidth = 180;
 @property (nonatomic) CGSize rightImageSize;
 @property (strong, nonatomic) UILabel *cityTitle;
 @property (strong, nonatomic) UILabel *subTitleLabel;
+@property (nonatomic) BOOL cityTIP;
+@property (nonatomic) BOOL langTIP;
+
+@property (nonatomic, strong) AMPopTip *cityTip;
+@property (nonatomic, strong) AMPopTip *langTip;
+
+@property (nonatomic) NSUInteger commonNames;
 @end
 
 @implementation MasterViewController
@@ -48,6 +56,10 @@ static int kTitleWidth = 180;
     
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
+    
+    //to inform master of reveal add delegate to self
+    self.revealViewController.delegate = self;
+    
     self.leftImageSize = CGSizeMake(50, 50);
     self.rightImageSize = CGSizeMake(40, 24);
     
@@ -69,11 +81,82 @@ static int kTitleWidth = 180;
     [APDBManager getCityNums:self.cityName forLang:self.language reportTo:self];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     self.tableView.allowsSelection = NO;
+    
+    // Setup Tips
+    self.cityTIP = [[prefs objectForKey:kUITipCityWasShown] intValue];
+    self.langTIP = [[prefs objectForKey:kUITipLangWasShown] intValue];
+
+    if (!self.cityTIP) {
+        [self setupHintTips];
+        [self showHint:kTipCity];
+    }else if (!self.langTIP){
+        [self setupHintTips];
+        [self showHint:kTipLanguage];
+    }
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!self.langTIP && self.cityTIP){
+        [self showHint:kTipLanguage];
+    }
 }
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
 
+
+- (void)setupHintTips {
+    // alloc the tooltip view and customize it
+    [[AMPopTip appearance] setFont:[UIFont fontWithName:@"Avenir-Medium" size:12]];
+    
+    self.cityTip = [AMPopTip popTip];
+    self.cityTip.shouldDismissOnTap = YES;
+    self.cityTip.edgeMargin = 5;
+    self.cityTip.offset = 2;
+    self.cityTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+
+    self.langTip = [AMPopTip popTip];
+    self.langTip.shouldDismissOnTap = YES;
+    self.langTip.edgeMargin = 5;
+    self.langTip.offset = 2;
+    self.langTip.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    self.cityTip.dismissHandler = ^{
+        [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
+    };
+    self.langTip.dismissHandler = ^{
+        [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipLangWasShown];
+    };
+}
+
+- (void)showHint:(TIP_TYPE) type {
+    CGRect tipFrame;
+    CGRect tempFrame = self.navigationController.navigationBar.frame;
+    
+    if (type == kTipCity) {
+        tipFrame = CGRectMake(0, tempFrame.origin.y, kLeftUpperAdjustement, tempFrame.size.height);
+        self.cityTip.popoverColor = [UIColor flatOrangeColor];
+        
+        [self.cityTip showText:[[APDBManager sharedInstance] getUIStringForCode:@"city_tip"]
+                     direction:AMPopTipDirectionDown
+                      maxWidth:200
+                        inView:self.navigationController.view
+                     fromFrame:tipFrame];
+        
+    }else if (type == kTipLanguage){
+        tipFrame = CGRectMake(tempFrame.size.width - kLeftUpperAdjustement, tempFrame.origin.y, kLeftUpperAdjustement, tempFrame.size.height);
+        self.langTip.popoverColor = [UIColor flatOrangeColor];
+        
+        [self.langTip showText:[[APDBManager sharedInstance] getUIStringForCode:@"lang_tip"]
+                     direction:AMPopTipDirectionDown
+                      maxWidth:200
+                        inView:self.navigationController.view
+                     fromFrame:tipFrame];
+    }
+    //ALog("Frame of view is %f %f %f %f",test.origin.x, test.origin.y, test.size.width, test.size.height);
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -131,6 +214,10 @@ static int kTitleWidth = 180;
         APLanguagesViewController *lvc = [segue destinationViewController];
         lvc.currentLangCode = self.language;
         lvc.delegate = self;
+        
+        if (self.langTip) {
+            [self.langTip hide];
+        }
     }else{
         
     }
@@ -176,6 +263,12 @@ static int kTitleWidth = 180;
 /*! Here we return to main queue to update UI */
 - (void) newDataIsReady:(NSArray*) newData{
     _numbers = newData;
+    self.commonNames = 0;
+    for (APCityNumber *cn in _numbers) {
+        if (cn.isCommon) {
+            self.commonNames++;
+        }
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
@@ -184,11 +277,34 @@ static int kTitleWidth = 180;
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_numbers count];
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return self.commonNames;
+    }else{
+        return [self.numbers count] - self.commonNames;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionName;
+    switch (section)
+    {
+        case 0:
+            sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"common_nums"];
+            break;
+        case 1:
+            sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"local_nums"];
+            break;
+        default:
+            sectionName = @"";
+            break;
+    }
+    return sectionName;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -211,7 +327,13 @@ static int kTitleWidth = 180;
 
 
 - (void)configureCell:(APNumberTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    APCityNumber *cn = [self.numbers objectAtIndex:indexPath.row];
+    APCityNumber *cn;
+    if (indexPath.section == 0 ) {
+        cn = [self.numbers objectAtIndex:indexPath.row];
+    }else{
+        cn = [self.numbers objectAtIndex:(indexPath.row + self.commonNames)];
+    }
+    
     cell.numberLabel.text = cn.number;
     cell.descLabel.text = cn.desc;
     
@@ -245,6 +367,19 @@ static int kTitleWidth = 180;
     
 }
 
+#pragma mark - SWReveal
+
+- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
+    if (position == FrontViewPositionRight) {
+        if (self.cityTip) {
+            [self.cityTip hide];
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
+        }
+    }else if (position == FrontViewPositionLeft && !self.langTIP){
+        [self showHint:kTipLanguage];
+    }
+}
 #pragma mark - UI Strings when language is changed
 
 - (void) uiStringsReady{

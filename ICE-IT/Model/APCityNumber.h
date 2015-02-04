@@ -13,8 +13,10 @@
 @property (strong, nonatomic) NSString *number;
 @property (strong, nonatomic) NSString *desc;
 @property (nonatomic) NSUInteger priority;
+@property (nonatomic) BOOL isCommon;
 
-- (id) initWithNumber:(NSString*)aNumber description:(NSString*)aDesc priority:(NSUInteger)aPrio;
+- (id) initWithNumber:(NSString*)aNumber description:(NSString*)aDesc priority:(NSUInteger)aPrio
+             isCommon:(BOOL)common;
 
 - (NSString *) callString;
 @end
