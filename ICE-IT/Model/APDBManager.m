@@ -155,11 +155,14 @@ static NSMutableDictionary *allUIStrings;
     if ([fileMgr moveItemAtPath:newDB toPath:currentDB error:&error] != YES){
         ALog(@"Unable to move file: %@", [error localizedDescription]);
         return NO;
-    }else{
-        ALog("All check passed new DB adopted!!");
-        return  YES;
     }
-
+    
+    // Reload UIStrings before returning
+    [self loadUIStringsForLang:[[NSUserDefaults standardUserDefaults] objectForKey:kCurrentLang]
+                      reportTo:nil];
+    
+    ALog("All check passed new DB adopted!!");
+    return YES;
 }
 
 + (NSMutableSet*) getColumnNames:(NSString*)columnName ofDB:(NSString*)ofDB inCaseOfError:(NSError**)error{

@@ -295,6 +295,24 @@ static int kLeftUpperAdjustement = 50;
     }
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerView = [[UIView alloc] init];
+    switch (section)
+    {
+        case 0:
+            [headerView addSubview:[self prepareHeaderLabel:[self tableView:self.tableView titleForHeaderInSection:section]]];
+            break;
+        case 1:
+            [headerView addSubview:[self prepareHeaderLabel:[self tableView:self.tableView titleForHeaderInSection:section]]];
+            break;
+        default:
+            return nil;
+            break;
+    }
+
+    return headerView;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *sectionName;
@@ -311,6 +329,27 @@ static int kLeftUpperAdjustement = 50;
             break;
     }
     return sectionName;
+}
+
+- (UILabel*) prepareHeaderLabel:(NSString*)text {
+    UIFont *footerFont = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    int margin = 15;
+    //Find expected size
+    CGSize labelSize =  [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 2 * margin, MAXFLOAT)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName : footerFont}
+                                           context:nil].size;
+    UILabel *myLabel = [[UILabel alloc] init];
+    myLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, labelSize.height);
+    myLabel.font = footerFont;
+    myLabel.text = text;
+    myLabel.backgroundColor = [UIColor flatWhiteColorDark];
+    myLabel.textAlignment = NSTextAlignmentCenter;
+    myLabel.shadowColor = [UIColor flatWhiteColor];
+    myLabel.shadowOffset      = CGSizeMake(1, 1);
+    myLabel.textColor = [UIColor colorWithRed:0.298 green:0.337 blue:0.423 alpha:1.000];
+    myLabel.numberOfLines = 0;
+    return myLabel;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
