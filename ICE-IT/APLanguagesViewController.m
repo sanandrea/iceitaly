@@ -193,6 +193,35 @@
     return 45.f;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIView *headerView = nil;
+    switch (section)
+    {
+        case 0:
+            break;
+        case 1:
+            if (self.isAutomatic) {
+                headerView = [[UIView alloc] init];
+                [headerView addSubview:[self prepareFooterLabel:[self tableView:self.tableView titleForFooterInSection:section]]];
+            }else{
+                return nil;
+            }
+            break;
+        case 2:
+            if (self.isAutomatic) {
+                return nil;
+            }else{
+                headerView = [[UIView alloc] init];
+                [headerView addSubview:[self prepareFooterLabel:[self tableView:self.tableView titleForFooterInSection:section]]];
+            }
+            break;
+        default:
+            break;
+    }
+    return headerView;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LangCell";
@@ -241,6 +270,25 @@
     APLanguageBond *lb = [_languages objectAtIndex:indexPath.row];
     cell.langName.text = lb.extendedLang;
     cell.code = lb.codeOfLang;
+}
+
+- (UILabel*) prepareFooterLabel:(NSString*)text {
+    UIFont *footerFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    int margin = 15;
+    //Find expected size
+    CGSize labelSize =  [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 2 * margin, MAXFLOAT)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName : footerFont}
+                                           context:nil].size;
+    UILabel *myLabel = [[UILabel alloc] init];
+    myLabel.frame = CGRectMake(margin, 8, labelSize.width, labelSize.height);
+    myLabel.font = footerFont;
+    myLabel.text = text;
+    myLabel.shadowColor = [UIColor whiteColor];
+    myLabel.shadowOffset      = CGSizeMake(0, 1);
+    myLabel.textColor = [UIColor colorWithRed:0.298 green:0.337 blue:0.423 alpha:1.000];
+    myLabel.numberOfLines = 0;
+    return myLabel;
 }
 
 #pragma mark - Table view Delegate for Cell Selection
