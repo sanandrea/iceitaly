@@ -137,8 +137,8 @@ static int kLeftUpperAdjustement = 50;
     if (type == kTipCity) {
         tipFrame = CGRectMake(0, tempFrame.origin.y, kLeftUpperAdjustement, tempFrame.size.height);
         self.cityTip.popoverColor = [UIColor flatOrangeColor];
-        
-        [self.cityTip showText:[[APDBManager sharedInstance] getUIStringForCode:@"city_tip"]
+        NSString * t = [[APDBManager sharedInstance] getUIStringForCode:@"city_tip"];
+        [self.cityTip showText: t
                      direction:AMPopTipDirectionDown
                       maxWidth:200
                         inView:self.navigationController.view

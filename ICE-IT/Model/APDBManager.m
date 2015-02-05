@@ -43,17 +43,25 @@ static NSMutableDictionary *allUIStrings;
     NSString* dbPath = [docPath stringByAppendingPathComponent:kActiveDBName];
     NSFileManager *fm = [NSFileManager defaultManager];
     
-    // Check if the database is existed.
-    if(![fm fileExistsAtPath:dbPath])
+    // Get Current DB Version
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int dbv = [[prefs objectForKey:kCurrentDBVersion] intValue];
+    
+    // Check if the database is existed or shipping version is greater
+    if((![fm fileExistsAtPath:dbPath]) || (kShippingDBVersion > dbv))
     {
         // If database is not already in data folder, copy from the database template in the bundle
         NSString* dbTemplatePath = [[NSBundle mainBundle] pathForResource:@"icedb" ofType:@"sqlite"];
         NSError* error = nil;
-        [fm copyItemAtPath:dbTemplatePath toPath:dbPath error:&error];
+        [fm removeItemAtPath:dbPath error:&error];
+        error = nil;
+        [fm moveItemAtPath:dbTemplatePath toPath:dbPath error:&error];
         if(error){
             NSLog(@"can't copy db template.");
             assert(false);        
         }
+        //save current db version
+        [prefs setObject:[NSNumber numberWithInt:kShippingDBVersion] forKey:kCurrentDBVersion];
     }else{
         ALog("Not copied because exists");
     }

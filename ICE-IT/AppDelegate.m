@@ -41,19 +41,19 @@
                      kUITipCityWasShown,
                      kUITipLangWasShown,
                      nil];
-    
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-    
-    //copy DB in Data folder synchronously. Normally, only the first time app is launched.
-    [[APDBManager sharedInstance] copyDBInData];
     
     //Get current language
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 
+    //copy DB in Data folder synchronously. Normally, only the first time app is launched.
+    [[APDBManager sharedInstance] copyDBInData];
+    
     //Load synchronously all ui strings for current language
     [[APDBManager sharedInstance] loadUIStringsForLang:[prefs objectForKey:kCurrentLang] reportTo:nil];
     
+    //[NSThread sleepForTimeInterval:1.5];
     return YES;
 }
 
