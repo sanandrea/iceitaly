@@ -138,6 +138,34 @@
     return sectionName;
 }
 
+- (NSString*) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+    NSString *sectionName;
+    switch (section)
+    {
+        case 0:
+            return nil;
+            break;
+        case 1:
+            if (self.isAutomatic) {
+                sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"update_footer"];
+            }else{
+                return nil;
+            }
+            break;
+        case 2:
+            if (self.isAutomatic) {
+                return nil;
+            }else{
+                sectionName = [[APDBManager sharedInstance] getUIStringForCode:@"update_footer"];
+            }
+            break;
+        default:
+            sectionName = @"";
+            break;
+    }
+    return sectionName;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     switch (section)

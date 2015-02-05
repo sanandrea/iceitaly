@@ -53,7 +53,7 @@
     //Load synchronously all ui strings for current language
     [[APDBManager sharedInstance] loadUIStringsForLang:[prefs objectForKey:kCurrentLang] reportTo:nil];
     
-    //[NSThread sleepForTimeInterval:1.5];
+    [NSThread sleepForTimeInterval:1.5];
     return YES;
 }
 

@@ -21,7 +21,7 @@ NSString *const kUITipCityWasShown = @"showCityTip";
 NSString *const kUITipLangWasShown = @"showLangTip";
 
 NSUInteger const kCommonNumbersMaxPrio = 10;
-NSUInteger const kShippingDBVersion = 18;
+NSUInteger const kShippingDBVersion = 17;
 
 
 NSUInteger const kErrorInternalServer = 1000;
