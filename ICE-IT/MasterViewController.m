@@ -96,6 +96,9 @@ static int kLeftUpperAdjustement = 50;
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (!self.cityTIP) {
+        [self showHint:kTipCity];   
+    }
     if (!self.langTIP && self.cityTIP){
         [self showHint:kTipLanguage];
     }
@@ -111,12 +114,14 @@ static int kLeftUpperAdjustement = 50;
     
     self.cityTip = [AMPopTip popTip];
     self.cityTip.shouldDismissOnTap = YES;
+    self.cityTip.shouldDismissOnTapOutside = NO;
     self.cityTip.edgeMargin = 5;
     self.cityTip.offset = 2;
     self.cityTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
 
     self.langTip = [AMPopTip popTip];
     self.langTip.shouldDismissOnTap = YES;
+    self.langTip.shouldDismissOnTapOutside = NO;
     self.langTip.edgeMargin = 5;
     self.langTip.offset = 2;
     self.langTip.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -217,7 +222,7 @@ static int kLeftUpperAdjustement = 50;
         
         if (!self.cityTIP) {
             [self.cityTip hide];
-            self.cityTIP = YES;
+            //self.cityTIP = YES;
         }
         if (!self.langTIP) {
             [self.langTip hide];
