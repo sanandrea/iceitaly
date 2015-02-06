@@ -114,24 +114,28 @@ static int kLeftUpperAdjustement = 50;
     
     self.cityTip = [AMPopTip popTip];
     self.cityTip.shouldDismissOnTap = YES;
-    self.cityTip.shouldDismissOnTapOutside = NO;
+//    self.cityTip.shouldDismissOnTapOutside = NO;
     self.cityTip.edgeMargin = 5;
     self.cityTip.offset = 2;
     self.cityTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
 
     self.langTip = [AMPopTip popTip];
     self.langTip.shouldDismissOnTap = YES;
-    self.langTip.shouldDismissOnTapOutside = NO;
+//    self.langTip.shouldDismissOnTapOutside = NO;
     self.langTip.edgeMargin = 5;
     self.langTip.offset = 2;
     self.langTip.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    __weak typeof(self) weakSelf = self;
     self.cityTip.dismissHandler = ^{
         [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
+        weakSelf.cityTIP = YES;
+        [weakSelf showHint:kTipLanguage];
     };
     self.langTip.dismissHandler = ^{
         [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipLangWasShown];
+        weakSelf.langTIP = YES;
     };
 }
 
@@ -146,7 +150,7 @@ static int kLeftUpperAdjustement = 50;
         [self.cityTip showText: t
                      direction:AMPopTipDirectionDown
                       maxWidth:200
-                        inView:self.navigationController.view
+                        inView:self.view
                      fromFrame:tipFrame];
         
     }else if (type == kTipLanguage){
@@ -156,7 +160,7 @@ static int kLeftUpperAdjustement = 50;
         [self.langTip showText:[[APDBManager sharedInstance] getUIStringForCode:@"lang_tip"]
                      direction:AMPopTipDirectionDown
                       maxWidth:200
-                        inView:self.navigationController.view
+                        inView:self.view
                      fromFrame:tipFrame];
     }
     //ALog("Frame of view is %f %f %f %f",test.origin.x, test.origin.y, test.size.width, test.size.height);
@@ -220,10 +224,10 @@ static int kLeftUpperAdjustement = 50;
         lvc.currentLangCode = self.language;
         lvc.delegate = self;
         
-        if (!self.cityTIP) {
-            [self.cityTip hide];
-            //self.cityTIP = YES;
-        }
+//        if (!self.cityTIP) {
+//            [self.cityTip hide];
+//            //self.cityTIP = YES;
+//        }
         if (!self.langTIP) {
             [self.langTip hide];
             self.langTIP = YES;
@@ -427,8 +431,6 @@ static int kLeftUpperAdjustement = 50;
             [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
             self.cityTIP = YES;
         }
-    }else if (position == FrontViewPositionLeft && !self.langTIP){
-        [self showHint:kTipLanguage];
     }
 }
 #pragma mark - UI Strings when language is changed
