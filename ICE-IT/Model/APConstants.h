@@ -20,8 +20,7 @@ extern NSString *const kActiveDBName;
 extern NSString *const kNewDBName;
 extern NSString *const kCurrentDBVersion;
 extern NSString *const kLastUpdateDate;
-extern NSString *const kUITipCityWasShown;
-extern NSString *const kUITipLangWasShown;
+extern NSString *const kUITipsWereShown;
 
 
 extern NSUInteger const kCommonNumbersMaxPrio;

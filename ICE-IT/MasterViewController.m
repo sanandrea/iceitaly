@@ -29,8 +29,7 @@ static int kLeftUpperAdjustement = 50;
 @property (nonatomic) CGSize rightImageSize;
 @property (strong, nonatomic) UILabel *cityTitle;
 @property (strong, nonatomic) UILabel *subTitleLabel;
-@property (nonatomic) BOOL cityTIP;
-@property (nonatomic) BOOL langTIP;
+@property (nonatomic) BOOL tipsWereShown;
 
 @property (nonatomic, strong) AMPopTip *cityTip;
 @property (nonatomic, strong) AMPopTip *langTip;
@@ -83,25 +82,20 @@ static int kLeftUpperAdjustement = 50;
     self.tableView.allowsSelection = NO;
     
     // Setup Tips
-    self.cityTIP = [[prefs objectForKey:kUITipCityWasShown] intValue];
-    self.langTIP = [[prefs objectForKey:kUITipLangWasShown] intValue];
+    self.tipsWereShown = [[prefs objectForKey:kUITipsWereShown] intValue];
 
-    if (!self.cityTIP) {
-        [self setupHintTips];
-        [self showHint:kTipCity];
-    }else if (!self.langTIP){
+    if (!self.tipsWereShown) {
         [self setupHintTips];
         [self showHint:kTipLanguage];
+        [self showHint:kTipCity];
     }
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (!self.cityTIP) {
-        [self showHint:kTipCity];   
-    }
-    if (!self.langTIP && self.cityTIP){
-        [self showHint:kTipLanguage];
-    }
+//    if (!self.tipsWereShown) {
+//        [self showHint:kTipCity];   
+//        [self showHint:kTipLanguage];
+//    }
 }
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -117,6 +111,7 @@ static int kLeftUpperAdjustement = 50;
 //    self.cityTip.shouldDismissOnTapOutside = NO;
     self.cityTip.edgeMargin = 5;
     self.cityTip.offset = 2;
+    self.cityTip.arrowSize = CGSizeMake(10, 55);
     self.cityTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
 
     self.langTip = [AMPopTip popTip];
@@ -128,14 +123,19 @@ static int kLeftUpperAdjustement = 50;
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     __weak typeof(self) weakSelf = self;
+    
     self.cityTip.dismissHandler = ^{
-        [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
-        weakSelf.cityTIP = YES;
-        [weakSelf showHint:kTipLanguage];
+        [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipsWereShown];
+        if (weakSelf.langTip) {
+            [weakSelf.langTip hide];
+        }
     };
     self.langTip.dismissHandler = ^{
-        [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipLangWasShown];
-        weakSelf.langTIP = YES;
+        [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipsWereShown];
+        if (weakSelf.cityTip) {
+            [weakSelf.cityTip hide];
+        }
+
     };
 }
 
@@ -150,7 +150,7 @@ static int kLeftUpperAdjustement = 50;
         [self.cityTip showText: t
                      direction:AMPopTipDirectionDown
                       maxWidth:200
-                        inView:self.view
+                        inView:self.navigationController.view
                      fromFrame:tipFrame];
         
     }else if (type == kTipLanguage){
@@ -160,7 +160,7 @@ static int kLeftUpperAdjustement = 50;
         [self.langTip showText:[[APDBManager sharedInstance] getUIStringForCode:@"lang_tip"]
                      direction:AMPopTipDirectionDown
                       maxWidth:200
-                        inView:self.view
+                        inView:self.navigationController.view
                      fromFrame:tipFrame];
     }
     //ALog("Frame of view is %f %f %f %f",test.origin.x, test.origin.y, test.size.width, test.size.height);
@@ -224,15 +224,9 @@ static int kLeftUpperAdjustement = 50;
         lvc.currentLangCode = self.language;
         lvc.delegate = self;
         
-//        if (!self.cityTIP) {
-//            [self.cityTip hide];
-//            //self.cityTIP = YES;
-//        }
-        if (!self.langTIP) {
+        if (self.tipsWereShown == 0) {
             [self.langTip hide];
-            self.langTIP = YES;
         }
-
     }else{
         
     }
@@ -425,12 +419,7 @@ static int kLeftUpperAdjustement = 50;
 
 - (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
     if (position == FrontViewPositionRight) {
-        if (self.cityTip) {
-            [self.cityTip hide];
-            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-            [prefs setObject:[NSNumber numberWithInt:1] forKey:kUITipCityWasShown];
-            self.cityTIP = YES;
-        }
+        [self.langTip hide];
     }
 }
 #pragma mark - UI Strings when language is changed

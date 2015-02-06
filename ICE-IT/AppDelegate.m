@@ -29,8 +29,7 @@
                      @"Roma",//Default City
                      [NSNumber numberWithUnsignedLong:kShippingDBVersion], //DB Version
                      @"14/01/2015 - 20:00:00",
-                     [NSNumber numberWithInt:0], //city tip shown
-                     [NSNumber numberWithInt:0], //language tip shown
+                     [NSNumber numberWithInt:0], //tips shown
                      nil];
     NSArray* keys = [[NSArray alloc] initWithObjects:
                      kAutomaticLang,
@@ -38,8 +37,7 @@
                      kPreferredCity,
                      kCurrentDBVersion,
                      kLastUpdateDate,
-                     kUITipCityWasShown,
-                     kUITipLangWasShown,
+                     kUITipsWereShown,
                      nil];
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
