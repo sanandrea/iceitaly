@@ -20,6 +20,10 @@
 		A92706EF1A8155C300004644 /* cornetta@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706EA1A8155C300004644 /* cornetta@2x.png */; };
 		A92706F31A81786F00004644 /* es_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706F21A81786F00004644 /* es_flag@2x.png */; };
 		A92706F71A83820400004644 /* launch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706F61A83820400004644 /* launch@2x.png */; };
+		A92706F91A867A3B00004644 /* icedb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A92706F81A867A3B00004644 /* icedb.sqlite */; };
+		A92706FD1A867A5100004644 /* bologna_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706FA1A867A5100004644 /* bologna_img@2x.png */; };
+		A92706FE1A867A5100004644 /* napoli_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706FB1A867A5100004644 /* napoli_img@2x.png */; };
+		A92706FF1A867A5100004644 /* pavia_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A92706FC1A867A5100004644 /* pavia_img@2x.png */; };
 		A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9556EB81A20FEF800809939 /* opzioni@2x.png */; };
 		A9820A481A1D466400BC2B08 /* APImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A9820A471A1D466400BC2B08 /* APImageStore.m */; };
 		A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588521A0FB22A00D667C6 /* APDBManager.m */; };
@@ -39,7 +43,6 @@
 		A985887F1A100AD500D667C6 /* UIViewController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = A985887A1A100AD500D667C6 /* UIViewController+Chameleon.m */; };
 		A9C246841A1405EC00493F3E /* APLanguagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246831A1405EC00493F3E /* APLanguagesViewController.m */; };
 		A9C246871A140AE600493F3E /* APLangViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246861A140AE600493F3E /* APLangViewCell.m */; };
-		A9C246891A140D3400493F3E /* icedb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A9C246881A140D3400493F3E /* icedb.sqlite */; };
 		A9C2468C1A1411AB00493F3E /* APLangOptionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */; };
 		A9E2463F1A7BF77A0063E2FB /* APLanguageBond.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E2463E1A7BF77A0063E2FB /* APLanguageBond.m */; };
 		A9FFE05B19EF081200ED1E35 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FFE05A19EF081200ED1E35 /* main.m */; };
@@ -81,6 +84,10 @@
 		A92706EA1A8155C300004644 /* cornetta@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cornetta@2x.png"; path = "images/cornetta@2x.png"; sourceTree = "<group>"; };
 		A92706F21A81786F00004644 /* es_flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "es_flag@2x.png"; path = "images/es_flag@2x.png"; sourceTree = "<group>"; };
 		A92706F61A83820400004644 /* launch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launch@2x.png"; path = "images/launch@2x.png"; sourceTree = "<group>"; };
+		A92706F81A867A3B00004644 /* icedb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = icedb.sqlite; path = "ICE-IT/icedb.sqlite"; sourceTree = "<group>"; };
+		A92706FA1A867A5100004644 /* bologna_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bologna_img@2x.png"; path = "images/bologna_img@2x.png"; sourceTree = "<group>"; };
+		A92706FB1A867A5100004644 /* napoli_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "napoli_img@2x.png"; path = "images/napoli_img@2x.png"; sourceTree = "<group>"; };
+		A92706FC1A867A5100004644 /* pavia_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pavia_img@2x.png"; path = "images/pavia_img@2x.png"; sourceTree = "<group>"; };
 		A9556EB81A20FEF800809939 /* opzioni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "opzioni@2x.png"; path = "images/opzioni@2x.png"; sourceTree = "<group>"; };
 		A9820A461A1D466400BC2B08 /* APImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APImageStore.h; path = Model/APImageStore.h; sourceTree = "<group>"; };
 		A9820A471A1D466400BC2B08 /* APImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APImageStore.m; path = Model/APImageStore.m; sourceTree = "<group>"; };
@@ -116,7 +123,6 @@
 		A9C246831A1405EC00493F3E /* APLanguagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLanguagesViewController.m; sourceTree = "<group>"; };
 		A9C246851A140AE600493F3E /* APLangViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLangViewCell.h; sourceTree = "<group>"; };
 		A9C246861A140AE600493F3E /* APLangViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLangViewCell.m; sourceTree = "<group>"; };
-		A9C246881A140D3400493F3E /* icedb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = icedb.sqlite; sourceTree = "<group>"; };
 		A9C2468A1A1411AB00493F3E /* APLangOptionTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLangOptionTVC.h; sourceTree = "<group>"; };
 		A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLangOptionTVC.m; sourceTree = "<group>"; };
 		A9E2463D1A7BF77A0063E2FB /* APLanguageBond.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APLanguageBond.h; path = Model/APLanguageBond.h; sourceTree = "<group>"; };
@@ -197,6 +203,9 @@
 		A985885D1A0FB83400D667C6 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A92706FA1A867A5100004644 /* bologna_img@2x.png */,
+				A92706FB1A867A5100004644 /* napoli_img@2x.png */,
+				A92706FC1A867A5100004644 /* pavia_img@2x.png */,
 				A92706F61A83820400004644 /* launch@2x.png */,
 				A92706F21A81786F00004644 /* es_flag@2x.png */,
 				A92706E61A8155C300004644 /* cornetta_v2@2x.png */,
@@ -236,6 +245,7 @@
 		A9FFE04C19EF081200ED1E35 = {
 			isa = PBXGroup;
 			children = (
+				A92706F81A867A3B00004644 /* icedb.sqlite */,
 				A98588561A0FB2DD00D667C6 /* libsqlite3.0.dylib */,
 				A98588541A0FB2D100D667C6 /* libz.dylib */,
 				A9FFE05719EF081200ED1E35 /* ICE-IT */,
@@ -258,7 +268,6 @@
 		A9FFE05719EF081200ED1E35 /* ICE-IT */ = {
 			isa = PBXGroup;
 			children = (
-				A9C246881A140D3400493F3E /* icedb.sqlite */,
 				A985885D1A0FB83400D667C6 /* images */,
 				A98588501A0FB18A00D667C6 /* Model */,
 				A9FFE08419EF08A100ED1E35 /* View */,
@@ -431,19 +440,22 @@
 				A98588621A0FC1CE00D667C6 /* milano_img@2x.png in Resources */,
 				A92706EF1A8155C300004644 /* cornetta@2x.png in Resources */,
 				A9FFE06A19EF081200ED1E35 /* Main.storyboard in Resources */,
+				A92706FE1A867A5100004644 /* napoli_img@2x.png in Resources */,
 				A9FFE06F19EF081200ED1E35 /* LaunchScreen.xib in Resources */,
 				A92706F71A83820400004644 /* launch@2x.png in Resources */,
 				A92706ED1A8155C300004644 /* torino_img@2x.png in Resources */,
-				A9C246891A140D3400493F3E /* icedb.sqlite in Resources */,
 				A9FFE06C19EF081200ED1E35 /* Images.xcassets in Resources */,
 				A92706EC1A8155C300004644 /* venezia_img@2x.png in Resources */,
 				A900DD1B1A1694A90062F95C /* it_flag@2x.png in Resources */,
+				A92706FF1A867A5100004644 /* pavia_img@2x.png in Resources */,
 				A92706EE1A8155C300004644 /* firenze_img@2x.png in Resources */,
 				A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */,
 				A900DD191A1694A90062F95C /* en_flag@2x.png in Resources */,
 				A92706F31A81786F00004644 /* es_flag@2x.png in Resources */,
+				A92706FD1A867A5100004644 /* bologna_img@2x.png in Resources */,
 				A900DD1A1A1694A90062F95C /* fr_flag@2x.png in Resources */,
 				A92706EB1A8155C300004644 /* cornetta_v2@2x.png in Resources */,
+				A92706F91A867A3B00004644 /* icedb.sqlite in Resources */,
 				A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
