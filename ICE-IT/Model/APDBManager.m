@@ -161,6 +161,8 @@ static NSMutableDictionary *allUIStrings;
     [self loadUIStringsForLang:[[NSUserDefaults standardUserDefaults] objectForKey:kCurrentLang]
                       reportTo:nil];
     
+    //Notify all stakeholders
+     [[NSNotificationCenter defaultCenter] postNotificationName:kNewDBDownloaded object:nil];
     ALog("All check passed new DB adopted!!");
     return YES;
 }

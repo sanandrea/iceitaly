@@ -18,6 +18,7 @@ NSString *const kNewDBName = @"icedb_new.sqlite";
 NSString *const kCurrentDBVersion = @"lastDBVers";
 NSString *const kLastUpdateDate = @"lastUpdatedDB";
 NSString *const kUITipsWereShown = @"showCityTip";
+NSString *const kNewDBDownloaded = @"newDBNotification";
 
 NSUInteger const kCommonNumbersMaxPrio = 10;
 NSUInteger const kShippingDBVersion = 17;

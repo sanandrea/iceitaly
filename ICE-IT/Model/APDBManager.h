@@ -24,22 +24,14 @@
 
 @interface APDBManager : NSObject
 
++ (APDBManager*) sharedInstance;
+
 + (void)getCityListWhenReady:(void (^)(NSArray *))cityListReady;
 + (void)getLanguageListWhenReady:(void (^)(NSArray *))langListReady;
-
-+ (void)getCityNums:(NSString*)city forLang:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate;
-
-/*! Get code from extended language name */
-/*
-+ (void)getCodeFromLanguage:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate;
-*/
-/*! Get extended language name from code */
-/*
-+ (void)getLanguageFromCode:(NSString*)code then:(void (^)(NSString*))nameReady;
-*/
 - (void) copyDBInData;
 - (BOOL) checkNewDBInstance;
-+ (APDBManager*) sharedInstance;
 - (NSString*) getUIStringForCode:(NSString*)code;
+
++ (void)getCityNums:(NSString*)city forLang:(NSString*)language reportTo:(id<CityOrLanguageChanges>)delegate;
 - (void) loadUIStringsForLang:(NSString*)langCode reportTo:(id<UIStringsUpdate>)delegate;
 @end

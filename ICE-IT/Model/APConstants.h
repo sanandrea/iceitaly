@@ -21,6 +21,7 @@ extern NSString *const kNewDBName;
 extern NSString *const kCurrentDBVersion;
 extern NSString *const kLastUpdateDate;
 extern NSString *const kUITipsWereShown;
+extern NSString *const kNewDBDownloaded;
 
 
 extern NSUInteger const kCommonNumbersMaxPrio;

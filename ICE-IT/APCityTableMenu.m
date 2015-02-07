@@ -37,9 +37,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(newDBIsReady:)
+                                                 name:kNewDBDownloaded object:nil];
+    
     [APDBManager getCityListWhenReady:^(NSArray *result) {
         _cities = result;
-//        ALog("result: %@",_cities);
+        //        ALog("result: %@",_cities);
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
         NSString *cityName = [prefs objectForKey:kPreferredCity];
         NSUInteger counter = 0;
@@ -57,11 +61,37 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+
+//This is in background thread
+- (void) newDBIsReady:(NSNotification*)notification{
+    if ([[notification name] isEqualToString:kNewDBDownloaded]) {
+        [APDBManager getCityListWhenReady:^(NSArray *result) {
+            _cities = result;
+        }];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSString *cityName = [prefs objectForKey:kPreferredCity];
+    NSUInteger counter = 0;
+    for (NSString *str in _cities) {
+        if ([str isEqualToString:cityName]) {
+            self.mySelectedIndexRow = counter;
+        }
+        counter++;
+    }
 }
 
+- (void) dealloc
+{
+    // If you don't remove yourself as an observer, the Notification Center
+    // will continue to try and send notification objects to the deallocated
+    // object.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -131,6 +161,12 @@
     
     cell.cityLogo.image = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",[name lowercaseString]]
                                        scaledToSize:imSize];
+    
+    if (indexPath.row == self.mySelectedIndexRow) {
+        [cell setBackgroundColor:[UIColor flatPowderBlueColor]];
+    }else{
+        [cell setBackgroundColor:[UIColor whiteColor]];
+    }
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
