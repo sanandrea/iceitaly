@@ -8,6 +8,7 @@
 
 #import "APCityTableMenu.h"
 #import "APDBManager.h"
+#import "APImageStore.h"
 #import "APSideTableViewCell.h"
 #import "APConstants.h"
 #import "SWRevealViewController.h"
@@ -125,8 +126,11 @@
     NSString *name = [_cities objectAtIndex:indexPath.row];
     
     cell.cityName.text = name;
-    cell.cityLogo.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_img.png",[name lowercaseString]]];
+
+    CGSize imSize  = CGSizeMake(80, 55);
     
+    cell.cityLogo.image = [APImageStore imageWithImageName:[NSString stringWithFormat:@"%@_img",[name lowercaseString]]
+                                       scaledToSize:imSize];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

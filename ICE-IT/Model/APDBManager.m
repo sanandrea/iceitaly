@@ -281,7 +281,7 @@ static NSMutableDictionary *allUIStrings;
         sqlite3_stmt    *statement;
         
 
-        querySQL = [NSString stringWithFormat:@"SELECT distinct(CITY) FROM numbers where CITY <> '%@'",COMMON_NUMBERS];
+        querySQL = [NSString stringWithFormat:@"SELECT distinct(CITY) FROM numbers where CITY <> '%@' order by city",COMMON_NUMBERS];
         
         //        ALog("Items for car model %@",querySQL);
         
