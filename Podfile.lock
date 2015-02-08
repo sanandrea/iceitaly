@@ -1,0 +1,13 @@
+PODS:
+  - AMPopTip (0.7)
+  - M13ProgressSuite (1.2.7)
+
+DEPENDENCIES:
+  - AMPopTip (= 0.7)
+  - M13ProgressSuite (~> 1.2.7)
+
+SPEC CHECKSUMS:
+  AMPopTip: dc5bdb3a88bc2ed0a7ac9799e0a5d47c5211721f
+  M13ProgressSuite: 931cde7e91d474c04edb4b34517d75ca6d88ccf2
+
+COCOAPODS: 0.35.0
