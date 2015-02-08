@@ -441,8 +441,12 @@ static int kLeftUpperAdjustement = 50;
     
     //Find the row that corresponds to this point
     NSIndexPath *ipath = [self.tableView indexPathForRowAtPoint:buttonOriginInTableView];
-    
-    APCityNumber *cn = [self.numbers objectAtIndex:ipath.row];
+    APCityNumber *cn;
+    if (ipath.section == 0) {
+        cn = [self.numbers objectAtIndex:ipath.row];
+    }else{
+        cn = [self.numbers objectAtIndex:(ipath.row + self.commonNames)];
+    }
 //    ALog("Selected number: %@",cn.number);
     //    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:cn.number];
     NSString *phoneNumber = [@"tel://" stringByAppendingString:[cn callString]];
