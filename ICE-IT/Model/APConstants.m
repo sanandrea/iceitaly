@@ -21,7 +21,7 @@ NSString *const kUITipsWereShown = @"showCityTip";
 NSString *const kNewDBDownloaded = @"newDBNotification";
 
 NSUInteger const kCommonNumbersMaxPrio = 10;
-NSUInteger const kShippingDBVersion = 17;
+NSUInteger const kShippingDBVersion = 19;
 
 
 NSUInteger const kErrorInternalServer = 1000;
