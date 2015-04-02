@@ -407,7 +407,9 @@ static int kLeftUpperAdjustement = 50;
         
     }
     */
-    cell.layoutMargins = UIEdgeInsetsZero;
+    if ([cell respondsToSelector:@selector(layoutMargins)]) {
+        cell.layoutMargins = UIEdgeInsetsZero;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
