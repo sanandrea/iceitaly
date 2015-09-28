@@ -27,8 +27,6 @@
 		A9556EB91A20FEF800809939 /* opzioni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9556EB81A20FEF800809939 /* opzioni@2x.png */; };
 		A9820A481A1D466400BC2B08 /* APImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A9820A471A1D466400BC2B08 /* APImageStore.m */; };
 		A98588531A0FB22A00D667C6 /* APDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588521A0FB22A00D667C6 /* APDBManager.m */; };
-		A98588551A0FB2D100D667C6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A98588541A0FB2D100D667C6 /* libz.dylib */; };
-		A98588571A0FB2DD00D667C6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A98588561A0FB2DD00D667C6 /* libsqlite3.0.dylib */; };
 		A985885A1A0FB49800D667C6 /* APConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588591A0FB49800D667C6 /* APConstants.m */; };
 		A985885C1A0FB82900D667C6 /* roma_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A985885B1A0FB82900D667C6 /* roma_img@2x.png */; };
 		A98588601A0FB8F700D667C6 /* APSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A985885F1A0FB8F700D667C6 /* APSideTableViewCell.m */; };
@@ -41,6 +39,8 @@
 		A985887D1A100AD500D667C6 /* UIColor+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588761A100AD500D667C6 /* UIColor+Chameleon.m */; };
 		A985887E1A100AD500D667C6 /* UIColor+CIELAB.m in Sources */ = {isa = PBXBuildFile; fileRef = A98588781A100AD500D667C6 /* UIColor+CIELAB.m */; };
 		A985887F1A100AD500D667C6 /* UIViewController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = A985887A1A100AD500D667C6 /* UIViewController+Chameleon.m */; };
+		A9BA709D1BB97BE5008F5061 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A9BA709C1BB97BE5008F5061 /* libsqlite3.tbd */; };
+		A9BA709F1BB97BF8008F5061 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A9BA709E1BB97BF8008F5061 /* libz.tbd */; };
 		A9C246841A1405EC00493F3E /* APLanguagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246831A1405EC00493F3E /* APLanguagesViewController.m */; };
 		A9C246871A140AE600493F3E /* APLangViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C246861A140AE600493F3E /* APLangViewCell.m */; };
 		A9C2468C1A1411AB00493F3E /* APLangOptionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C2468B1A1411AB00493F3E /* APLangOptionTVC.m */; };
@@ -93,8 +93,6 @@
 		A9820A471A1D466400BC2B08 /* APImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APImageStore.m; path = Model/APImageStore.m; sourceTree = "<group>"; };
 		A98588511A0FB22A00D667C6 /* APDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APDBManager.h; path = Model/APDBManager.h; sourceTree = "<group>"; };
 		A98588521A0FB22A00D667C6 /* APDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APDBManager.m; path = Model/APDBManager.m; sourceTree = "<group>"; };
-		A98588541A0FB2D100D667C6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		A98588561A0FB2DD00D667C6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		A98588581A0FB49800D667C6 /* APConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APConstants.h; path = Model/APConstants.h; sourceTree = "<group>"; };
 		A98588591A0FB49800D667C6 /* APConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APConstants.m; path = Model/APConstants.m; sourceTree = "<group>"; };
 		A985885B1A0FB82900D667C6 /* roma_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "roma_img@2x.png"; path = "images/roma_img@2x.png"; sourceTree = "<group>"; };
@@ -119,6 +117,8 @@
 		A98588781A100AD500D667C6 /* UIColor+CIELAB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CIELAB.m"; sourceTree = "<group>"; };
 		A98588791A100AD500D667C6 /* UIViewController+Chameleon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Chameleon.h"; sourceTree = "<group>"; };
 		A985887A1A100AD500D667C6 /* UIViewController+Chameleon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Chameleon.m"; sourceTree = "<group>"; };
+		A9BA709C1BB97BE5008F5061 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		A9BA709E1BB97BF8008F5061 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A9C246821A1405EC00493F3E /* APLanguagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLanguagesViewController.h; sourceTree = "<group>"; };
 		A9C246831A1405EC00493F3E /* APLanguagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLanguagesViewController.m; sourceTree = "<group>"; };
 		A9C246851A140AE600493F3E /* APLangViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLangViewCell.h; sourceTree = "<group>"; };
@@ -156,8 +156,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A98588571A0FB2DD00D667C6 /* libsqlite3.0.dylib in Frameworks */,
-				A98588551A0FB2D100D667C6 /* libz.dylib in Frameworks */,
+				A9BA709F1BB97BF8008F5061 /* libz.tbd in Frameworks */,
+				A9BA709D1BB97BE5008F5061 /* libsqlite3.tbd in Frameworks */,
 				A2C64B10026C613BC52D44C4 /* libPods-ICE-IT.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,8 +246,6 @@
 			isa = PBXGroup;
 			children = (
 				A92706F81A867A3B00004644 /* icedb.sqlite */,
-				A98588561A0FB2DD00D667C6 /* libsqlite3.0.dylib */,
-				A98588541A0FB2D100D667C6 /* libz.dylib */,
 				A9FFE05719EF081200ED1E35 /* ICE-IT */,
 				A9FFE07719EF081200ED1E35 /* ICE-ITTests */,
 				A9FFE05619EF081200ED1E35 /* Products */,
@@ -349,6 +347,8 @@
 		EBC6E8BBEA5DF542A81D7326 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9BA709E1BB97BF8008F5061 /* libz.tbd */,
+				A9BA709C1BB97BE5008F5061 /* libsqlite3.tbd */,
 				BA2596FBEA8BD3DD55C9328E /* libPods-ICE-IT.a */,
 			);
 			name = Frameworks;
