@@ -90,7 +90,7 @@
         self.isAutomatic = YES;
         [prefs setObject:[NSNumber numberWithInt:1] forKey:kAutomaticLang];
         NSArray * langs = [NSLocale preferredLanguages];
-        NSString *languageID = langs.firstObject;
+        NSString *languageID = [langs.firstObject substringToIndex:2];
         
         
         //Check if lang changed to update UI Strings

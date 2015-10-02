@@ -39,7 +39,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     NSArray * langs = [NSLocale preferredLanguages];
-    NSString *languageID = langs.firstObject;
+    NSString *languageID = [langs.firstObject substringToIndex:2];
     
     NSArray* objs = [[NSArray alloc] initWithObjects:
                      [NSNumber numberWithInt:1], //automatic language selection
