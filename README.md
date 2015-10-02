@@ -5,3 +5,6 @@ It contains one tap callable emergency numbers for each of the main cities in It
 
 ###To Build
 use 'pod install' on root dir
+
+###showcase
+inside showcase folder there are some screenshots
